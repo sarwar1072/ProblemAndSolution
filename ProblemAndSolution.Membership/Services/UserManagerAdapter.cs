@@ -4,9 +4,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore.Query.Internal;
 using ProblemAndSolution.Membership.BusinessObj;
 using ProblemAndSolution.Membership.DTOS;
+using ProblemAndSolution.Membership.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using ApplicationUserEO = ProblemAndSolution.Infrastructure.Entities.Membership.ApplicationUser;
@@ -76,7 +78,86 @@ namespace ProblemAndSolution.Membership.Services
             if (!result.Succeeded)
                 throw new InvalidOperationException("Failed to create user account try again");
         }
+        public bool ConfirmedAccount()
+        {
+            return _userManager.Options.SignIn.RequireConfirmedAccount;
+        }
 
+        public async Task<string> GetUserIdAsync(ApplicationUser user)
+        {
+            var entity = GetSingleEntity(user);
+            return await _userManager.GetUserIdAsync(entity);
+        }
+
+        public async Task<ApplicationUser> FindByUsernameAsync(string userName)
+        {
+            var user= await _userManager.FindByEmailAsync(userName);
+            if (user == null)
+            {
+                return null;
+            }
+            else
+            {
+                return GetSingleBusinessObj(user);
+            }
+        }
+
+        public async Task<bool> UpdateAccountAsync(ApplicationUser user)
+        {
+            if (user == null)
+                throw new InvalidOperationException("Application user must be provided to update dependent data ");
+
+            var userEntity = await _userManager.FindByIdAsync(user.Id.ToString());
+
+            userEntity = _mapper.Map(user, userEntity);
+            userEntity.NormalizedEmail = user.Email!.ToUpper();
+
+            var result = await _userManager.UpdateAsync(userEntity);
+            if (!result.Succeeded)
+            {
+                return false;
+            }
+            return true;
+        }
+        public async Task SignInAsync(Guid id)
+        {
+            var userEntity = await _userManager.FindByIdAsync(id.ToString());
+            if (userEntity is  null)
+                throw new InvalidOperationException("Application user not found");
+           
+            await _signInManager.SignInAsync(userEntity, true);
+        }
+        public string? GetUserId()
+        {
+            return _contextAccessor?.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
+        }
+
+        private async Task<ApplicationUserEO> FindUserIdAsync(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            return user;
+        }
+        public async Task<IdentityResult> ChangePassword(string userId, string newPassword,
+                                                         string confirmPassword)
+        {
+            var user = await FindUserIdAsync(userId);
+            var result = await _userManager.ChangePasswordAsync(user, newPassword,
+                                                                 confirmPassword);
+            return result;
+        }
+
+        public async Task RolesAsync(string userid, RoleType[] types)
+        {
+            if (string.IsNullOrEmpty(userid))
+                throw new InvalidOperationException("User id must be provide.");
+
+            if (types.Length == 0)
+                throw new InvalidOperationException("Role must be provide to assign into user.");
+
+            var user = await FindUserIdAsync(userid);
+            var roles = types.Select(a => a.ToString()).ToArray();
+            await _userManager.AddToRolesAsync(user, roles);
+        }
 
     }
 }
