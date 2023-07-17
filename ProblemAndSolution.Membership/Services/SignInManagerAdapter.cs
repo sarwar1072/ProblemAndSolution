@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Identity;
 using ProblemAndSolution.Membership.BusinessObj;
 using System;
 using System.Collections.Generic;
@@ -28,6 +29,19 @@ namespace ProblemAndSolution.Membership.Services
         {
             return await _signInManager.GetExternalAuthenticationSchemesAsync();
         }
-
+        public async Task SignInAsync(ApplicationUser user)
+        {
+            var entity = GetSingleEntity(user); 
+            await _signInManager.SignInAsync(entity,isPersistent:false);
+        }
+        public async Task SignOutAsync()
+        {
+            await _signInManager.SignOutAsync();
+        }
+        public async Task<SignInResult> PasswordSignInAsync(ApplicationUser user)
+        {
+            return await _signInManager.PasswordSignInAsync(user.Email, user.Password, user.RememberMe, 
+                lockoutOnFailure: false);
+        }
     }
 }

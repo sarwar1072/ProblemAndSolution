@@ -19,8 +19,8 @@ namespace ProblemAndSolution.Membership
 			builder.RegisterType<SignInManagerAdapter>().As<ISignInManagerAdapter<ApplicationUser>>()
 				.InstancePerLifetimeScope();
 
-			//builder.RegisterType<UserManagerAdapter>().As<IUserManagerAdapter<ApplicationUser>>()
-			//	.InstancePerLifetimeScope();
+			builder.RegisterType<UserManagerAdapter>().As<IUserManagerAdapter<ApplicationUser>>()
+				.InstancePerLifetimeScope();
 
 			//builder.RegisterType<MembershipMailSenderService>().As<IMembershipMailSenderService>()
 			//	.InstancePerLifetimeScope();
