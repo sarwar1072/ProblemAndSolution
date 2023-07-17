@@ -61,7 +61,6 @@ namespace ProblemAndSolution.Membership.Services
             {
                 return roleResult;
             }
-
             return result; 
         }
 
@@ -69,6 +68,15 @@ namespace ProblemAndSolution.Membership.Services
         {
             await _signInManager.SignInAsync(user, isPersistent: false);
         }
+        public async Task CreateAccountAsync(ApplicationUser user,string password)
+        {
+            var entity=GetSingleEntity(user);
+           var result= await _userManager.CreateAsync(entity, password);
+
+            if (!result.Succeeded)
+                throw new InvalidOperationException("Failed to create user account try again");
+        }
+
 
     }
 }
