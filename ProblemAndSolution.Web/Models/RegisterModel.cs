@@ -45,7 +45,10 @@ namespace ProblemAndSolution.Web.Models
         public string? ReturnUrl { get; set; }
 
         public IList<AuthenticationScheme>? ExternalLogins { get; set; }
+        public RegisterModel()
+        {
 
+        }
         public RegisterModel(IUserManagerAdapter<ApplicationUser> userManagerAdapter,
             ISignInManagerAdapter<ApplicationUser> signInManagerAdapter,
             IMapper mapper)

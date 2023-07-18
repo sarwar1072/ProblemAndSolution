@@ -1,5 +1,6 @@
 ﻿
 using Autofac;
+using ProblemAndSolution.Web.Models;
 
 namespace ProblemAndSolution.Web
 {
@@ -7,21 +8,21 @@ namespace ProblemAndSolution.Web
     {
         protected override void Load(ContainerBuilder builder)
         {
-            //builder.RegisterType<PublicLayoutModel>()
-            //    .AsSelf()
-            //    .InstancePerLifetimeScope();
+            builder.RegisterType<PublicLayoutModel>()
+                .AsSelf()
+                .InstancePerLifetimeScope();
 
-            //builder.RegisterType<LoginModel>()
-            //    .AsSelf()
-            //    .InstancePerLifetimeScope();
+            builder.RegisterType<LoginModel>()
+                .AsSelf()
+                .InstancePerLifetimeScope();
 
-            //builder.RegisterType<RegistrationConfirmationModel>()
-            //    .AsSelf()
-            //    .InstancePerLifetimeScope();
+            builder.RegisterType<RegistrationConfirmationModel>()
+                .AsSelf()
+                .InstancePerLifetimeScope();
 
-            //builder.RegisterType<RegisterModel>()
-            //    .AsSelf()
-            //    .InstancePerLifetimeScope();
+            builder.RegisterType<RegisterModel>()
+                .AsSelf()
+                .InstancePerLifetimeScope();
 
             //builder.RegisterType<ExplorerLayoutModel>()
             //    .AsSelf()
