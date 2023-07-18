@@ -27,8 +27,4 @@
     <ProjectReference Include="..\ProblemAndSolution.Membership\ProblemAndSolution.Membership.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Data\Migrations\" />
-  </ItemGroup>
-
 </Project>

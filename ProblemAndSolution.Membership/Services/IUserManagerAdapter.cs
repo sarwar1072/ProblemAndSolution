@@ -17,8 +17,10 @@ namespace ProblemAndSolution.Membership.Services
         Task<bool> UpdateAccountAsync(T user);
         Task SignInAsync(Guid id);
         string? GetUserId();
+        Task<IList<string>> GetUserRolesAsync(string email);
         Task<IdentityResult> ChangePassword(string userId, string newPassword,
                                             string confirmPassword);
         Task RolesAsync(string userid, RoleType[] types);
+        Task<T> FindByUsernameAsync(string userName);
     }
 }

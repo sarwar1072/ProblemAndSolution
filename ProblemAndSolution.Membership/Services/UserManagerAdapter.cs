@@ -102,6 +102,19 @@ namespace ProblemAndSolution.Membership.Services
             }
         }
 
+        public async Task<IList<string>> GetUserRolesAsync(string email)
+        {
+            if (email is null)
+                throw new InvalidOperationException("Id must be provide to get roles");
+
+            var userEntity = await _userManager.FindByEmailAsync(email);
+            if (userEntity is null)
+                throw new InvalidOperationException("User not found");
+
+            var roles = await _userManager.GetRolesAsync(userEntity);
+            return roles;
+        }
+
         public async Task<bool> UpdateAccountAsync(ApplicationUser user)
         {
             if (user == null)
