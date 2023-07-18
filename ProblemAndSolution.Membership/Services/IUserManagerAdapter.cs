@@ -21,6 +21,6 @@ namespace ProblemAndSolution.Membership.Services
         Task<IdentityResult> ChangePassword(string userId, string newPassword,
                                             string confirmPassword);
         Task RolesAsync(string userid, RoleType[] types);
-        Task<T> FindByUsernameAsync(string userName);
+        Task<T> FindByUsernameAsync(string email);
     }
 }

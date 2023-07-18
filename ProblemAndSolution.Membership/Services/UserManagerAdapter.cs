@@ -89,9 +89,9 @@ namespace ProblemAndSolution.Membership.Services
             return await _userManager.GetUserIdAsync(entity);
         }
 
-        public async Task<ApplicationUser> FindByUsernameAsync(string userName)
+        public async Task<ApplicationUser> FindByUsernameAsync(string email)
         {
-            var user= await _userManager.FindByEmailAsync(userName);
+            var user= await _userManager.FindByEmailAsync(email);
             if (user == null)
             {
                 return null;
