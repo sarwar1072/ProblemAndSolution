@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using ProblemAndSolution.Infrastructure.DbContexts;
 using ProblemAndSolution.Infrastructure.Repositories;
+using ProblemAndSolution.Infrastructure.UnitOfWorks;
 
 namespace ProblemAndSolution.Infrastructure
 {
@@ -30,8 +31,8 @@ namespace ProblemAndSolution.Infrastructure
                 .WithParameter("migrationAssemblyName", _migrationAssemblyName)
                 .InstancePerLifetimeScope();
 
-            //builder.RegisterType<StackOverflowUnitOfWork>().As<IStackOverflowUnitOfWork>()
-            //    .InstancePerLifetimeScope();
+            builder.RegisterType<PAndSUnitOfWork>().As<IPAndSUnitOfWork>()
+                .InstancePerLifetimeScope();
 
             builder.RegisterType<QuestionRepository>().As<IQuestionRepository>()
                 .InstancePerLifetimeScope();

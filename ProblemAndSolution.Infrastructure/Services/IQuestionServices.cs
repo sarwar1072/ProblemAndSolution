@@ -1,5 +1,4 @@
-﻿using ProblemAndSolution.Infrastructure.BusinessObj;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProblemAndSolution.Infrastructure.Services
 {
-    public interface IAnswerServices
+    public class IQuestionServices
     {
-        Task CreateAnswerAsync(Answer answer);
     }
 }
