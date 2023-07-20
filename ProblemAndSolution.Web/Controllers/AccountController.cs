@@ -7,7 +7,8 @@ namespace ProblemAndSolution.Web.Controllers
 {
     public class AccountController : BaseController<AccountController>
     {
-        public AccountController(ILogger<AccountController> logger,ILifetimeScope lifetimeScope):base(logger, lifetimeScope)
+        public AccountController(ILogger<AccountController> logger,ILifetimeScope lifetimeScope)
+            :base(logger, lifetimeScope)
         {
 
         }
@@ -165,5 +166,6 @@ namespace ProblemAndSolution.Web.Controllers
                 return RedirectToAction();
             }
         }
+
     }
 }
