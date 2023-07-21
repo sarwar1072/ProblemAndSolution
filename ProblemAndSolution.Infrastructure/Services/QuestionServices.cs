@@ -172,6 +172,87 @@ namespace ProblemAndSolution.Infrastructure.Services
 
         private QuestionEO AssignQuestion(Question question,QuestionEO questionEO)
         {
+            questionEO.Id = question.Id;
+            questionEO.Title = question.Title;
+            questionEO.ApplicationUserId = question.ApplicationUserId;
+            questionEO.IsSolvedQstn = question.IsSolvedQsn;
+            questionEO.QuestionBody = question.QuestionBody;
+            questionEO.CreatedAt = question.CreatedAt;
+            questionEO.Tags = new List<TagEO>();
+
+            if(question.Tags is not null)
+            {
+                foreach (var tag in question.Tags)
+                {
+                    questionEO.Tags.Add(new TagEO
+                    {
+                        Name = tag.Name,    
+                        QuestionId=tag.QuestionId,  
+                        Id=tag.Id,
+                    });
+                }
+            }
+
+            return questionEO;
+
+        }
+        public async Task DeleteQuestionAsync(int id)
+        {
+            if (id is 0)
+                throw new NullReferenceException("Id can not be null");
+            var entity = (await _AndSUnitOfWork.QuestionRepository.GetAsync(a => a.Id == id, 
+                b => b.Include(c => c.Tags).Include(d => d.Answers))).FirstOrDefault();
+
+            if (entity is null)
+                throw new NullReferenceException("Data is empty");
+
+            await _AndSUnitOfWork.QuestionRepository.RemoveAsync(entity);
+            await _AndSUnitOfWork.SaveAsync();
+        }
+        public async Task<List<Question>> GetQuestionsAsync(Guid id)
+        {
+            var questions = new List<Question>();
+
+            var entity = (await _AndSUnitOfWork.QuestionRepository.GetAsync(a => a.ApplicationUserId == id, 
+                b => b.Include(c => c.Tags)
+               .Include(d => d.Answers))).ToList();
+
+            foreach (var item in entity)
+            {
+                questions.Add(MappToBusiness(item));
+            }
+            return questions;   
+        }
+
+        public void GetTest(int pageIndex)
+        {
+            var get = _AndSUnitOfWork.QuestionRepository.GetDynamic(null, "Title desc", 
+                x => x.Include(y => y.Tags).Include(z => z.Answers), pageIndex, 10);
+        }
+
+        public async Task<Question> GetDetails(int id)
+        {
+            if (id is 0)
+                return null;
+
+            var entity = (await _AndSUnitOfWork.QuestionRepository.GetAsync(a => a.Id == id,
+                b => b.Include(c => c.Tags).Include(c => c.Answers).ThenInclude(d => d.Comments))).FirstOrDefault();
+
+            if (entity != null)
+            {
+                _qtnVote = (await _AndSUnitOfWork.VoteRepository
+                   .GetAsync(c => c.QuestionId == entity.Id, null)).Count();
+
+                if (entity.Answers != null)
+                {
+                    foreach (var vote in entity.Answers)
+                    {
+                        vote.CountVote = (await _AndSUnitOfWork.VoteRepository
+                            .GetAsync(c => c.AnswerId == vote.Id, null)).Count();
+                    }
+                }
+            }
+            return MappToBusiness(entity);
 
         }
 
