@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using ProblemAndSolution.Infrastructure.DbContexts;
 using ProblemAndSolution.Infrastructure.Repositories;
+using ProblemAndSolution.Infrastructure.Services;
 using ProblemAndSolution.Infrastructure.UnitOfWorks;
 
 namespace ProblemAndSolution.Infrastructure
@@ -36,18 +37,18 @@ namespace ProblemAndSolution.Infrastructure
 
             builder.RegisterType<QuestionRepository>().As<IQuestionRepository>()
                 .InstancePerLifetimeScope();
-            //builder.RegisterType<QuestionService>().As<IQuestionService>()
-            //    .InstancePerLifetimeScope();
+            builder.RegisterType<QuestionServices>().As<IQuestionServices>()
+                .InstancePerLifetimeScope();
 
             builder.RegisterType<CommentRepository>().As<ICommentRepository>()
                 .InstancePerLifetimeScope();
-            //builder.RegisterType<CommentService>().As<ICommentService>()
-            //    .InstancePerLifetimeScope();
+            builder.RegisterType<CommentService>().As<ICommentService>()
+                .InstancePerLifetimeScope();
 
             builder.RegisterType<AnswerRepository>().As<IAnswerRepository>()
                 .InstancePerLifetimeScope();
-            //builder.RegisterType<AnswerService>().As<IAnswerService>()
-            //    .InstancePerLifetimeScope();
+            builder.RegisterType<AnswerServices>().As<IAnswerServices>()
+                .InstancePerLifetimeScope();
 
             builder.RegisterType<VoteRepository>().As<IVoteRepository>()
                 .InstancePerLifetimeScope();

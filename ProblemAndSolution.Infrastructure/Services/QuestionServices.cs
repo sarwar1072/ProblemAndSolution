@@ -16,7 +16,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ProblemAndSolution.Infrastructure.Services
 {
-    public class QuestionServices:IQuestionServices
+    public class QuestionServices: IQuestionServices
     {
         private IPAndSUnitOfWork _AndSUnitOfWork;
         private readonly IMapper _mapper;
