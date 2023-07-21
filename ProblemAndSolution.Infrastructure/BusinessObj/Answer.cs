@@ -14,7 +14,7 @@ namespace ProblemAndSolution.Infrastructure.BusinessObj
         public int CountVote { get; set; }
         public IList<Comment>? Comments { get; set; }
         public Question? Question { get; set; }
-        public Guid TempId { get; set; }
+        public Guid? TempId { get; set; }
         public int QuestionId { get; set; }
 
     }
