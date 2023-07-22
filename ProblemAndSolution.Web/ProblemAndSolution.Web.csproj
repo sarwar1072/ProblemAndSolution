@@ -18,6 +18,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.15" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.15" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.15" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.15" />
     <PackageReference Include="Serilog.AspNetCore" Version="7.0.0" />
     <PackageReference Include="Serilog.Sinks.MSSqlServer" Version="5.7.1" />
   </ItemGroup>
@@ -25,6 +26,11 @@
   <ItemGroup>
     <ProjectReference Include="..\ProblemAndSolution.Infrastructure\ProblemAndSolution.Infrastructure.csproj" />
     <ProjectReference Include="..\ProblemAndSolution.Membership\ProblemAndSolution.Membership.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\Post\Controllers\" />
+    <Folder Include="Areas\Post\Data\" />
   </ItemGroup>
 
 </Project>

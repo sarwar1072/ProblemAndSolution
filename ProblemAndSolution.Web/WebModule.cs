@@ -1,5 +1,5 @@
-﻿
-using Autofac;
+﻿using Autofac;
+using ProblemAndSolution.Web.Areas.Post.Models;
 using ProblemAndSolution.Web.Models;
 
 namespace ProblemAndSolution.Web
@@ -24,9 +24,9 @@ namespace ProblemAndSolution.Web
                 .AsSelf()
                 .InstancePerLifetimeScope();
 
-            //builder.RegisterType<ExplorerLayoutModel>()
-            //    .AsSelf()
-            //    .InstancePerLifetimeScope();
+            builder.RegisterType<PostLayoutModel>()
+                .AsSelf()
+                .InstancePerLifetimeScope();
 
             //builder.RegisterType<QuestionCreateModel>()
             //    .AsSelf()

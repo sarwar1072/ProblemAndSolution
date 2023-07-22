@@ -9,7 +9,7 @@ namespace ProblemAndSolution.Web.Models
 {
     public abstract class BaseModel
     {
-        protected IUserManagerAdapter<ApplicationUser>? _userManagerAdapter;
+        protected IUserManagerAdapter<ApplicationUser> _userManagerAdapter;
         protected IHttpContextAccessor? _contextAccessor;
         protected IMapper? _mapper;
         protected ILifetimeScope? _lifetimeScope;
