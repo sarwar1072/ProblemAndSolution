@@ -1,0 +1,80 @@
+﻿@model QuestionEditModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <div>
+                <a asp-action="Create" asp-controller="Question" class="btn btn-outline-info btn-md">Add Question<span class="ml-3"><i class="fa fa-plus" style="margin: 4px"></i></span></a>
+            </div>
+        </div>
+        <div class="col-6">
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    @if (Model.Questions != null)
+    {
+        <h3 class="mt-3">User Specific Post</h3>
+
+        @foreach (var item in Model.Questions)
+        {
+            <div class="row">
+                <div class="col-md-8 col-sm-8">
+                    <div class="card m-3">
+                        <div class="card-body">
+                            <div class="x_content">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    @if (item.Answers != null)
+                                                    {
+                                                        <label>@(item.Answers.Count() != 0 ? item.Answers.Count() : 0) - Answer</label>
+                                                    }
+                                                    else
+                                                    {
+                                                        <label>@(item.Answers.Count() != 0 ? item.Answers.Count() : 0)) - Answer</label>
+                                                    }
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <div>
+                                                        <a src="#">@item.Title</a>
+                                                    </div>
+                                                    <div>
+                                                        @if (item.Tags != null)
+                                                        {
+                                                            @foreach (var tag in @item.Tags)
+                                                            {
+                                                                <span style="margin: 4px; background: #7FFFD4; color: white">@tag.Name</span>
+                                                            }
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <span style="margin: 4px">@item.AuthorName</span>
+                                                <span>@item.CreatedAt</span>
+                                            </div>
+                                            <div class="">
+                                                <a class="btn btn-primary" asp-controller="Question" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                                                <a class="btn btn-danger" asp-controller="Question" asp-action="DeleteQuestion" asp-route-id="@item.Id">Delete</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-4"></div>
+            </div>
+        }
+    }
+</div>

@@ -28,17 +28,17 @@ namespace ProblemAndSolution.Web
                 .AsSelf()
                 .InstancePerLifetimeScope();
 
-            //builder.RegisterType<QuestionCreateModel>()
-            //    .AsSelf()
-            //    .InstancePerLifetimeScope();
+            builder.RegisterType<QuestionCreateModel>()
+                .AsSelf()
+                .InstancePerLifetimeScope();
 
-            //builder.RegisterType<QuestionEditModel>()
-            //    .AsSelf()
-            //    .InstancePerLifetimeScope();
+            builder.RegisterType<QuestionEditModel>()
+                .AsSelf()
+                .InstancePerLifetimeScope();
 
-            //builder.RegisterType<AnswerCreateModel>()
-            //    .AsSelf()
-            //    .InstancePerLifetimeScope();
+            builder.RegisterType<AnswerCreateModel>()
+                .AsSelf()
+                .InstancePerLifetimeScope();
 
             base.Load(builder);
         }

@@ -20,7 +20,23 @@ namespace ProblemAndSolution.Web.Controllers
         {
             return View();
         }
-
+        public async Task<IActionResult> PaginatedQuestion(int index)
+        {
+            if (index > 0)
+            {
+                try
+                {
+                    var model = _lifetimeScope.Resolve<PublicLayoutModel>();
+                    var questions = await model.GetQuestions(index);
+                    return Ok(questions);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex.Message);
+                }
+            }
+            return BadRequest();
+        }
         public IActionResult Privacy()
         {
             return View();

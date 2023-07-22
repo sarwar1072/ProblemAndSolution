@@ -144,6 +144,17 @@ namespace ProblemAndSolution.Infrastructure.Services
             await _AndSUnitOfWork.QuestionRepository.AddAsync(entity);
             await _AndSUnitOfWork.SaveAsync();
         }
+        public async Task<List<Question>> GetPaginatedQuestions(int index, int pageSize)
+        {
+            var questionEntites = await _AndSUnitOfWork.QuestionRepository
+                .GetDynamicAsync(null, "Id desc", null, index, pageSize, false);
+
+            var questions = new List<Question>();
+            foreach (var question in questionEntites.data)
+                questions.Add(_mapper.Map<Question>(question));
+
+            return questions;
+        }
         public async Task<Question> GetByIdAsync(int id)
         {
             if (id is 0)

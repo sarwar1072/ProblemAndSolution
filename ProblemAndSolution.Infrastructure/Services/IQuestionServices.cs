@@ -15,7 +15,7 @@ namespace ProblemAndSolution.Infrastructure.Services
         Task DeleteQuestionAsync(int id);
         Task<List<Question>> GetQuestionsAsync(Guid id);
         void GetTest(int pageIndex);
-       // Task<List<Question>> GetPaginatedQuestions(int index, int pageSize);
+        Task<List<Question>> GetPaginatedQuestions(int index, int pageSize);
         Task<Question> GetDetails(int id);
     }
 }

@@ -1,8 +1,67 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+@section Styles{
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+}
+
+@if (User.Identity != null)
+{
+    if (User.Identity.IsAuthenticated)
+    {
+        <a href="/Post/Question/Create" class="btn btn-outline-info mb-3">Ask Question</a>
+    }
+}
+
+<div id="questions" class="float-left">
 </div>
+<button class="btn btn-outline-dark" onclick="LoadMore()">
+    Load More
+</button>
+
+
+@section Scripts{
+    <script>
+        var index = 1;
+        jQuery(document).ready(function ($) {
+            LoadQuestion();
+        });
+
+        function LoadMore() {
+            index += 1;
+            console.log(index);
+            LoadQuestion();
+        }
+        function LoadQuestion() {
+            $.ajax({
+                url: '@Url.Action("PaginatedQuestion", "Home")',
+                type: 'POST',
+                cache: false,
+                data: { 'index': index },
+                success: function (result) {
+                    assignPost(result);
+                },
+                error: function (result) { }
+            });
+        }
+    </script>
+    <script>
+        function assignPost(result) {
+            var questionCard = ``;
+            for (var i = 0; i < result.length; i++) {
+                console.log(result[i]);
+                var Id = result[i].id;
+                var Title = result[i].title;
+                var QuestionBody = result[i].questionBody;
+                questionCard = `<div id="${Id}" class="card card-body col-10 rounded border-2 m-1">
+                                    <a href="/Post/Question/Details/${Id}">
+                                        <h3>${Title}</h3>
+                                    </a>
+                                    <p>${QuestionBody}</p>
+                                </div>`;
+                $(questionCard).appendTo('#questions');
+            }
+
+        }
+    </script>
+}
