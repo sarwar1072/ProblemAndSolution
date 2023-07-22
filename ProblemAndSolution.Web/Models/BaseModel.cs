@@ -13,7 +13,7 @@ namespace ProblemAndSolution.Web.Models
         protected IHttpContextAccessor? _contextAccessor;
         protected IMapper? _mapper;
         protected ILifetimeScope? _lifetimeScope;
-        public UserBasicInfo? _basicInfo { get; private set; }
+        public UserBasicInfo? basicInfo { get; private set; }
         public BaseModel()
         {
         }
@@ -35,8 +35,8 @@ namespace ProblemAndSolution.Web.Models
         {
             var userName = _contextAccessor!.HttpContext!.User!.Identity!.Name;
             var userInfo = await _userManagerAdapter!.FindByUsernameAsync(userName!);
-           var  UserInfo = new UserBasicInfo();
-            _mapper!.Map(userInfo, UserInfo);
+            basicInfo = new UserBasicInfo();
+            _mapper!.Map(userInfo, basicInfo);
         } 
 
     }

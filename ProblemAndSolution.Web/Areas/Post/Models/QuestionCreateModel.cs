@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using AutoMapper;
+using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using ProblemAndSolution.Infrastructure.BusinessObj;
 using ProblemAndSolution.Infrastructure.Services;
 using ProblemAndSolution.Membership.BusinessObj;
@@ -38,5 +39,36 @@ namespace ProblemAndSolution.Web.Areas.Post.Models
             _questionServices=_lifetimeScope.Resolve<IQuestionServices>();
             base.ResolveDependency(lifetimeScope);
         }
+
+        internal async Task AddQuestionAsync()
+        {
+            var question = MapQuestion();
+            await _questionServices.CreateQuestion(question);
+        }
+        private Question MapQuestion( )
+        {
+            var question = new Question
+            {
+                ApplicationUserId=basicInfo.Id,
+                CreatedAt=DateTime.UtcNow,
+                Title=Title,
+                AuthorName=basicInfo.FirstName,
+                QuestionBody=QuestionBody,
+                IsSolvedQsn=false,
+            };
+            question.Tags = new List<Tag>();
+            if (Tags!.Count() > 0)
+            {
+                foreach (var item in question.Tags)
+                {
+                    question.Tags.Add(new Tag
+                    {
+                        Name = item.Name
+                    });
+                }
+            }
+            return question;
+        }
+
     }
 }
