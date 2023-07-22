@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using AutoMapper;
+using NuGet.Protocol.Plugins;
 using ProblemAndSolution.Infrastructure.BusinessObj;
 using ProblemAndSolution.Infrastructure.Services;
 using ProblemAndSolution.Membership.BusinessObj;
@@ -54,6 +55,152 @@ namespace ProblemAndSolution.Web.Areas.Post.Models
             base.ResolveDependency(_lifetimeScope);
         }
 
+        internal async Task GetByIdAsync(int id)
+        {
+            if(id != 0)
+            {
+                var question = await _questionService.GetByIdAsync(id);
+                if(question != null)
+                {
+                    Id= question.Id;
+                    ApplicationUserId = question.ApplicationUserId;
+                    Title = question.Title;
+                    CreatedAt = question.CreatedAt;
+                    IsSolvedQstn = question.IsSolvedQsn;
+                    AuthorName = question.AuthorName;
+                    QuestionBody = question.QuestionBody;
+                    Tags = new List<Tag>();
+
+                    if(question.Tags != null)
+                    {
+                        foreach (var item in question.Tags)
+                        {
+                            Tags.Add(new Tag
+                            {
+                                Name=item.Name,
+                                Id=item.Id,
+                                QuestionId=item.QuestionId
+                            });
+                        }
+                    }
+                }
+            }
+        }
+
+        private Question MapQuestion()
+        {
+            var question = new Question
+            {
+                Id = Id,
+                ApplicationUserId=basicInfo.Id,
+                CreatedAt=DateTime.UtcNow,
+                Title=Title,
+                QuestionBody=QuestionBody,
+                IsSolvedQsn=false,
+            };
+            question.Tags = new List<Tag>();
+            if (Tags.Count() > 0)
+            {
+                foreach (var item in Tags)
+                {
+                    question.Tags.Add(new Tag { 
+                     Id=item.Id,
+                     Name=item.Name,    
+                     QuestionId=item.QuestionId
+                    });
+                }
+            }
+            return question;
+        }
+
+        internal async Task UpdateAsync()
+        {
+            var question = MapQuestion();
+            await _questionService.UpdateQuestionAsync(question);   
+        }
+
+        internal async Task DeleteQuestionAsync(int id)
+        {
+            await _questionService.DeleteQuestionAsync(id);
+        }
+
+        internal async Task GetUserSpecificPost()
+        {
+            await GetUserInfoAsync();
+            var user = basicInfo!.Id;
+            var questions = await _questionService.GetQuestionsAsync(user);
+            Questions = new List<Question>();
+            foreach (var item in questions)
+            {
+                Questions.Add(item);
+            }
+        }
+
+        internal void GetTemp()
+        {
+            _questionService.GetTest(1);
+        }
+
+        internal async Task Details(int id)
+        {
+            var question = await _questionService.GetDetails(id);
+
+            if(question != null)
+            {
+                Id= question.Id;    
+                ApplicationUserId= question.ApplicationUserId;  
+                Title=question.Title;
+                CreatedAt = question.CreatedAt;
+                QuestionBody=question.QuestionBody;
+                Temp1= question.Temp1;
+                AuthorName = question.AuthorName;
+                Tags = new List<Tag>();
+                Answers = new List<Answer>();
+
+                if (question.Tags != null)
+                {
+                    foreach (var item in question.Tags)
+                    {
+                        Tags.Add(new Tag
+                        {
+                            Id=item.Id,
+                            Name=item.Name,
+                            QuestionId=item.QuestionId
+                        });
+                    }
+                }
+                if (question.Answers != null)
+                {
+                    foreach (var answer in question.Answers)
+                    {
+                        var comment = new List<Comment>();
+                        if (answer.Comments != null)
+                        {
+                            foreach (var com in answer.Comments)
+                            {
+                                comment.Add(new Comment
+                                {
+                                    Description=com.Description,
+                                    DateTime=com.DateTime,
+                                    AnswerId=com.AnswerId,
+                                    AuthorName=com.AuthorName,
+                                    TempId=com.TempId,
+                                    CreatedBy=com.CreatedBy,
+                                });
+                            }
+                        }
+                        Answers.Add(new Answer
+                        {
+                            Description = answer.Description,
+                            Id = answer.Id,
+                            AuthorName = answer.AuthorName,
+                            CountVote = answer.CountVote,
+                            Comments = comment
+                        });
+                    }
+                }
+            }
+        }
 
 
     }

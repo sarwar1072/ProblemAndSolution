@@ -29,7 +29,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Post\Controllers\" />
     <Folder Include="Areas\Post\Data\" />
   </ItemGroup>
 
