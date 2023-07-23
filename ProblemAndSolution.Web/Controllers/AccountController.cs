@@ -40,7 +40,7 @@ namespace ProblemAndSolution.Web.Controllers
                         }
                         else
                         {
-                            return RedirectToAction("Index", "Question", new { area = "Explorer" });
+                            return RedirectToAction("Index", "Question", new { area = "ForPost" });
                         }
                     }
                     foreach (var error in result.Errors)

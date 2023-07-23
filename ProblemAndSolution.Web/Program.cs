@@ -3,6 +3,7 @@ using Autofac.Extensions.DependencyInjection;
 using DevSkill.Http.Emails;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using ProblemAndSolution.Infrastructure;
 using ProblemAndSolution.Infrastructure.DbContexts;
 using ProblemAndSolution.Infrastructure.Entities.Membership;
 using ProblemAndSolution.Membership;
@@ -29,7 +30,7 @@ namespace ProblemAndSolution.Web
             {
                 containerBuilder.RegisterModule(new WebModule());
                 containerBuilder.RegisterModule(new MembershipModule());
-                //containerBuilder.RegisterModule(new InfrastructureModule(connectionString, assemblyName, webHostEnvironment));
+                containerBuilder.RegisterModule(new InfrastructureModule(connectionString, assemblyName, webHostEnvironment));
                 containerBuilder.RegisterModule(new EmailMessagingModule(connectionString, assemblyName));
             });
 

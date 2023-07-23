@@ -1,23 +1,20 @@
 ﻿using Autofac;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ProblemAndSolution.Web.Areas.Post.Models;
+using ProblemAndSolution.Web.Areas.ForPost.Models;
 using System.CodeDom;
 using static System.Formats.Asn1.AsnWriter;
 
-namespace ProblemAndSolution.Web.Areas.Post.Controllers
+namespace ProblemAndSolution.Web.Areas.ForPost.Controllers
 {
-    public class AnswerController : BasePostController<AnswerController>
+    public class AnswerController : PostBaseController<AnswerController>
     {
         public AnswerController(ILogger<AnswerController> logger,ILifetimeScope lifetimeScope)
             :base(logger,lifetimeScope)
         {
 
         }    
-        public IActionResult Index()
-        {
-            return View();
-        }
+        
 
         [Authorize(Roles = "User")]
         [HttpPost]

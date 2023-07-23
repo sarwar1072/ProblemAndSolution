@@ -6,7 +6,7 @@ using ProblemAndSolution.Infrastructure.Services;
 using ProblemAndSolution.Membership.BusinessObj;
 using ProblemAndSolution.Membership.Services;
 
-namespace ProblemAndSolution.Web.Areas.Post.Models
+namespace ProblemAndSolution.Web.Areas.ForPost.Models
 {
     public class QuestionCreateModel:PostLayoutModel
     {

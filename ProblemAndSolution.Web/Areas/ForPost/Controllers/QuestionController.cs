@@ -1,14 +1,14 @@
 ﻿using Autofac;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ProblemAndSolution.Web.Areas.Post.Models;
+using ProblemAndSolution.Web.Areas.ForPost.Models;
 using ProblemAndSolution.Web.Enums;
 using System.Linq.Expressions;
 using static System.Formats.Asn1.AsnWriter;
 
-namespace ProblemAndSolution.Web.Areas.Post.Controllers
+namespace ProblemAndSolution.Web.Areas.ForPost.Controllers
 {
-    public class QuestionController : BasePostController<QuestionController>
+    public class QuestionController : PostBaseController<QuestionController>
     {
         public QuestionController(ILogger<QuestionController> logger,ILifetimeScope lifetimeScope):base(
             logger, lifetimeScope)  
@@ -22,7 +22,7 @@ namespace ProblemAndSolution.Web.Areas.Post.Controllers
             await model.GetUserSpecificPost();
             return View(model);
         }
-        [HttpPost]  
+        [HttpGet]  
         public async Task<IActionResult> Create()
         {
             var model = _lifetimeScope.Resolve<QuestionCreateModel>();

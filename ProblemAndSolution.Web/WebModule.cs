@@ -1,5 +1,5 @@
 ﻿using Autofac;
-using ProblemAndSolution.Web.Areas.Post.Models;
+using ProblemAndSolution.Web.Areas.ForPost.Models;
 using ProblemAndSolution.Web.Models;
 
 namespace ProblemAndSolution.Web

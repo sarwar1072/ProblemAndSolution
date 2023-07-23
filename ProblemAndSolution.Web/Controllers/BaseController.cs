@@ -23,8 +23,6 @@ namespace ProblemAndSolution.Web.Controllers
                 Message = message,
                 Response=responseTypes,
             });
-
         }
-
     }
 }

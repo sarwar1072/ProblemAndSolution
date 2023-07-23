@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using ProblemAndSolution.Infrastructure.BusinessObj;
-using ProblemAndSolution.Infrastructure.BusinessObj.Membership;
+using ProblemAndSolution.Membership.BusinessObj;
 using ProblemAndSolution.Membership.DTOS;
-using ProblemAndSolution.Web.Areas.Post.Models;
+using ProblemAndSolution.Web.Areas.ForPost.Models;
 using ProblemAndSolution.Web.Models;
 
 namespace ProblemAndSolution.Web.Profiles

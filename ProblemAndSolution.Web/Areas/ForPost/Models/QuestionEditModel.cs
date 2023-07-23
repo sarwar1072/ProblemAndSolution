@@ -8,7 +8,7 @@ using ProblemAndSolution.Membership.Services;
 using System.ComponentModel.DataAnnotations;
 using static System.Formats.Asn1.AsnWriter;
 
-namespace ProblemAndSolution.Web.Areas.Post.Models
+namespace ProblemAndSolution.Web.Areas.ForPost.Models
 {
     public class QuestionEditModel:PostLayoutModel
     {

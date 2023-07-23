@@ -9,7 +9,7 @@
 {
     if (User.Identity.IsAuthenticated)
     {
-        <a href="/Post/Question/Create" class="btn btn-outline-info mb-3">Ask Question</a>
+        <a href="/ForPost/Question/Create" class="btn btn-outline-info mb-3">Ask Question</a>
     }
 }
 
@@ -54,7 +54,7 @@
                 var Title = result[i].title;
                 var QuestionBody = result[i].questionBody;
                 questionCard = `<div id="${Id}" class="card card-body col-10 rounded border-2 m-1">
-                                    <a href="/Post/Question/Details/${Id}">
+                                    <a href="/ForPost/Question/Details/${Id}">
                                         <h3>${Title}</h3>
                                     </a>
                                     <p>${QuestionBody}</p>

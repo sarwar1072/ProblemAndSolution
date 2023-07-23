@@ -28,8 +28,4 @@
     <ProjectReference Include="..\ProblemAndSolution.Membership\ProblemAndSolution.Membership.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Areas\Post\Data\" />
-  </ItemGroup>
-
 </Project>

@@ -3,7 +3,7 @@ using ProblemAndSolution.Membership.BusinessObj;
 using ProblemAndSolution.Membership.Services;
 using ProblemAndSolution.Web.Models;
 
-namespace ProblemAndSolution.Web.Areas.Post.Models
+namespace ProblemAndSolution.Web.Areas.ForPost.Models
 {
     public class PostLayoutModel:BaseModel
     {
