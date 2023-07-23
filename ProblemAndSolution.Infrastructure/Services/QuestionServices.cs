@@ -37,6 +37,7 @@ namespace ProblemAndSolution.Infrastructure.Services
                 IsSolvedQstn=question.IsSolvedQsn,
                 QuestionBody=question.QuestionBody, 
                 AuthorName=question.AuthorName,
+                Title=question.Title,
             };
             entity.Tags = new List<TagEO>();
             entity.Answers = new List<AnswerEO>();
