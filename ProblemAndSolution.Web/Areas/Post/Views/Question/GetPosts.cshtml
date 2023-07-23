@@ -1,0 +1,57 @@
+﻿@{
+    ViewData["Title"] = "GetPosts";
+}
+
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-3 col-sm-9">
+                <button id="addQsn" type="button" class="btn btn-primary btn-sm"><i class="fa fa-chevron-up"></i></button>
+                <small>Vote</small>
+                <button id="addQsn" type="button" class="btn btn-primary btn-sm"><i class="fa fa-chevron-down"></i></button>
+            </div>
+            <div class="col-md-9 col-sm-9">
+                <div class="bg-primary text-white">
+                    <h3>title</h3>
+                    <br />
+                    <p>description</p>
+                    <br />
+                    <small>tag</small>
+                    <br />
+                    <div class="bg-info text-white">
+                        <p>Author Name</p>
+                        <small>create time</small>
+                    </div>
+                </div>
+                <br />
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-3 col-sm-9">
+                <button id="addAns" type="button" class="btn btn-primary btn-sm"><i class="fa fa-chevron-up"></i></button>
+                <small>Vote</small>
+                <button id="addAns" type="button" class="btn btn-primary btn-sm"><i class="fa fa-chevron-down"></i></button>
+                <button><i class="fa fa-check"></i></button>
+            </div>
+            <div class="col-md-9 col-sm-9">
+                <div class="bg-light text-white">
+                    <p>Answer</p>
+                    <br />
+                    <small>List of comment</small>
+                    <small class="mycomment"></small>
+                    <input type="text" placeholder="add a comment" />
+                    <button type="button">CommentBtn</button>
+                    <br />
+                </div>
+                <br />
+            </div>
+            <div class="bg-light text-info">
+                <h3>Your Answer</h3>
+                <textarea class="form-control" rows="5" id="email"></textarea>
+                <button type="button">AnswerBtn</button>
+            </div>
+        </div>
+    </div>
+</div>
+

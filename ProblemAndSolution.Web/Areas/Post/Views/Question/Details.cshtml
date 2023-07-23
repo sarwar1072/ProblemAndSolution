@@ -1,0 +1,237 @@
+﻿@model QuestionEditModel
+@{
+    ViewData["Title"] = "Details";
+}
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <div>
+                <button class="btn btn-outline-info mb-1" style="margin-left:-10px;" onclick="location.href='/Post/Question/Index'"><i class="fa fa-plus" style="margin: 4px"></i> Index</button>
+
+            </div>
+        </div>
+        <div class="col-6">
+        </div>
+    </div>
+</div>
+@if (Model != null)
+{
+    <div class="card">
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-md-1 col-sm-1">
+                    <button type="button" class="btn btn-primary btn-sm addQsn rounded" onclick="LoadQusnVote()"><i class="fa fa-chevron-up"></i></button>
+                    <br />
+                    <strong class="temp1 pl-3">@Model.Temp1</strong>
+                    <br />
+                    <button type="button" class="btn btn-primary btn-sm addQsn rounded" onclick="LoadQusnVote()"><i class="fa fa-chevron-down"></i></button>
+                </div>
+                <div class="col-md-11 col-sm-11">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <div class="text-dark">
+                                <input type="text" hidden value="@Model.Id" class="getQuesId" />
+                                <h3 class="ml-2">@Model.Title</h3>
+                                <br />
+                                <textarea class="form-control mb-3" rows="5" id="email" disabled>@Model.QuestionBody</textarea>
+                                @if (Model.Tags != null)
+                                {
+                                    foreach (var tag in Model.Tags)
+                                    {
+                                        <span style="margin: 4px; color: black;">@tag.Name</span>
+                                    }
+                                }
+                                <br />
+                                <div class="bg-info text-black" style="display: inline;">
+                                    <small class="ml-2 float-right">@Model.AuthorName</small>
+                                    <small class="float-right">@Model.CreatedAt</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md-2 col-sm-2"></div>
+
+            </div>
+            @if (Model.Answers != null)
+            {
+                <div>
+                    <p>@Model.Answers.Count() Answers</p>
+                </div>
+                @foreach (var answer in Model.Answers)
+                {
+                    <div class="card my-3">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-1 col-md-1"></div>
+                                <div class="col-md-1 col-sm-1">
+                                    <button type="button" class="btn btn-primary btn-sm addAns rounded" id="getAnsId" value="@answer.Id" onclick="LoadAnsVote(this)"><i class="fa fa-chevron-up"></i></button>
+                                    <br />
+                                    <strong class="temp2 pl-3">@answer.CountVote</strong>
+                                    <br />
+                                    <button type="button" class="btn btn-primary btn-sm addAns rounded" id="getAnsId" value="@answer.Id" onclick="LoadAnsVote(this)"><i class="fa fa-chevron-down"></i></button>
+                                    <br />
+                                </div>
+                                <div class="col-md-10 col-sm-10">
+                                    <div class="bg-dark card my-3">
+                                        <div>
+                                            <textarea class="form-control text-white" rows="5" id="email" disabled
+                                          style="background-color: black; color: white; padding-left:20px; font-size:20px;">@answer.Description</textarea>
+                                            <div class="float-right text-white">@answer.AuthorName</div>
+                                        </div>
+                                    </div>
+                                    @if (answer.Comments != null && answer.Comments.Count() > 0)
+                                    {
+                                        <hr />
+                                        <hr />
+                                        <small class="mb-3">comments</small>
+
+                                        foreach (var comment in answer.Comments)
+                                        {
+                                            <hr />
+                                            <p>@comment.Description - @comment.AuthorName (@comment.DateTime)</p>
+                                        }
+                                    }
+                                    <div class="mycomment">
+
+                                        @{
+                                            var cmntId = "CmntInput" + @answer.Id;
+                                            <input type="text" placeholder="add a comment" class="comText form-control" id="@cmntId" />
+                                            <button type="button" class="btn btn-info mt-2" onclick="Cmnt('@answer.Id')">Comment</button>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            <div class="bg-light text-info pt-3">
+                <h3>Your Answer</h3>
+                <textarea class="form-control ansText" rows="5" id="email"></textarea>
+                <button type="button" class="btn btn-outline-info mt-1" onclick="Ans()">AnswerBtn</button>
+            </div>
+
+        </div>
+    </div>
+}
+
+
+
+
+
+@section Scripts{
+
+
+
+
+    <script>
+
+        function LoadQusnVote() {
+            var quesId = $(".getQuesId").val();
+
+            $.ajax({
+                url: '@Url.Action("AddQuestionVote", "Answer")',
+                type: 'POST',
+                cache: false,
+                data: { 'quesId': quesId },
+                success: function (result) {
+                    location.href = `/Post/Question/Details/${quesId}`;
+                },
+                error: function (result) {
+                    if (result.status == 401) {
+                        location.href = '/Account/Login';
+                    }
+                }
+            });
+        }
+    </script>
+    <script>
+
+        function LoadAnsVote(ans) {
+            var answerId = ans.value;
+            var quesId = $(".getQuesId").val();
+
+            $.ajax({
+                url: '@Url.Action("AddAnsVote", "Answer")',
+                type: 'POST',
+                cache: false,
+                data: { 'answerId': answerId },
+                success: function (result) {
+                    location.href = `/Post/Question/Details/${quesId}`;
+                },
+                error: function (result) {
+                    if (result.status == 401) {
+                        location.href = '/Account/Login';
+                    }
+                }
+            });
+        }
+    </script>
+    <script>
+
+        function Cmnt(commId) {
+
+            var commentVal = $('#CmntInput' + commId).val();
+            if (commentVal == "") {
+                alert("Comment value can not be null");
+                return false;
+            }
+
+            var quesId = $(".getQuesId").val();
+
+            LoadQuestion(commentVal, commId, quesId);
+        }
+        function LoadQuestion(commentVal, answerId, quesId) {
+            $.ajax({
+                url: '@Url.Action("AddComment", "Answer")',
+                type: 'POST',
+                cache: false,
+                data: { 'commentVal': commentVal, 'answerId': answerId },
+                success: function (result) {
+                    location.href = `/Post/Question/Details/${quesId}`;
+                },
+                error: function (result) {
+                    if (result.status == 401) {
+                        location.href = '/Account/Login';
+                    }
+                }
+            });
+        }
+    </script>
+
+    <script>
+        function Ans() {
+            var answerText = $(".ansText").val();
+            var quesId = $(".getQuesId").val();
+
+            if (answerText == "") {
+                alert("Answer value can not be null");
+                return false;
+            }
+
+            LoadAnswer(answerText, quesId);
+        }
+        function LoadAnswer(answerText, quesId) {
+            $.ajax({
+                url: '@Url.Action("AddAnswer", "Answer")',
+                type: 'POST',
+                cache: false,
+                data: { 'answerText': answerText, 'quesId': quesId },
+                success: function (result) {
+                    //assignPost(result);
+                    location.href = `/Post/Question/Details/${quesId}`;
+                },
+                error: function (result) {
+                    if (result.status == 401) {
+                        location.href = '/Account/Login';
+                    }
+                }
+            });
+        }
+    </script>
+}
+

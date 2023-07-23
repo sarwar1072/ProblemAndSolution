@@ -1,0 +1,87 @@
+﻿@model QuestionEditModel
+@{
+    ViewData["Title"] = "Edit";
+}
+
+
+<div class="row">
+    <div class="col-md-8 col-sm-8">
+        <div class="card">
+            <h5 class="card-header">Edit public question</h5>
+            <div class="card-body">
+                <div class="x_content">
+                <form id="addUser" asp-controller="Question" method="post" enctype="multipart/form-data" 
+                    class="" asp-antiforgery="true">                 
+                      <div class="">
+                          <input type="text" asp-for="Id" hidden />
+                            <div class="item form-group">
+                                <label class="col-form-label label-align" for="Title" style="display: block; font-size: 1.1rem;">
+                                   Title
+                                </label>
+                                <small class="text-muted">Be specific and imagine you are asking a question to another person for</small>
+                                
+                                <div>
+                                    <input type="text" asp-for="Title" id="Title" class="form-control" required>
+                                    <span asp-validation-for="Title" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="item form-group">
+                                <label class="col-form-label label-align" for="QuestionBody" style="display: block; font-size: 1.1rem;">
+                                    Body
+                                </label>
+                                <small class="text-muted">Include all the information someone would need to anwer your Question</small>
+                                <div>
+                                    <textarea class="form-control" asp-for="QuestionBody" rows="5" id="email" required></textarea>
+                                    <span asp-validation-for="QuestionBody" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div id="tags">
+                            </div>
+                            @if(Model.Tags != null)
+                            {
+                                for(int i =0; i< Model.Tags.Count(); i++)
+                                {
+                                    <div class="item form-group">
+                                <label class="col-form-label label-align" for="tag" style="display: block; font-size: 1.1rem;">
+                                    Tags
+                                </label>
+                                <div class="">
+                                    <input type="text" asp-for="Tags[i]!.Id" hidden>
+                                    <input type="text" asp-for="Tags[i]!.QuestionId" hidden>
+                                    <input type="text" asp-for="Tags[i]!.Name" id="tag" class="form-control" required>
+                                    <span asp-validation-for="Tags" class="text-danger"></span>
+                                </div>
+                            </div>
+                                }
+                            }
+                            <div class="item form-group">
+                                <div class="col-md-6 col-sm-6 offset-md-3">
+                                    <a class="btn btn-primary" asp-controller="Question" asp-action="Index">Cancel</a>
+                                     <button type="submit" class="btn btn-success">Update</button>
+                                </div>
+                                </div>   
+                        </div>                
+                </form>
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-4">
+
+    </div>
+    </div>
+    </div>
+</div>
+
+@section Scripts{
+    <!-- jQuery Smart Wizard -->
+    <partial name="~/views/shared/_ValidationScriptsPartial.cshtml" />
+    <script>
+    $(function () {
+        var html = "<div class='item form-group'><label class='col-form-label label-align' for='tag'>Tags</label><div class=''><input type='text' name='Tags' id='tag' class='form-control required'><span asp-validation-for='Tags' class='text-danger'></span></div></div>";
+        $("#addTag").click(function(){
+            $("#tags").append(html);
+        });
+    });
+
+</script>
+}
+
