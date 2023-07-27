@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Microsoft.AspNetCore.Mvc;
+using ProblemAndSolution.Infrastructure.Services;
 using ProblemAndSolution.Web.Models;
 using System.Diagnostics;
 
@@ -9,15 +10,21 @@ namespace ProblemAndSolution.Web.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly ILifetimeScope _lifetimeScope;
-
-        public HomeController(ILogger<HomeController> logger, ILifetimeScope lifetimeScope)
+        private IQuestionServices _qusetionService;
+        private IAnswerServices _answerService;
+        public HomeController(ILogger<HomeController> logger, ILifetimeScope lifetimeScope,
+            IQuestionServices questionServices,IAnswerServices answerServices)
         {
+            _answerService=answerServices;  
+            _qusetionService=questionServices;  
             _logger = logger;
             _lifetimeScope = lifetimeScope;
         }
-
         public IActionResult Index()
         {
+            ViewBag.Answer = _answerService.NumberOfAnswer();
+            ViewBag.Question = _qusetionService.NumberOfQuestionAsync();
+            ViewBag.Unasnwers = _qusetionService.NumberOfQuestionAsync() - _answerService.NumberOfAnswer();
             return View();
         }
         public async Task<IActionResult> PaginatedQuestion(int index)

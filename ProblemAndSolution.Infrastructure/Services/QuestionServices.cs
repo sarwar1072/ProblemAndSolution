@@ -26,6 +26,11 @@ namespace ProblemAndSolution.Infrastructure.Services
             _AndSUnitOfWork = andSUnitOfWork;
             _mapper = mapper;
         }
+        public int NumberOfQuestionAsync()
+        {
+            var count = _AndSUnitOfWork.QuestionRepository.GetCount();
+            return count;
+        }
 
         private QuestionEO MappToEntity(Question question)
         {

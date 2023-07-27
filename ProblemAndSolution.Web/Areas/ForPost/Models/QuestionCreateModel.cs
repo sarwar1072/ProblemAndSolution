@@ -59,12 +59,9 @@ namespace ProblemAndSolution.Web.Areas.ForPost.Models
             question.Tags = new List<Tag>();
             if (Tags!.Count() > 0)
             {
-                foreach (var item in question.Tags)
+                for (int i = 0; i < Tags!.Count(); i++)
                 {
-                    question.Tags.Add(new Tag
-                    {
-                        Name = item.Name
-                    });
+                    question.Tags.Add(new Tag { Name = Tags[i] });
                 }
             }
             return question;

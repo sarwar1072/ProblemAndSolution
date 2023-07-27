@@ -19,6 +19,10 @@ namespace ProblemAndSolution.Infrastructure.Services
             _pAndSUnitOfWork = pAndSUnitOfWork;
             _mapper = mapper;   
         }
+        public int NumberOfAnswer()
+        {
+            return _pAndSUnitOfWork.AnswerRepository.GetCount();
+        }
         private AnswerEO MappToEntity(Answer answer)
         {
             var entity = new AnswerEO

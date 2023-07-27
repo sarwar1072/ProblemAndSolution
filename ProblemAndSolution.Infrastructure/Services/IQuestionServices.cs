@@ -17,5 +17,6 @@ namespace ProblemAndSolution.Infrastructure.Services
         void GetTest(int pageIndex);
         Task<List<Question>> GetPaginatedQuestions(int index, int pageSize);
         Task<Question> GetDetails(int id);
+        int NumberOfQuestionAsync();
     }
 }

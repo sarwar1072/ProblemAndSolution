@@ -15,7 +15,6 @@ namespace ProblemAndSolution.Web.Areas.ForPost.Controllers
 
         }    
         
-
         [Authorize(Roles = "User")]
         [HttpPost]
         public async Task<IActionResult> AddAnswer(string answerText, int quesId)

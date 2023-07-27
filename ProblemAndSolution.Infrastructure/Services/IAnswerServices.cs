@@ -10,5 +10,6 @@ namespace ProblemAndSolution.Infrastructure.Services
     public interface IAnswerServices
     {
         Task CreateAnswerAsync(Answer answer);
+        int NumberOfAnswer();
     }
 }
