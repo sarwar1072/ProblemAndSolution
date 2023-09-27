@@ -1,0 +1,32 @@
+version: "3"
+services:
+    web:
+        build: 
+            context: EMS/
+            dockerfile: EMS.Web/Dockerfile
+        env_file: 
+            - web.env
+        volumes:
+            - app-volume:/app/wwwroot
+        ports:
+            - "8000:80"
+        depends_on:
+            - db
+    contactqworker:
+        build: 
+            context: EMS/
+            dockerfile: Workers/ContactExtractingWorker/Dockerfile
+        env_file: 
+            - contact.env
+        depends_on: 
+            - db 
+        volumes:
+            - app-volume:/app/wwwroot
+    db:
+        image: "mcr.microsoft.com/mssql/server"
+        env_file: 
+            - db.env
+        expose:
+            - "1433"
+volumes:
+     app-volume: 

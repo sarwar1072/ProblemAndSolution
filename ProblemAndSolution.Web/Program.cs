@@ -42,14 +42,15 @@ namespace ProblemAndSolution.Web
                 .ReadFrom.Configuration(builder.Configuration));
 
             //Localhost HTTPS port configuration
-            //builder.WebHost
-            //.ConfigureKestrel(options =>
-            //{
-            //    options.ListenLocalhost(7058, opts => opts.UseHttps());
-            //    //get your localhost htttps port number from launch settings
-            //});
+            builder.WebHost
+            .ConfigureKestrel(options =>
+            {
+                options.ListenLocalhost(8000, opts => opts.UseHttps());
+                //get your localhost htttps port number from launch settings
+            });
 
-            //builder.WebHost.UseUrls("http://*:80");
+            builder.WebHost.UseUrls("http://*:80");
+
 
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(connectionString, m => m.MigrationsAssembly(assemblyName)));

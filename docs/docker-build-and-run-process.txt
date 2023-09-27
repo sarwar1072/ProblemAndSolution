@@ -1,0 +1,5 @@
+1. cd C:\Training\aspnetb4\source\Web\AspNetFeaturesDemo
+2. Make change in connection string & other settings
+3. docker build -t demo -f RegistrationProcess.web\Dockerfile .
+4. docker run -it -p 8080:80 firstimage or docker run -d -p 8080:80 demo
+5. Using volumes examples: https://devopsheaven.com/docker/docker-compose/volumes/2018/01/16/volumes-in-docker-compose.html
