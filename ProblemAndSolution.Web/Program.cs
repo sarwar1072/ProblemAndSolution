@@ -41,13 +41,13 @@ namespace ProblemAndSolution.Web
                 .Enrich.FromLogContext()
                 .ReadFrom.Configuration(builder.Configuration));
 
-            //Localhost HTTPS port configuration
-            builder.WebHost
-            .ConfigureKestrel(options =>
-            {
-                options.ListenLocalhost(8000, opts => opts.UseHttps());
-                //get your localhost htttps port number from launch settings
-            });
+            ////Localhost HTTPS port configuration
+            //builder.WebHost
+            //.ConfigureKestrel(options =>
+            //{
+            //    options.ListenLocalhost(49172, opts => opts.UseHttps());
+            //    //get your localhost htttps port number from launch settings
+            //});
 
             builder.WebHost.UseUrls("http://*:80");
 
