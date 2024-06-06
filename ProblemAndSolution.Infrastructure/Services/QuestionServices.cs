@@ -270,7 +270,6 @@ namespace ProblemAndSolution.Infrastructure.Services
                 }
             }
             return MappToBusiness(entity);
-
         }
 
     }

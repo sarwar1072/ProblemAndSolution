@@ -3,13 +3,12 @@
     ViewData["Title"] = "Details";
 }
 
-
 <div class="container">
     <div class="row">
         <div class="col-6">
             <div>
-                <button class="btn btn-outline-info mb-1" style="margin-left:-10px;" onclick="location.href='/ForPost/Question/Index'"><i class="fa fa-plus" style="margin: 4px"></i> Index</button>
-
+                <button class="btn btn-outline-info mb-1" style="margin-left:-10px;" 
+                onclick="location.href='/ForPost/Question/Index'"><i class="fa fa-plus" style="margin: 4px"></i> Index</button>
             </div>
         </div>
         <div class="col-6">
@@ -22,11 +21,13 @@
         <div class="card-body">
             <div class="row mb-3">
                 <div class="col-md-1 col-sm-1">
-                    <button type="button" class="btn btn-primary btn-sm addQsn rounded" onclick="LoadQusnVote()"><i class="fa fa-chevron-up"></i></button>
+                    <button type="button" class="btn btn-primary btn-sm addQsn rounded" 
+                    onclick="LoadQusnVote()"><i class="fa fa-chevron-up"></i></button>
                     <br />
                     <strong class="temp1 pl-3">@Model.Temp1</strong>
                     <br />
-                    <button type="button" class="btn btn-primary btn-sm addQsn rounded" onclick="LoadQusnVote()"><i class="fa fa-chevron-down"></i></button>
+                    <button type="button" class="btn btn-primary btn-sm addQsn rounded" 
+                    onclick="LoadQusnVote()"><i class="fa fa-chevron-down"></i></button>
                 </div>
                 <div class="col-md-11 col-sm-11">
                     <div class="card mb-3">
@@ -51,7 +52,6 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
                 <div class="col-md-2 col-sm-2"></div>
 
@@ -68,11 +68,13 @@
                             <div class="row">
                                 <div class="col-md-1 col-md-1"></div>
                                 <div class="col-md-1 col-sm-1">
-                                    <button type="button" class="btn btn-primary btn-sm addAns rounded" id="getAnsId" value="@answer.Id" onclick="LoadAnsVote(this)"><i class="fa fa-chevron-up"></i></button>
+                                    <button type="button" class="btn btn-primary btn-sm addAns rounded" 
+                                    id="getAnsId" value="@answer.Id" onclick="LoadAnsVote(this)"><i class="fa fa-chevron-up"></i></button>
                                     <br />
                                     <strong class="temp2 pl-3">@answer.CountVote</strong>
                                     <br />
-                                    <button type="button" class="btn btn-primary btn-sm addAns rounded" id="getAnsId" value="@answer.Id" onclick="LoadAnsVote(this)"><i class="fa fa-chevron-down"></i></button>
+                                    <button type="button" class="btn btn-primary btn-sm addAns rounded" 
+                                    id="getAnsId" value="@answer.Id" onclick="LoadAnsVote(this)"><i class="fa fa-chevron-down"></i></button>
                                     <br />
                                 </div>
                                 <div class="col-md-10 col-sm-10">
@@ -118,10 +120,6 @@
         </div>
     </div>
 }
-
-
-
-
 
 @section Scripts{
 

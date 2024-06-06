@@ -144,7 +144,6 @@ namespace ProblemAndSolution.Web.Areas.ForPost.Models
         internal async Task Details(int id)
         {
             var question = await _questionService.GetDetails(id);
-
             if(question != null)
             {
                 Id= question.Id;    

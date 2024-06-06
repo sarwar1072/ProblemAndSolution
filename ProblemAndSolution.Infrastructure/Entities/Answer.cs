@@ -10,7 +10,6 @@ namespace ProblemAndSolution.Infrastructure.Entities
         public string? AuthorName { get; set; }
         public int QuestionId { get; set; }
         public Guid? TempId { get; set; }
-
         [NotMapped]
         public int CountVote { get; set; }
         public Question? Question { get; set; }

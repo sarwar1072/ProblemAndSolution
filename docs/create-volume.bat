@@ -1,1 +1,1 @@
-docker volume create --driver local --opt type=none --opt device=C:\Training\aspnetb4\logs --opt o=bind aspnetb4-data
+docker volume create --driver local --opt type=none --opt device=C:\Users\sarwa\source\repos\ProblemAndSolution\LogFile --opt o=bind aspnetb4-data
