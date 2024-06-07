@@ -4,6 +4,10 @@
 
 }
 
+@section Styles{
+    <link href="~/css/froala_editor.pkgd.min.css" rel="stylesheet" type="text/css" />
+}
+
 <div class="bg-secondary bg-opacity-10 py-2">
     <div class="container">
         <h1>Add New BlogPost - Admin Functionality</h1>
@@ -75,9 +79,11 @@
 </div>
 
 @section Scripts {
+    <script type="text/javascript" src="~/js/froala_editor.pkgd.min.js"></script>
+
     <script>
-        $(document).ready(function () {
-            $('#editor').froalaEditor();
+        var editor = new FroalaEditor('#content', {
+            toolbarButtons: [['bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript'], ['fontFamily', 'fontSize', 'textColor', 'backgroundColor'], ['inlineClass', 'inlineStyle', 'clearFormatting']]
         });
     </script>
 }
