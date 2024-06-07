@@ -1,6 +1,6 @@
 ﻿using Autofac;
 using ProblemAndSolution.Web.Areas.ForPost.Models;
-using ProblemAndSolution.Web.Areas.ForPost.Models.BlogModel;
+using ProblemAndSolution.Web.Areas.ForPost.Models.BlogModelFolder   ;
 using ProblemAndSolution.Web.Models;
 
 namespace ProblemAndSolution.Web
@@ -40,6 +40,7 @@ namespace ProblemAndSolution.Web
             builder.RegisterType<AnswerCreateModel>()
                 .AsSelf()
                 .InstancePerLifetimeScope();
+            builder.RegisterType<BlogModel>().AsSelf().InstancePerLifetimeScope();
             builder.RegisterType<CreateBlog>().AsSelf().InstancePerLifetimeScope();
             builder.RegisterType<FileHelper>().As<IFileHelper>().InstancePerLifetimeScope();
 

@@ -4,7 +4,7 @@ using ProblemAndSolution.Infrastructure.Services;
 using ProblemAndSolution.Membership.BusinessObj;
 using ProblemAndSolution.Membership.Services;
 using BlogBO = ProblemAndSolution.Infrastructure.BusinessObj.Blog;
-namespace ProblemAndSolution.Web.Areas.ForPost.Models.BlogModel
+namespace ProblemAndSolution.Web.Areas.ForPost.Models.BlogModelFolder
 {
     public class CreateBlog:PostLayoutModel
     {

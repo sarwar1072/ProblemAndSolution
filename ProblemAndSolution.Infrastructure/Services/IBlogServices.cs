@@ -9,5 +9,7 @@ namespace ProblemAndSolution.Infrastructure.Services
     public interface IBlogServices
     {
         Task AddBlog(BlogBO blog);
+        (IList<BlogBO> blogs, int total, int totalDisplay) GetBlog(int pageindex, int pagesize,
+                                                                             string searchText, string orderBy);
     }
 }

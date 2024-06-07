@@ -3,7 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using ProblemAndSolution.Web.Enums;
 using ProblemAndSolution.Web.Models;
 using System;
-using ProblemAndSolution.Web.Areas.ForPost.Models.BlogModel;
+using ProblemAndSolution.Web.Areas.ForPost.Models.BlogModelFolder;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace ProblemAndSolution.Web.Areas.ForPost.Controllers
 {
@@ -18,7 +19,9 @@ namespace ProblemAndSolution.Web.Areas.ForPost.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            var model = _lifetimeScope.Resolve<BlogModel>();
+
+            return View(model);
         }
         [HttpGet]
         public async Task<IActionResult> Add()
@@ -38,7 +41,7 @@ namespace ProblemAndSolution.Web.Areas.ForPost.Controllers
                     model.Url = _fileHelper.UploadFile(model.formFile);
                    await model.AddBlog();
                     ViewResponse("Success", ResponseTypes.Success);
-                  //  return RedirectToAction(nameof(Add));
+                   return RedirectToAction(nameof(Index));
                 }
                 //catch (DuplicationException ex)
                 //{
@@ -52,6 +55,15 @@ namespace ProblemAndSolution.Web.Areas.ForPost.Controllers
             }
             return View(model);
         }
+
+        public IActionResult GetBlog()
+        {
+            var tableModel = new DataTablesAjaxRequestModel(Request);
+            var model = _lifetimeScope.Resolve<BlogModel>();
+            var data = model.GetBlog(tableModel);
+            return Json(data);
+        }
+
 
     }
 }

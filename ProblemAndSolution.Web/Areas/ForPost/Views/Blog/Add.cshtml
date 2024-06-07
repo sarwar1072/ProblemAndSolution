@@ -5,7 +5,7 @@
 }
 
 @section Styles{
-    <link href="~/css/froala_editor.pkgd.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/FloraEditorFile/CSS/froala_editor.pkgd.min.css" rel="stylesheet" type="text/css" />
 }
 
 <div class="bg-secondary bg-opacity-10 py-2">
@@ -37,21 +37,12 @@
             <input type="text" class="form-control" id="shortDescription" asp-for="ShortDescription" />
         </div>
 
-        <div class="form-group row">
-            <div class="col-4">
-                Image
-            </div>
-            <div class="col-8">
-                <input type="file" name="formFile" id="uploadBox" multiple class="form-control" />
-            </div>
-        </div>
+        <div class="mb-3">
+            <label class="form-label">Image Upload</label>
+            <input type="file" id="uploadBox" name="formFile" multiple class="form-control" />
 
-        @* <div class="mb-3">
-            <label class="form-label">Featured Image Upload</label>
-            <input type="file" id="featuredImageUpload" class="form-control" />
-
-            <img src="" id="featuredImageDisplay" style="display:none;width: 300px;" />
-        </div> *@
+@*             <img src="" id="featuredImageDisplay" style="display:none;width: 300px;" />
+ *@        </div>
 
         <div class="mb-3">
             <label class="form-label">Published Date</label>
@@ -79,7 +70,7 @@
 </div>
 
 @section Scripts {
-    <script type="text/javascript" src="~/js/froala_editor.pkgd.min.js"></script>
+    <script type="text/javascript" src="~/FloraEditorFile/JS/froala_editor.pkgd.min.js"></script>
 
     <script>
         var editor = new FroalaEditor('#content', {
