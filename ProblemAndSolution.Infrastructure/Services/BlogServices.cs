@@ -35,7 +35,59 @@ namespace ProblemAndSolution.Infrastructure.Services
                 throw new DuplicateException("Same title exist");
             }
 
-            var mapEntity = new BlogEO
+            var mapEntity = BoToEntity(blog);
+            await _pAndSUnitOfWork.BlogRepository.AddAsync(mapEntity);
+            await _pAndSUnitOfWork.SaveAsync();
+        }
+        public async Task<BlogBO> GetById(int id)
+        {
+            var data=await _pAndSUnitOfWork.BlogRepository.GetByIdAsync(id);    
+            if(data == null)
+            {
+                throw new InvalidOperationException("Blog is not available");
+            }
+            return EntityToBusinessObj(data);
+        }
+
+        public async Task EditBlog(BlogBO blogBO)
+        {
+            if(blogBO is null)
+            {
+                throw new InvalidOperationException("Question can not be null");
+            }
+            var count=await _pAndSUnitOfWork.BlogRepository.GetCountAsync(x=>x.PageTitle == blogBO.PageTitle);
+            if(count  !=0)
+            {
+                throw new DuplicateException("Same blog exist");
+            }
+            var data = await _pAndSUnitOfWork.BlogRepository.GetByIdAsync(blogBO.Id);
+
+            if ((data == null))
+            {
+                throw new InvalidOperationException("Data can not be found");
+            }
+            AssignBlog(blogBO, data);
+            await _pAndSUnitOfWork.SaveAsync();
+
+        }
+        private BlogEO AssignBlog(BlogBO  blogBO,BlogEO data)
+        {
+            data.Id = blogBO.Id;    
+            data.Heading = blogBO.Heading;  
+            data.PageTitle = blogBO.PageTitle;
+            data.Content = blogBO.Content;  
+            data.Author = blogBO.Author;    
+            data.PublishedDate = blogBO.PublishedDate;
+            data.ShortDescription = blogBO.ShortDescription;    
+            data.Visible = blogBO.Visible;
+            data.ImageUrl = blogBO.ImageUrl;    
+            data.Id = blogBO.Id;    
+            return data;    
+
+        }
+        private BlogEO BoToEntity(BlogBO blog)
+        {
+            var blogEO = new BlogEO()
             {
                 Heading = blog.Heading,
                 PageTitle = blog.PageTitle,
@@ -45,14 +97,14 @@ namespace ProblemAndSolution.Infrastructure.Services
                 PublishedDate = blog.PublishedDate,
                 Author = blog.Author,
                 Visible = blog.Visible,
-            };
-            await _pAndSUnitOfWork.BlogRepository.AddAsync(mapEntity);
-            await _pAndSUnitOfWork.SaveAsync();
+            }; 
+            return blogEO;  
         }
         private BlogBO EntityToBusinessObj(BlogEO blog) {
 
             var blogBo = new BlogBO()
             {
+                Id = blog.Id,
                 Heading = blog.Heading,
                 PageTitle = blog.PageTitle,
                 Content = blog.Content,
@@ -83,6 +135,14 @@ namespace ProblemAndSolution.Infrastructure.Services
                 listOfEntity.Add(EntityToBusinessObj(blog));
             }
             return (listOfEntity, result.total, result.totalDisplay);
+        }
+
+        public BlogEO Delete(int id)
+        {
+            var data=_pAndSUnitOfWork.BlogRepository.GetById(id);
+            _pAndSUnitOfWork.BlogRepository.Remove(data);
+            _pAndSUnitOfWork.Save();
+            return data;
         }
 
     }

@@ -1,10 +1,10 @@
-﻿@model CreateBlog
+﻿@model EditBlog
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Edit";
 
 }
 
-@section Styles{
+@section Styles {
     <link href="~/FloraEditorFile/CSS/froala_editor.pkgd.min.css" rel="stylesheet" type="text/css" />
 }
 
@@ -15,7 +15,7 @@
 </div>
 
 <div class="container py-5">
-    <form asp-controller="Blog" asp-action="Add" asp-antiforgery="true" method="post" enctype="multipart/form-data">
+    <form asp-controller="Blog" asp-action="Edit" asp-antiforgery="true" method="post" enctype="multipart/form-data">
 
         <div class="mb-3">
             <label class="form-label">Heading</label>
@@ -37,12 +37,18 @@
             <input type="text" class="form-control" id="shortDescription" asp-for="ShortDescription" />
         </div>
 
-        <div class="mb-3">
-            <label class="form-label">Image Upload</label>
-            <input type="file" id="uploadBox" name="formFile" multiple class="form-control" />
+        <div class="form-group row">
+            <div class="col-4">
+                <label asp-for="formFile" class="control-label">Form File</label>
+            </div>
+            <div class="col-8">
 
-@*             <img src="" id="featuredImageDisplay" style="display:none;width: 300px;" />
- *@        </div>
+                <input type="file" asp-for="formFile" class="form-control" style="border:none;padding: .375rem 0;" />
+                <span asp-validation-for="formFile" class="text-danger"></span>
+                <br />
+
+            </div>
+        </div>
 
         <div class="mb-3">
             <label class="form-label">Published Date</label>
@@ -60,7 +66,14 @@
                 Is Visible?
             </label>
         </div>
-       
+        @if (Model != null && !string.IsNullOrEmpty(Model.Url))
+        {
+
+            <input type="hidden" asp-for="Url" />
+            <img id="itemImage" src="@Model.Url" width="25%" height="30%" style="border-radius:5px; border:1px solid #bbb9b9 " />
+
+        }
+
         <div class="mb-3">
             <button type="submit" class="btn btn-dark">
                 Save

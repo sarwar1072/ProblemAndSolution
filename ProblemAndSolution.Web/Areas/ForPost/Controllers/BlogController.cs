@@ -55,7 +55,59 @@ namespace ProblemAndSolution.Web.Areas.ForPost.Controllers
             }
             return View(model);
         }
+        public async Task<IActionResult> Edit(int id)
+        {
+            var model=_lifetimeScope.Resolve<EditBlog>();
+            await model.LoadData(id);
+            return View(model); 
+        }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(EditBlog model)
+        {
+            try
+            {
+                model.ResolveDependency(_lifetimeScope);
+                if(ModelState.IsValid) {
+                    if (model.formFile != null)
+                    {
+                        _fileHelper.DeleteFile(model.Url);
+                        model.Url = _fileHelper.UploadFile(model.formFile);
+                    }
+                    await model.Update();
+                    ViewResponse("Question has been updated", ResponseTypes.Success);
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    ViewResponse("Invalid", ResponseTypes.Warning);
+                }
+            }
+            catch(Exception ex) { 
+              ViewResponse("Failed to update",ResponseTypes.Error);
+                return View(model);
+            }
+            return RedirectToAction(nameof(Index)); 
+        }
+        [HttpPost, ValidateAntiForgeryToken]
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            try
+            {
+                var dataDelete = _lifetimeScope.Resolve<BlogModel>();
+                 dataDelete.Delete(id);
+                ViewResponse("Blog has been deleted", ResponseTypes.Success);
+                return RedirectToAction(nameof(Index)); 
+            }
+            catch(Exception ex)
+            {
+                ViewResponse(ex.Message, ResponseTypes.Error);
+            }
+            return RedirectToAction(nameof(Index)); 
+
+        }
         public IActionResult GetBlog()
         {
             var tableModel = new DataTablesAjaxRequestModel(Request);

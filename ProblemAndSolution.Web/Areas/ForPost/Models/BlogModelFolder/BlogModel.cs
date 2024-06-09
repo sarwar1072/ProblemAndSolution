@@ -47,10 +47,14 @@ namespace ProblemAndSolution.Web.Areas.ForPost.Models.BlogModelFolder
                             record.PublishedDate.ToString(),
                             record.Author,
                             record.Visible.ToString(),
-
                             record.Id.ToString()
                         }).ToArray()
             };
+        }
+        internal string Delete(int id)
+        {
+           var deleteData = _blogServices.Delete(id);
+            return deleteData.PageTitle;
         }
 
     }

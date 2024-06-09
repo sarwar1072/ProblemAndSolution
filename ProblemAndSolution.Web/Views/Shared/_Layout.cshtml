@@ -9,6 +9,9 @@
     <link rel="stylesheet" href="~/ProblemAndSolution.Web.styles.css" asp-append-version="true" />
     <link href="~/admin/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/admin/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+
 
     @await RenderSectionAsync("Styles", required: false)
 </head>
@@ -30,7 +33,7 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="ForPost" asp-controller="Blog" asp-action="Add">Write Blog</a>
+                            <a class="nav-link text-dark" asp-area="ForPost" asp-controller="Blog" asp-action="Index">Write Blog</a>
                         </li>
                     </ul>
                     <partial name="_LoginPartial" />

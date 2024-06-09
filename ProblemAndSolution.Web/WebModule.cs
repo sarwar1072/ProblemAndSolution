@@ -43,7 +43,7 @@ namespace ProblemAndSolution.Web
             builder.RegisterType<BlogModel>().AsSelf().InstancePerLifetimeScope();
             builder.RegisterType<CreateBlog>().AsSelf().InstancePerLifetimeScope();
             builder.RegisterType<FileHelper>().As<IFileHelper>().InstancePerLifetimeScope();
-
+            builder.RegisterType<EditBlog>().AsSelf().InstancePerLifetimeScope();
             base.Load(builder);
         }
     }

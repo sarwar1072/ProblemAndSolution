@@ -105,7 +105,7 @@ namespace ProblemAndSolution.Web.Areas.ForPost.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Failed to delete Question");
+                _logger.LogError(ex, "Failed to delete Question");      
                 ViewResponse(ex.Message, ResponseTypes.Error);
             }
             return RedirectToAction(nameof(Index));
