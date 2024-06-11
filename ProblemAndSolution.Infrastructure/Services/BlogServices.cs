@@ -136,6 +136,16 @@ namespace ProblemAndSolution.Infrastructure.Services
             }
             return (listOfEntity, result.total, result.totalDisplay);
         }
+        public IEnumerable<BlogBO> GetAllBlog()
+        {
+            var listOfBlog = _pAndSUnitOfWork.BlogRepository.GetAll();
+            var list=new List<BlogBO>();    
+            foreach (var item in listOfBlog)
+            {
+                list.Add(EntityToBusinessObj(item));    
+            }
+            return list;
+        }
 
         public BlogEO Delete(int id)
         {

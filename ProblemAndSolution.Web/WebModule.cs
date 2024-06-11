@@ -40,6 +40,7 @@ namespace ProblemAndSolution.Web
             builder.RegisterType<AnswerCreateModel>()
                 .AsSelf()
                 .InstancePerLifetimeScope();
+            builder.RegisterType<BlogViewModel>().AsSelf().InstancePerLifetimeScope();
             builder.RegisterType<BlogModel>().AsSelf().InstancePerLifetimeScope();
             builder.RegisterType<CreateBlog>().AsSelf().InstancePerLifetimeScope();
             builder.RegisterType<FileHelper>().As<IFileHelper>().InstancePerLifetimeScope();

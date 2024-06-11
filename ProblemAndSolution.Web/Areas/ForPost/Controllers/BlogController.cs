@@ -39,7 +39,7 @@ namespace ProblemAndSolution.Web.Areas.ForPost.Controllers
                 try
                 {
                     model.Url = _fileHelper.UploadFile(model.formFile);
-                   await model.AddBlog();
+                    await model.AddBlog();
                     ViewResponse("Success", ResponseTypes.Success);
                    return RedirectToAction(nameof(Index));
                 }

@@ -12,9 +12,11 @@ namespace ProblemAndSolution.Web.Controllers
         private readonly ILifetimeScope _lifetimeScope;
         private IQuestionServices _qusetionService;
         private IAnswerServices _answerService;
-        public HomeController(ILogger<HomeController> logger, ILifetimeScope lifetimeScope,
+        private IBlogServices _blogServices;
+        public HomeController(ILogger<HomeController> logger, ILifetimeScope lifetimeScope,IBlogServices blogServices,
             IQuestionServices questionServices,IAnswerServices answerServices)
         {
+            _blogServices = blogServices;   
             _answerService=answerServices;  
             _qusetionService=questionServices;  
             _logger = logger;
@@ -43,6 +45,24 @@ namespace ProblemAndSolution.Web.Controllers
                 }
             }
             return BadRequest();
+        }
+        public IActionResult BlogList()
+        {
+            try
+            {
+                var model = _lifetimeScope.Resolve<BlogViewModel>();
+                // Assuming you have a mapping profile set up
+
+                var blogs = new BlogViewModel()
+                {
+                    blogBOs = _blogServices.GetAllBlog()
+                };
+                return View(blogs);
+            }
+            catch (Exception ex) {
+                ViewBag.Message = "Error";
+            }
+            return View();
         }
         public IActionResult Privacy()
         {

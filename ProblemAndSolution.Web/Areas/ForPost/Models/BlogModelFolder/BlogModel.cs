@@ -41,7 +41,7 @@ namespace ProblemAndSolution.Web.Areas.ForPost.Models.BlogModelFolder
                         {
                             record.Heading,
                             record.PageTitle,
-                            record.Content,
+                            //record.Content,
                             record.ShortDescription,
                             record.ImageUrl,
                             record.PublishedDate.ToString(),
