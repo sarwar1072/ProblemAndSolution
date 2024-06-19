@@ -14,7 +14,7 @@ namespace ProblemAndSolution.Infrastructure.Services
         Task EditBlog(BlogBO blogBO);
         BlogEO Delete(int id);
         Task<BlogBO> GetById(int id);
-        IEnumerable<BlogBO> GetAllBlog();
+        IList<BlogBO> GetAllBlog();
         (IList<BlogBO> blogs, int total, int totalDisplay) GetBlog(int pageindex, int pagesize,
                                                                              string searchText, string orderBy);
     }

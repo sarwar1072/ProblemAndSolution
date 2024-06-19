@@ -28,9 +28,9 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-6">
-            @if (Model != null && Model.blogBOs.Any())
+            @if (Model != null && Model.blog.Any())
             {
-                foreach (var blogPost in Model.blogBOs)
+                foreach (var blogPost in Model.blog)
                 {
                     <div class="mb-5 bg-light box-shadow p-5">
                         <img src="@blogPost.ImageUrl" alt="@blogPost.Heading"
@@ -48,6 +48,22 @@
                             }
                         </p> *@
                         <p class="mb-4">@blogPost.ShortDescription</p>
+                       
+                       @*  <div class="mb-4 blog-details-content">
+                            <p>
+                                @if (blogPost.Content.Length < 100)
+                                {
+                                    @Html.Raw(blogPost.Content)
+                                }
+                                else
+                                {
+                                                                     @Html.Raw(blogPost.Content)
+                                                    @Html.Raw(blogPost.Content.Substring(0, 100))
+                                }
+
+                            </p>
+                            
+                        </div> *@
                         @* <a class="btn btn-dark"
                            asp-area=" *@@* 
                            asp-controller="Blogs"

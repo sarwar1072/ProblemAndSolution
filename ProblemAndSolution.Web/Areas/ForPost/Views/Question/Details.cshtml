@@ -98,7 +98,6 @@
                                         }
                                     }
                                     <div class="mycomment">
-
                                         @{
                                             var cmntId = "CmntInput" + @answer.Id;
                                             <input type="text" placeholder="add a comment" class="comText form-control" id="@cmntId" />
@@ -167,7 +166,6 @@
         }
     </script>
     <script>
-
         function Cmnt(commId) {
 
             var commentVal = $('#CmntInput' + commId).val();
@@ -175,9 +173,7 @@
                 alert("Comment value can not be null");
                 return false;
             }
-
             var quesId = $(".getQuesId").val();
-
             LoadQuestion(commentVal, commId, quesId);
         }
         function LoadQuestion(commentVal, answerId, quesId) {

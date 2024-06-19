@@ -136,7 +136,7 @@ namespace ProblemAndSolution.Infrastructure.Services
             }
             return (listOfEntity, result.total, result.totalDisplay);
         }
-        public IEnumerable<BlogBO> GetAllBlog()
+        public IList<BlogBO> GetAllBlog()
         {
             var listOfBlog = _pAndSUnitOfWork.BlogRepository.GetAll();
             var list=new List<BlogBO>();    

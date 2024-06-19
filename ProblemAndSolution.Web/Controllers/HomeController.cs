@@ -52,22 +52,19 @@ namespace ProblemAndSolution.Web.Controllers
             {
                 var model = _lifetimeScope.Resolve<BlogViewModel>();
                 // Assuming you have a mapping profile set up
-
-                var blogs = new BlogViewModel()
-                {
-                    blogBOs = _blogServices.GetAllBlog()
-                };
-                return View(blogs);
+                model.GetBlog();
+                //var blogs = new BlogViewModel()
+                //{
+                //    blogBOs = _blogServices.GetAllBlog()
+                //};
+                return View(model);
             }
             catch (Exception ex) {
                 ViewBag.Message = "Error";
             }
             return View();
         }
-        public IActionResult Privacy()
-        {
-            return View();
-        }
+        
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
