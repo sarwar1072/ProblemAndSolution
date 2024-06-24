@@ -226,11 +226,18 @@ namespace ProblemAndSolution.Infrastructure.Services
             await _AndSUnitOfWork.QuestionRepository.RemoveAsync(entity);
             await _AndSUnitOfWork.SaveAsync();
         }
+        
+
+        public void GetTest(int pageIndex)
+        {
+            var get = _AndSUnitOfWork.QuestionRepository.GetDynamic(null, "Title desc", 
+                x => x.Include(y => y.Tags).Include(z => z.Answers), pageIndex, 10);
+        }
         public async Task<List<Question>> GetQuestionsAsync(Guid id)
         {
             var questions = new List<Question>();
 
-            var entity = (await _AndSUnitOfWork.QuestionRepository.GetAsync(a => a.ApplicationUserId == id, 
+            var entity = (await _AndSUnitOfWork.QuestionRepository.GetAsync(a => a.ApplicationUserId == id,
                 b => b.Include(c => c.Tags)
                .Include(d => d.Answers))).ToList();
 
@@ -238,15 +245,8 @@ namespace ProblemAndSolution.Infrastructure.Services
             {
                 questions.Add(MappToBusiness(item));
             }
-            return questions;   
+            return questions;
         }
-
-        public void GetTest(int pageIndex)
-        {
-            var get = _AndSUnitOfWork.QuestionRepository.GetDynamic(null, "Title desc", 
-                x => x.Include(y => y.Tags).Include(z => z.Answers), pageIndex, 10);
-        }
-
         public async Task<Question> GetDetails(int id)
         {
             if (id is 0)

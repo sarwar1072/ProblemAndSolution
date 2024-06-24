@@ -1,14 +1,15 @@
 ﻿using ProblemAndSolution.Infrastructure.Services;
 using ProblemAndSolution.Infrastructure.BusinessObj;
+using Autofac;
+using AutoMapper;
+using ProblemAndSolution.Membership.Services;
+using ProblemAndSolution.Membership.BusinessObj;
 namespace ProblemAndSolution.Web.Models
 {
-    public class BlogViewModel
+    public class BlogViewModel:BaseModel
     {
         private IBlogServices _BlogServices;
-        public BlogViewModel(IBlogServices blogServices)
-        {
-            _BlogServices = blogServices;
-        }
+        
         public int Id { get; set; }
         public string Heading { get; set; }
         public string PageTitle { get; set; }
@@ -18,7 +19,64 @@ namespace ProblemAndSolution.Web.Models
         public DateTime PublishedDate { get; set; }
         public string Author { get; set; }
         public bool Visible { get; set; }
-       public IList<Blog>? blog { get; set; }
+        public string CommentDescription { get; set; }
+
+        public ApplicationUser? User { get; set; }
+        public Guid UserId { get; set; }
+        public IList<Blog>? blog { get; set; }
+        public IList<BlogComment>? comments { get; set; }
+
+        public BlogViewModel(IUserManagerAdapter<ApplicationUser> userManagerAdapter, IHttpContextAccessor contextAccessor,
+           IMapper mapper, IBlogServices blogServices)
+        {
+            _BlogServices = blogServices;
+        }
+        public BlogViewModel()
+        {
+
+        }
+        public virtual void ResolveDependency(ILifetimeScope lifetimeScope)
+        {
+            _lifetimeScope = lifetimeScope;
+            _BlogServices = _lifetimeScope.Resolve<IBlogServices>();
+
+            base.ResolveDependency(_lifetimeScope);
+        }
+
+
+        internal async Task GetDetailsById(int id)
+        {
+            var blogDatails= await _BlogServices.GetDetailsById(id);
+
+            if(blogDatails != null) 
+            {
+                Heading = blogDatails.Heading;
+                PageTitle = blogDatails.PageTitle;  
+                Content = blogDatails.Content;  
+                ShortDescription = blogDatails.ShortDescription;    
+                ImageUrl = blogDatails.ImageUrl;
+                PublishedDate = blogDatails.PublishedDate;
+                Author=blogDatails.Author;  
+                Visible= blogDatails.Visible;  
+                comments=new List<BlogComment>();
+                if (blogDatails.Comments != null)
+                {
+                    foreach (var item in blogDatails.Comments)
+                    {
+                        comments.Add(new BlogComment
+                        {
+                            Id = item.Id,   
+                            Description = item.Description, 
+                            UserId = item.UserId,   
+                            Author = item.Author,   
+                            DateAdded = item.DateAdded,
+                            BlogId = item.BlogId,   
+                        });
+                    }
+                }
+            }
+        }
+
         internal void GetBlog()
         {
             var blogs = _BlogServices.GetAllBlog();

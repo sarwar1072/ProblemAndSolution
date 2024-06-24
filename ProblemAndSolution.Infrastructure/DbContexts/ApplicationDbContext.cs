@@ -58,5 +58,6 @@ namespace ProblemAndSolution.Infrastructure.DbContexts
         public DbSet<Tag>? Tags { get; set; }
         public DbSet<Vote> Votes { get; set; }
         public DbSet<Blog> Blogs { get; set; }
+        public DbSet<BlogComment>? BlogsComment { get; set; }    
     }
 }

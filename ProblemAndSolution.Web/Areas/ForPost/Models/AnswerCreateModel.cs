@@ -46,14 +46,12 @@ namespace ProblemAndSolution.Web.Areas.ForPost.Models
         internal async Task AnswerAsync(string answerText,int questId)
         {
             await GetUserInfoAsync();
-
             var answer = new Answer
             {
                 QuestionId=questId,
                 Description= answerText,    
                 AuthorName=basicInfo.FirstName,
                 TempId=basicInfo.Id,
-
             };
             await _answerServices.CreateAnswerAsync(answer);
         }

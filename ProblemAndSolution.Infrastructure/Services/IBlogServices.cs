@@ -15,6 +15,7 @@ namespace ProblemAndSolution.Infrastructure.Services
         BlogEO Delete(int id);
         Task<BlogBO> GetById(int id);
         IList<BlogBO> GetAllBlog();
+        Task<BlogBO> GetDetailsById(int id);
         (IList<BlogBO> blogs, int total, int totalDisplay) GetBlog(int pageindex, int pagesize,
                                                                              string searchText, string orderBy);
     }

@@ -69,9 +69,15 @@
                            asp-controller="Blogs"
                            asp-action="Index"
                            asp-route-urlHandle="@blogPost.UrlHandle">Read More</a> *@
+                        <div>
+                            <a asp-action="Details" class="btn btn-primary form-control" asp-route-Id="@blogPost.Id">Details</a>
+                        </div>
                     </div>
+                    
                 }
             }
+            
         </div>
+       
     </div>
 </div>

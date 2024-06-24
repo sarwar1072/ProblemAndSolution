@@ -64,6 +64,23 @@ namespace ProblemAndSolution.Web.Controllers
             }
             return View();
         }
+
+        public async Task<IActionResult> Details(int id)
+        {
+            try
+            {
+                var model = _lifetimeScope.Resolve<BlogViewModel>();
+                await model.GetDetailsById(id);
+                return View(model); 
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Message="Error";    
+            }
+            return View();  
+        }
+
+
         
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

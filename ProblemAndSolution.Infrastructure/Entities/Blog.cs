@@ -21,6 +21,6 @@ namespace ProblemAndSolution.Infrastructure.Entities
         // Navigation property
        // public ICollection<Tag> Tags { get; set; }
         //public ICollection<BlogPostLike> Likes { get; set; }
-        //public ICollection<BlogPostComment> Comments { get; set; }
+        public IList<BlogComment> Comments { get; set; }
     }
 }

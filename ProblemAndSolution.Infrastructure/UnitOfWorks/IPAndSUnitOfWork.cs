@@ -14,6 +14,8 @@ namespace ProblemAndSolution.Infrastructure.UnitOfWorks
          IAnswerRepository AnswerRepository { get;   }
          ICommentRepository CommentRepository { get;   }
          IVoteRepository VoteRepository { get; }
-        IBlogRepository BlogRepository { get; } 
+        IBlogRepository BlogRepository { get; }
+         IBlogCommentRepository BlogCommentRepository { get; }
+
     }
 }

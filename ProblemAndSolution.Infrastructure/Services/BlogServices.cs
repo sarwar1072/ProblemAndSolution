@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualBasic;
 using MimeKit;
+using ProblemAndSolution.Infrastructure.BusinessObj;
 using ProblemAndSolution.Infrastructure.Exceptions;
 using ProblemAndSolution.Infrastructure.UnitOfWorks;
 using Serilog.Context;
@@ -145,6 +147,45 @@ namespace ProblemAndSolution.Infrastructure.Services
                 list.Add(EntityToBusinessObj(item));    
             }
             return list;
+        }
+        private BlogBO EntityToBusinessObj2(BlogEO entity)
+        {
+            var result = new BlogBO()
+            {
+                Heading = entity.Heading,   
+                PageTitle = entity.PageTitle,   
+                Content = entity.Content,   
+                ShortDescription = entity.ShortDescription, 
+                ImageUrl = entity.ImageUrl, 
+                PublishedDate = entity.PublishedDate,   
+                Author=entity.Author,   
+                Visible = entity.Visible,   
+            };
+            result.Comments = new List<BlogComment>();
+            if(entity.Comments != null) { 
+                foreach (var comment in entity.Comments)
+                {
+                    result.Comments.Add(new BlogComment()
+                    {
+                        Description = comment.Description,  
+                        UserId = comment.UserId,
+                        Author=comment.Author,
+                        DateAdded = comment.DateAdded,  
+                        BlogId = comment.BlogId,
+                    });
+                }
+            }
+            return result;  
+        }
+
+        public async Task<BlogBO> GetDetailsById(int id)
+        {
+            var entity =(await  _pAndSUnitOfWork.BlogRepository.GetAsync(c=>c.Id==id,d=>d.Include(e=>e.Comments))).FirstOrDefault();
+
+            if (entity == null)
+                throw new InvalidOperationException("Data not found");
+
+            return EntityToBusinessObj2(entity);
         }
 
         public BlogEO Delete(int id)

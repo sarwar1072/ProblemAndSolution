@@ -16,18 +16,21 @@ namespace ProblemAndSolution.Infrastructure.UnitOfWorks
         public ICommentRepository CommentRepository { get; private set; }
         public IVoteRepository VoteRepository { get; private set; }
         public IBlogRepository BlogRepository { get; private set; }
+        public IBlogCommentRepository BlogCommentRepository { get; private set; }
         public PAndSUnitOfWork(ApplicationDbContext dbContext, 
             IQuestionRepository questionRepository,
             IAnswerRepository answerRepository,
             ICommentRepository commentRepository,
             IVoteRepository voteRepository,
-            IBlogRepository blogRepository) : base(dbContext)
+            IBlogRepository blogRepository,
+            IBlogCommentRepository blogCommentRepository) : base(dbContext)
         {
             QuestionRepository = questionRepository;
             AnswerRepository = answerRepository;
             CommentRepository = commentRepository;
             VoteRepository = voteRepository;
-            BlogRepository = blogRepository;    
+            BlogRepository = blogRepository; 
+            BlogCommentRepository = blogCommentRepository;  
         }
     }
 }

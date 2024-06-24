@@ -12,5 +12,6 @@ namespace ProblemAndSolution.Infrastructure.DbContexts
         DbSet<Comment>? Comments { get; set; }
         DbSet<Tag>? Tags { get; set; }
         DbSet<Vote>? Votes { get; set; }
+        DbSet<BlogComment>? BlogsComment { get; set; }
     }
 }
