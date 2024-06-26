@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using BlogBO = ProblemAndSolution.Infrastructure.BusinessObj.Blog;
 using BlogEO = ProblemAndSolution.Infrastructure.Entities.Blog;
+using BlogCommentBO = ProblemAndSolution.Infrastructure.BusinessObj.BlogComment;
+using BlogCommentEO = ProblemAndSolution.Infrastructure.Entities.BlogComment;
 
 namespace ProblemAndSolution.Infrastructure.Services
 {
@@ -16,6 +18,7 @@ namespace ProblemAndSolution.Infrastructure.Services
         Task<BlogBO> GetById(int id);
         IList<BlogBO> GetAllBlog();
         Task<BlogBO> GetDetailsById(int id);
+        Task AddComment(BlogCommentBO comment);
         (IList<BlogBO> blogs, int total, int totalDisplay) GetBlog(int pageindex, int pagesize,
                                                                              string searchText, string orderBy);
     }

@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProblemAndSolution.Infrastructure.Services;
 using ProblemAndSolution.Web.Models;
@@ -50,6 +51,7 @@ namespace ProblemAndSolution.Web.Controllers
         {
             try
             {
+
                 var model = _lifetimeScope.Resolve<BlogViewModel>();
                 // Assuming you have a mapping profile set up
                 model.GetBlog();
@@ -69,6 +71,7 @@ namespace ProblemAndSolution.Web.Controllers
         {
             try
             {
+
                 var model = _lifetimeScope.Resolve<BlogViewModel>();
                 await model.GetDetailsById(id);
                 return View(model); 
@@ -79,7 +82,25 @@ namespace ProblemAndSolution.Web.Controllers
             }
             return View();  
         }
+        [Authorize(Roles = "User")]
+        [HttpPost]
+        public async Task<IActionResult> Details(BlogViewModel model)
+        {
+            try
+            {
+                model.ResolveDependency(_lifetimeScope);
+                //await model.GetUserInfoAsync();
+                await model.AddComment();
+                return RedirectToAction("Details", "Home");
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Message = "Error";
+            }
 
+            return View();
+
+        }
 
         
 

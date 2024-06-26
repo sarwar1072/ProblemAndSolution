@@ -14,6 +14,9 @@ using System.Text;
 using System.Threading.Tasks;
 using BlogBO = ProblemAndSolution.Infrastructure.BusinessObj.Blog;
 using BlogEO = ProblemAndSolution.Infrastructure.Entities.Blog;
+using BlogCommentBO = ProblemAndSolution.Infrastructure.BusinessObj.BlogComment;
+using BlogCommentEO = ProblemAndSolution.Infrastructure.Entities.BlogComment;
+
 namespace ProblemAndSolution.Infrastructure.Services
 {
     public class BlogServices:IBlogServices
@@ -177,7 +180,23 @@ namespace ProblemAndSolution.Infrastructure.Services
             }
             return result;  
         }
+        public async Task AddComment(BlogCommentBO comment)
+        {
+            if (comment == null)
+                throw new InvalidOperationException("Can not be empty");
 
+            var result = new BlogCommentEO()
+            {
+                Description = comment.Description,
+                UserId = comment.UserId,    
+                Author = comment.Author,    
+                DateAdded = comment.DateAdded,  
+                BlogId = comment.BlogId,    
+            };
+            await _pAndSUnitOfWork.BlogCommentRepository.AddAsync(result);
+            await _pAndSUnitOfWork.SaveAsync(); 
+
+        }  
         public async Task<BlogBO> GetDetailsById(int id)
         {
             var entity =(await  _pAndSUnitOfWork.BlogRepository.GetAsync(c=>c.Id==id,d=>d.Include(e=>e.Comments))).FirstOrDefault();

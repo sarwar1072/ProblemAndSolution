@@ -76,7 +76,20 @@ namespace ProblemAndSolution.Web.Models
                 }
             }
         }
+        internal async Task AddComment()
+        {
+            await GetUserInfoAsync();
+            var model = new BlogComment()
+            {
+                Description=CommentDescription,
+                UserId=basicInfo!.Id,
+                Author=basicInfo!.FirstName,
+                DateAdded=DateTime.UtcNow,
+                BlogId=Id,
+            };
+            await _BlogServices.AddComment(model);
 
+        }
         internal void GetBlog()
         {
             var blogs = _BlogServices.GetAllBlog();
