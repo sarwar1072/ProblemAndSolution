@@ -157,6 +157,27 @@ namespace ProblemAndSolution.Web.Migrations
                     b.ToTable("Comments");
                 });
 
+            modelBuilder.Entity("ProblemAndSolution.Infrastructure.Entities.Like", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<Guid>("ApplicationUserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("BlogId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.ToTable("Likes");
+                });
+
             modelBuilder.Entity("ProblemAndSolution.Infrastructure.Entities.Membership.ApplicationUser", b =>
                 {
                     b.Property<Guid>("Id")
@@ -233,7 +254,7 @@ namespace ProblemAndSolution.Web.Migrations
                         {
                             Id = new Guid("e9b3be8c-99c5-42c7-8f2e-1eb39f6d9125"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8eb7b686-abd4-4f27-b6fc-50652ccdd778",
+                            ConcurrencyStamp = "1a472e8c-1a9e-4b3d-80ab-cbc79dfa432d",
                             Email = "admin@stackOverflow.com",
                             EmailConfirmed = true,
                             FirstName = "Admin",
@@ -241,9 +262,9 @@ namespace ProblemAndSolution.Web.Migrations
                             LockoutEnabled = true,
                             NormalizedEmail = "ADMIN@STACKOVERFLOW.COM",
                             NormalizedUserName = "ADMIN@STACKOVERFLOW.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEP0mpZCrwMdQ3UBSqCdlUCDdjpLtBW8VzWiU5OuTIon0/x3tUiRadT2OPYPZugyiuQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOa3UAwdoGO1WCs0w1T8fP05+DUCjB425ooEjgYIGHoIM0Gi3XB22ojS+HK04DfAMQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "790908c1-2085-46ef-a583-984fb715aef3",
+                            SecurityStamp = "e5b65b2a-9b0d-460b-a602-a175cd217c78",
                             TwoFactorEnabled = false,
                             UserName = "admin@stackOverflow.com"
                         },
@@ -251,7 +272,7 @@ namespace ProblemAndSolution.Web.Migrations
                         {
                             Id = new Guid("8f3d96ce-76ec-4992-911a-33ceb81fa29d"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "10c82955-9286-4773-ad67-165f4bce199e",
+                            ConcurrencyStamp = "a52d7b05-2838-4e35-8c0a-b06b3154cb20",
                             Email = "user@stackOverflow.com",
                             EmailConfirmed = true,
                             FirstName = "Saiful",
@@ -259,9 +280,9 @@ namespace ProblemAndSolution.Web.Migrations
                             LockoutEnabled = true,
                             NormalizedEmail = "USER@STACKOVERFLOW.COM",
                             NormalizedUserName = "USER@STACKOVERFLOW.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEBjrWA3NwishcmRLqPhNWf/XflnNVRMtWWvj3ss7HI//gs7Li0KA+JUOIfb75ZBfPA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEN629yJ1iXssVPi/nOYEsQPB3ZJCAvGGclZnOW66lj2HleaKe1sTS7FH4Jr1DgrfjA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "818c4b44-4433-4bab-91e4-a3a99a21bd10",
+                            SecurityStamp = "b46e8d5a-8a80-4a1f-9e76-44bfd98a19a7",
                             TwoFactorEnabled = false,
                             UserName = "user@stackOverflow.com"
                         });
@@ -298,14 +319,14 @@ namespace ProblemAndSolution.Web.Migrations
                         new
                         {
                             Id = new Guid("2c5e174e-3b0e-446f-86af-483d56fd7210"),
-                            ConcurrencyStamp = "638548513679824247",
+                            ConcurrencyStamp = "638554759192979774",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = new Guid("e943ffbf-65a4-4d42-bb74-f2ca9ea8d22a"),
-                            ConcurrencyStamp = "638548513679824313",
+                            ConcurrencyStamp = "638554759192979796",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -535,6 +556,17 @@ namespace ProblemAndSolution.Web.Migrations
                         .IsRequired();
 
                     b.Navigation("Answer");
+                });
+
+            modelBuilder.Entity("ProblemAndSolution.Infrastructure.Entities.Like", b =>
+                {
+                    b.HasOne("ProblemAndSolution.Infrastructure.Entities.Membership.ApplicationUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApplicationUser");
                 });
 
             modelBuilder.Entity("ProblemAndSolution.Infrastructure.Entities.Membership.RoleClaim", b =>

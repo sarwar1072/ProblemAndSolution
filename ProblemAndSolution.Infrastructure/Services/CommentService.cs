@@ -76,7 +76,6 @@ namespace ProblemAndSolution.Infrastructure.Services
                 _qtnvote = (await _pAndSUnitOfWork.VoteRepository.GetAsync(a => a.QuestionId == QuestionId, null)).Count();
                 return _qtnvote;
             }
-
         }
 
         public async Task<int> GetAnsVote(Guid id ,int AnswerId)

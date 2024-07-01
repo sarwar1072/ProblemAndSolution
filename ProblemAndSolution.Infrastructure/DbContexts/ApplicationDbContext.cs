@@ -59,5 +59,6 @@ namespace ProblemAndSolution.Infrastructure.DbContexts
         public DbSet<Vote> Votes { get; set; }
         public DbSet<Blog> Blogs { get; set; }
         public DbSet<BlogComment>? BlogsComment { get; set; }    
+        public DbSet<Like> Likes { get; set; }   
     }
 }

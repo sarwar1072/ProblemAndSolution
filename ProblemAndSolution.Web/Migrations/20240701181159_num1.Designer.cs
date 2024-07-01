@@ -12,8 +12,8 @@ using ProblemAndSolution.Infrastructure.DbContexts;
 namespace ProblemAndSolution.Web.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240606061901_num2")]
-    partial class num2
+    [Migration("20240701181159_num1")]
+    partial class num1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -94,6 +94,38 @@ namespace ProblemAndSolution.Web.Migrations
                     b.ToTable("Blogs");
                 });
 
+            modelBuilder.Entity("ProblemAndSolution.Infrastructure.Entities.BlogComment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Author")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("BlogId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DateAdded")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BlogId");
+
+                    b.ToTable("BlogsComment");
+                });
+
             modelBuilder.Entity("ProblemAndSolution.Infrastructure.Entities.Comment", b =>
                 {
                     b.Property<int>("Id")
@@ -125,6 +157,27 @@ namespace ProblemAndSolution.Web.Migrations
                     b.HasIndex("AnswerId");
 
                     b.ToTable("Comments");
+                });
+
+            modelBuilder.Entity("ProblemAndSolution.Infrastructure.Entities.Like", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<Guid>("ApplicationUserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("BlogId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.ToTable("Likes");
                 });
 
             modelBuilder.Entity("ProblemAndSolution.Infrastructure.Entities.Membership.ApplicationUser", b =>
@@ -203,7 +256,7 @@ namespace ProblemAndSolution.Web.Migrations
                         {
                             Id = new Guid("e9b3be8c-99c5-42c7-8f2e-1eb39f6d9125"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "4df1abfa-4267-4871-88fa-23a98fa82b57",
+                            ConcurrencyStamp = "1a472e8c-1a9e-4b3d-80ab-cbc79dfa432d",
                             Email = "admin@stackOverflow.com",
                             EmailConfirmed = true,
                             FirstName = "Admin",
@@ -211,9 +264,9 @@ namespace ProblemAndSolution.Web.Migrations
                             LockoutEnabled = true,
                             NormalizedEmail = "ADMIN@STACKOVERFLOW.COM",
                             NormalizedUserName = "ADMIN@STACKOVERFLOW.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEE2ty+kDD7BnLtYz3x9DnQCEOrHHxUZbFvIjZKsW0q2FNPzRr2yog0HV1k1/qrhyhQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOa3UAwdoGO1WCs0w1T8fP05+DUCjB425ooEjgYIGHoIM0Gi3XB22ojS+HK04DfAMQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "35c139ed-e1cf-4033-a975-c62c5c74a614",
+                            SecurityStamp = "e5b65b2a-9b0d-460b-a602-a175cd217c78",
                             TwoFactorEnabled = false,
                             UserName = "admin@stackOverflow.com"
                         },
@@ -221,7 +274,7 @@ namespace ProblemAndSolution.Web.Migrations
                         {
                             Id = new Guid("8f3d96ce-76ec-4992-911a-33ceb81fa29d"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f1b87eb1-eb07-4f42-891b-72439dac90bf",
+                            ConcurrencyStamp = "a52d7b05-2838-4e35-8c0a-b06b3154cb20",
                             Email = "user@stackOverflow.com",
                             EmailConfirmed = true,
                             FirstName = "Saiful",
@@ -229,9 +282,9 @@ namespace ProblemAndSolution.Web.Migrations
                             LockoutEnabled = true,
                             NormalizedEmail = "USER@STACKOVERFLOW.COM",
                             NormalizedUserName = "USER@STACKOVERFLOW.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEAFx1NpfgyELq74LXjjh1CR7FTDlDXCm9Q4L1FBPjTbMTx1shLcaMtnHaJsdWWzpQA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEN629yJ1iXssVPi/nOYEsQPB3ZJCAvGGclZnOW66lj2HleaKe1sTS7FH4Jr1DgrfjA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "32004877-b3b9-49eb-9d61-f4bcd5f2376c",
+                            SecurityStamp = "b46e8d5a-8a80-4a1f-9e76-44bfd98a19a7",
                             TwoFactorEnabled = false,
                             UserName = "user@stackOverflow.com"
                         });
@@ -268,14 +321,14 @@ namespace ProblemAndSolution.Web.Migrations
                         new
                         {
                             Id = new Guid("2c5e174e-3b0e-446f-86af-483d56fd7210"),
-                            ConcurrencyStamp = "638532731416139406",
+                            ConcurrencyStamp = "638554759192979774",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = new Guid("e943ffbf-65a4-4d42-bb74-f2ca9ea8d22a"),
-                            ConcurrencyStamp = "638532731416139425",
+                            ConcurrencyStamp = "638554759192979796",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -485,6 +538,17 @@ namespace ProblemAndSolution.Web.Migrations
                     b.Navigation("Question");
                 });
 
+            modelBuilder.Entity("ProblemAndSolution.Infrastructure.Entities.BlogComment", b =>
+                {
+                    b.HasOne("ProblemAndSolution.Infrastructure.Entities.Blog", "blog")
+                        .WithMany("Comments")
+                        .HasForeignKey("BlogId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("blog");
+                });
+
             modelBuilder.Entity("ProblemAndSolution.Infrastructure.Entities.Comment", b =>
                 {
                     b.HasOne("ProblemAndSolution.Infrastructure.Entities.Answer", "Answer")
@@ -494,6 +558,17 @@ namespace ProblemAndSolution.Web.Migrations
                         .IsRequired();
 
                     b.Navigation("Answer");
+                });
+
+            modelBuilder.Entity("ProblemAndSolution.Infrastructure.Entities.Like", b =>
+                {
+                    b.HasOne("ProblemAndSolution.Infrastructure.Entities.Membership.ApplicationUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApplicationUser");
                 });
 
             modelBuilder.Entity("ProblemAndSolution.Infrastructure.Entities.Membership.RoleClaim", b =>
@@ -581,6 +656,11 @@ namespace ProblemAndSolution.Web.Migrations
                 });
 
             modelBuilder.Entity("ProblemAndSolution.Infrastructure.Entities.Answer", b =>
+                {
+                    b.Navigation("Comments");
+                });
+
+            modelBuilder.Entity("ProblemAndSolution.Infrastructure.Entities.Blog", b =>
                 {
                     b.Navigation("Comments");
                 });

@@ -51,6 +51,26 @@ namespace ProblemAndSolution.Web.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Blogs",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Heading = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PageTitle = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ShortDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PublishedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Author = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Visible = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Blogs", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -157,6 +177,26 @@ namespace ProblemAndSolution.Web.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Likes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ApplicationUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    BlogId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Likes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Likes_AspNetUsers_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Questions",
                 columns: table => new
                 {
@@ -166,7 +206,7 @@ namespace ProblemAndSolution.Web.Migrations
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     AuthorName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     QuestionBody = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsSolvedQstn = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -197,6 +237,29 @@ namespace ProblemAndSolution.Web.Migrations
                         name: "FK_Votes_AspNetUsers_ApplicationUserId",
                         column: x => x.ApplicationUserId,
                         principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "BlogsComment",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Author = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    BlogId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BlogsComment", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_BlogsComment_Blogs_BlogId",
+                        column: x => x.BlogId,
+                        principalTable: "Blogs",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -272,8 +335,8 @@ namespace ProblemAndSolution.Web.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { new Guid("2c5e174e-3b0e-446f-86af-483d56fd7210"), "638252093743764147", "Admin", "ADMIN" },
-                    { new Guid("e943ffbf-65a4-4d42-bb74-f2ca9ea8d22a"), "638252093743764187", "User", "USER" }
+                    { new Guid("2c5e174e-3b0e-446f-86af-483d56fd7210"), "638554759192979774", "Admin", "ADMIN" },
+                    { new Guid("e943ffbf-65a4-4d42-bb74-f2ca9ea8d22a"), "638554759192979796", "User", "USER" }
                 });
 
             migrationBuilder.InsertData(
@@ -281,8 +344,8 @@ namespace ProblemAndSolution.Web.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { new Guid("8f3d96ce-76ec-4992-911a-33ceb81fa29d"), 0, "b0748f07-7afd-4931-ae5f-a3dd39ebfd76", "user@stackOverflow.com", true, "Saiful", "Islam", true, null, "USER@STACKOVERFLOW.COM", "USER@STACKOVERFLOW.COM", "AQAAAAEAACcQAAAAECGxojQuLAXrVlrWhj1ZszdCx1ITHxreY0MngBdg03+7r0vKZKfWz+sZ8Fg0L8fF1Q==", null, false, "0b18027a-6358-4837-9b6c-ca15375b38cd", false, "user@stackOverflow.com" },
-                    { new Guid("e9b3be8c-99c5-42c7-8f2e-1eb39f6d9125"), 0, "e50b6dc6-dd11-4717-a15e-153f22794ae8", "admin@stackOverflow.com", true, "Admin", "", true, null, "ADMIN@STACKOVERFLOW.COM", "ADMIN@STACKOVERFLOW.COM", "AQAAAAEAACcQAAAAEGgQvhpI67IGrpWdzNGp4doKknPRkrq3pabd0GK6n7aS+HXnpIRBDTBfnytGo4EDTQ==", null, false, "fb4769da-9ce8-4c9e-9296-01c553cd8166", false, "admin@stackOverflow.com" }
+                    { new Guid("8f3d96ce-76ec-4992-911a-33ceb81fa29d"), 0, "a52d7b05-2838-4e35-8c0a-b06b3154cb20", "user@stackOverflow.com", true, "Saiful", "Islam", true, null, "USER@STACKOVERFLOW.COM", "USER@STACKOVERFLOW.COM", "AQAAAAEAACcQAAAAEN629yJ1iXssVPi/nOYEsQPB3ZJCAvGGclZnOW66lj2HleaKe1sTS7FH4Jr1DgrfjA==", null, false, "b46e8d5a-8a80-4a1f-9e76-44bfd98a19a7", false, "user@stackOverflow.com" },
+                    { new Guid("e9b3be8c-99c5-42c7-8f2e-1eb39f6d9125"), 0, "1a472e8c-1a9e-4b3d-80ab-cbc79dfa432d", "admin@stackOverflow.com", true, "Admin", "", true, null, "ADMIN@STACKOVERFLOW.COM", "ADMIN@STACKOVERFLOW.COM", "AQAAAAEAACcQAAAAEOa3UAwdoGO1WCs0w1T8fP05+DUCjB425ooEjgYIGHoIM0Gi3XB22ojS+HK04DfAMQ==", null, false, "e5b65b2a-9b0d-460b-a602-a175cd217c78", false, "admin@stackOverflow.com" }
                 });
 
             migrationBuilder.InsertData(
@@ -340,9 +403,19 @@ namespace ProblemAndSolution.Web.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_BlogsComment_BlogId",
+                table: "BlogsComment",
+                column: "BlogId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Comments_AnswerId",
                 table: "Comments",
                 column: "AnswerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Likes_ApplicationUserId",
+                table: "Likes",
+                column: "ApplicationUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Questions_ApplicationUserId",
@@ -378,7 +451,13 @@ namespace ProblemAndSolution.Web.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "BlogsComment");
+
+            migrationBuilder.DropTable(
                 name: "Comments");
+
+            migrationBuilder.DropTable(
+                name: "Likes");
 
             migrationBuilder.DropTable(
                 name: "Tags");
@@ -388,6 +467,9 @@ namespace ProblemAndSolution.Web.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Blogs");
 
             migrationBuilder.DropTable(
                 name: "Answers");

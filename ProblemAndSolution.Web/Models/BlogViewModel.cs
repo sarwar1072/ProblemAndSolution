@@ -20,7 +20,8 @@ namespace ProblemAndSolution.Web.Models
         public string Author { get; set; }
         public bool Visible { get; set; }
         public string CommentDescription { get; set; }
-
+        public int TotalLikes { get; set; }
+        public bool Liked { get; set; }
         public ApplicationUser? User { get; set; }
         public Guid UserId { get; set; }
         public IList<Blog>? blog { get; set; }
@@ -50,6 +51,7 @@ namespace ProblemAndSolution.Web.Models
 
             if(blogDatails != null) 
             {
+                Id = blogDatails.Id;
                 Heading = blogDatails.Heading;
                 PageTitle = blogDatails.PageTitle;  
                 Content = blogDatails.Content;  
@@ -76,6 +78,13 @@ namespace ProblemAndSolution.Web.Models
                 }
             }
         }
+        internal async Task<int> AddLike(int id)
+        {
+            await GetUserInfoAsync();
+            var userid = basicInfo!.Id;
+            return await _BlogServices.GetLikes(userid, id);
+        }
+
         internal async Task AddComment()
         {
             await GetUserInfoAsync();

@@ -16,6 +16,7 @@ using BlogBO = ProblemAndSolution.Infrastructure.BusinessObj.Blog;
 using BlogEO = ProblemAndSolution.Infrastructure.Entities.Blog;
 using BlogCommentBO = ProblemAndSolution.Infrastructure.BusinessObj.BlogComment;
 using BlogCommentEO = ProblemAndSolution.Infrastructure.Entities.BlogComment;
+using LikeEO = ProblemAndSolution.Infrastructure.Entities.Like;
 
 namespace ProblemAndSolution.Infrastructure.Services
 {
@@ -23,6 +24,7 @@ namespace ProblemAndSolution.Infrastructure.Services
     {
         private IPAndSUnitOfWork _pAndSUnitOfWork;
         private readonly IMapper _mapper;
+        private int _likeCount = 0;
         public BlogServices(IPAndSUnitOfWork pAndSUnitOfWork,IMapper mapper)
         {
             _mapper = mapper;
@@ -206,7 +208,22 @@ namespace ProblemAndSolution.Infrastructure.Services
 
             return EntityToBusinessObj2(entity);
         }
-
+        public async Task<int> GetLikes(Guid Userid,int BlogId)
+        {
+            var like = new LikeEO
+            {
+                ApplicationUserId = Userid,
+                BlogId=BlogId
+            };
+            var count=(await _pAndSUnitOfWork.LikeRepository.GetCountAsync(a=>a.ApplicationUserId==Userid &&
+            a.BlogId==BlogId));
+            if (count == 0)
+            {
+                await _pAndSUnitOfWork.LikeRepository.AddAsync(like);
+                await _pAndSUnitOfWork.SaveAsync(); 
+            }
+            return _likeCount;
+        }
         public BlogEO Delete(int id)
         {
             var data=_pAndSUnitOfWork.BlogRepository.GetById(id);

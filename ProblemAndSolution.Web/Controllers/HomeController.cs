@@ -101,6 +101,14 @@ namespace ProblemAndSolution.Web.Controllers
             return View();
 
         }
+        [Authorize(Roles="User")]
+        [HttpPost]
+        public async Task<IActionResult> AddLike(int quesId)
+        {
+            var model=_lifetimeScope.Resolve<BlogViewModel>();
+            await model.AddLike(quesId);  
+            return Ok(model);
+        }
 
         
 

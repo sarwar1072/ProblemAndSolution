@@ -51,6 +51,8 @@ namespace ProblemAndSolution.Infrastructure
                 .InstancePerLifetimeScope();
             builder.RegisterType<BlogCommentRepository>().As<IBlogCommentRepository>().InstancePerLifetimeScope();
 
+            builder.RegisterType<LikeRepository>().As<ILikeRepository>().InstancePerLifetimeScope();
+
             builder.RegisterType<VoteRepository>().As<IVoteRepository>()
                 .InstancePerLifetimeScope();
             builder.RegisterType<BlogRepository>().As<IBlogRepository>().InstancePerLifetimeScope();
