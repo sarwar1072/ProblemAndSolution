@@ -19,11 +19,11 @@ namespace ProblemAndSolution.Web.Models
         public DateTime PublishedDate { get; set; }
         public string Author { get; set; }
         public bool Visible { get; set; }
-        public string CommentDescription { get; set; }
-        public int TotalLikes { get; set; }
+        public string? CommentDescription { get; set; }
+        public int? TotalLikes { get; set; }
         public bool Liked { get; set; }
         public ApplicationUser? User { get; set; }
-        public Guid UserId { get; set; }
+        public Guid? UserId { get; set; }
         public IList<Blog>? blog { get; set; }
         public IList<BlogComment>? comments { get; set; }
 
@@ -47,7 +47,17 @@ namespace ProblemAndSolution.Web.Models
 
         internal async Task GetDetailsById(int id)
         {
-            var blogDatails= await _BlogServices.GetDetailsById(id);
+            var blogDatails = await _BlogServices.GetDetailsById(id);
+
+            var totallike=await _BlogServices.TotalLikeForBlog(id);
+            var IsLiked = false;
+            if ( await Userid())
+            {
+                await GetUserInfoAsync();
+                var userid = basicInfo!.Id;
+                 IsLiked = await _BlogServices.IsTrueOrFalse(id, userid);
+            }
+            
 
             if(blogDatails != null) 
             {
@@ -59,7 +69,9 @@ namespace ProblemAndSolution.Web.Models
                 ImageUrl = blogDatails.ImageUrl;
                 PublishedDate = blogDatails.PublishedDate;
                 Author=blogDatails.Author;  
-                Visible= blogDatails.Visible;  
+                Visible= blogDatails.Visible;
+                TotalLikes = totallike;
+                Liked = IsLiked;
                 comments=new List<BlogComment>();
                 if (blogDatails.Comments != null)
                 {
@@ -81,6 +93,7 @@ namespace ProblemAndSolution.Web.Models
         internal async Task<int> AddLike(int id)
         {
             await GetUserInfoAsync();
+
             var userid = basicInfo!.Id;
             return await _BlogServices.GetLikes(userid, id);
         }

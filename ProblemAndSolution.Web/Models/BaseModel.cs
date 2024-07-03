@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using ProblemAndSolution.Membership.BusinessObj;
 using ProblemAndSolution.Membership.DTOS;
 using ProblemAndSolution.Membership.Services;
@@ -31,12 +32,21 @@ namespace ProblemAndSolution.Web.Models
             _contextAccessor = _lifetimeScope.Resolve<IHttpContextAccessor>();
             _mapper = _lifetimeScope.Resolve<IMapper>();
         }
+        public  async virtual Task<bool> Userid(){
+            var userName = _contextAccessor!.HttpContext!.User!.Identity!.Name;
+            //var userInfo = await _userManagerAdapter!.FindByUsernameAsync(userName!);
+            if(userName == null)
+            {
+                return false;
+            }        
+            return true;        
+        }
         public async virtual Task GetUserInfoAsync()
         {
             var userName = _contextAccessor!.HttpContext!.User!.Identity!.Name;
             var userInfo = await _userManagerAdapter!.FindByUsernameAsync(userName!);
             basicInfo = new UserBasicInfo();
-            _mapper!.Map(userInfo, basicInfo);
+           _mapper!.Map(userInfo, basicInfo);                  
         } 
 
     }

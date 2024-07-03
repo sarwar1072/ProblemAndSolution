@@ -73,6 +73,8 @@ namespace ProblemAndSolution.Web.Controllers
             {
 
                 var model = _lifetimeScope.Resolve<BlogViewModel>();
+                model.ResolveDependency(_lifetimeScope);
+
                 await model.GetDetailsById(id);
                 return View(model); 
             }
@@ -105,7 +107,11 @@ namespace ProblemAndSolution.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> AddLike(int quesId)
         {
-            var model=_lifetimeScope.Resolve<BlogViewModel>();
+
+            var model =_lifetimeScope.Resolve<BlogViewModel>();
+            model.ResolveDependency(_lifetimeScope);
+           // await model.GetUserInfoAsync();
+
             await model.AddLike(quesId);  
             return Ok(model);
         }

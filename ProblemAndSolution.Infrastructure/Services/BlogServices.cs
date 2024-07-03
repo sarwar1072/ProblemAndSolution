@@ -157,6 +157,7 @@ namespace ProblemAndSolution.Infrastructure.Services
         {
             var result = new BlogBO()
             {
+                Id = entity.Id,
                 Heading = entity.Heading,   
                 PageTitle = entity.PageTitle,   
                 Content = entity.Content,   
@@ -203,10 +204,25 @@ namespace ProblemAndSolution.Infrastructure.Services
         {
             var entity =(await  _pAndSUnitOfWork.BlogRepository.GetAsync(c=>c.Id==id,d=>d.Include(e=>e.Comments))).FirstOrDefault();
 
+            _likeCount=await _pAndSUnitOfWork.LikeRepository.GetCountAsync(c=>c.BlogId == id);  
+
             if (entity == null)
                 throw new InvalidOperationException("Data not found");
 
             return EntityToBusinessObj2(entity);
+        }
+        public async Task<bool> IsTrueOrFalse(int id,Guid userId)
+        {
+            var isTrue=await _pAndSUnitOfWork.LikeRepository.GetCountAsync(c=>c.BlogId==id && c.ApplicationUserId==userId);
+            if (isTrue > 0)
+            {
+                return true;    
+            }
+            return false;
+        }
+        public async Task<int> TotalLikeForBlog(int id)
+        {
+            return await _pAndSUnitOfWork.LikeRepository.GetCountAsync(c=>c.BlogId == id);
         }
         public async Task<int> GetLikes(Guid Userid,int BlogId)
         {

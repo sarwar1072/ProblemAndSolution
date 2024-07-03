@@ -20,6 +20,8 @@ namespace ProblemAndSolution.Infrastructure.Services
         Task<BlogBO> GetDetailsById(int id);
         Task AddComment(BlogCommentBO comment);
         Task<int> GetLikes(Guid Userid, int BlogId);
+        Task<int> TotalLikeForBlog(int id);
+        Task<bool> IsTrueOrFalse(int id, Guid userId);
         (IList<BlogBO> blogs, int total, int totalDisplay) GetBlog(int pageindex, int pagesize,
                                                                              string searchText, string orderBy);
     }

@@ -20,7 +20,7 @@ namespace ProblemAndSolution.Infrastructure.Entities
         public bool Visible { get; set; }
         // Navigation property
        // public ICollection<Tag> Tags { get; set; }
-        //public ICollection<BlogPostLike> Likes { get; set; }
+        public IList<Like> Likes { get; set; }
         public IList<BlogComment> Comments { get; set; }
     }
 }
