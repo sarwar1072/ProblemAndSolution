@@ -77,7 +77,7 @@ namespace ProblemAndSolution.Infrastructure.Services
                 return _qtnvote;
             }
         }
-
+        
         public async Task<int> GetAnsVote(Guid id ,int AnswerId)
         {
             var ans = new VoteEO

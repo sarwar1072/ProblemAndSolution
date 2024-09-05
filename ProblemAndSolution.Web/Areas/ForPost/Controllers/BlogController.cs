@@ -50,6 +50,7 @@ namespace ProblemAndSolution.Web.Areas.ForPost.Controllers
                 //}
                 catch (Exception ex)
                 {
+                    _logger.LogError($"{ex.Message}");
                     ViewResponse("Failure", ResponseTypes.Error);
                 }
             }
@@ -81,10 +82,12 @@ namespace ProblemAndSolution.Web.Areas.ForPost.Controllers
                 }
                 else
                 {
+                    _logger.LogError("Failed to edit");
                     ViewResponse("Invalid", ResponseTypes.Warning);
                 }
             }
-            catch(Exception ex) { 
+            catch(Exception ex) {
+                _logger.LogError($"{ex.Message}");
               ViewResponse("Failed to update",ResponseTypes.Error);
                 return View(model);
             }
@@ -103,6 +106,7 @@ namespace ProblemAndSolution.Web.Areas.ForPost.Controllers
             }
             catch(Exception ex)
             {
+                _logger.LogError($"{ex.Message}");
                 ViewResponse(ex.Message, ResponseTypes.Error);
             }
             return RedirectToAction(nameof(Index)); 

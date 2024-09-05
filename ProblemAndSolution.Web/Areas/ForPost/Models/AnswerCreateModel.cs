@@ -40,6 +40,7 @@ namespace ProblemAndSolution.Web.Areas.ForPost.Models
         {
             _lifetimeScope = lifetimeScope;
             _answerServices = _lifetimeScope.Resolve<IAnswerServices>();
+            _commentService= _lifetimeScope.Resolve<ICommentService>(); 
 
             base.ResolveDependency(_lifetimeScope);
         }

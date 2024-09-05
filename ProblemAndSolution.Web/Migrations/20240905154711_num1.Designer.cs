@@ -12,7 +12,7 @@ using ProblemAndSolution.Infrastructure.DbContexts;
 namespace ProblemAndSolution.Web.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240701181159_num1")]
+    [Migration("20240905154711_num1")]
     partial class num1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -177,6 +177,8 @@ namespace ProblemAndSolution.Web.Migrations
 
                     b.HasIndex("ApplicationUserId");
 
+                    b.HasIndex("BlogId");
+
                     b.ToTable("Likes");
                 });
 
@@ -256,7 +258,7 @@ namespace ProblemAndSolution.Web.Migrations
                         {
                             Id = new Guid("e9b3be8c-99c5-42c7-8f2e-1eb39f6d9125"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "1a472e8c-1a9e-4b3d-80ab-cbc79dfa432d",
+                            ConcurrencyStamp = "bbfa3b77-41b2-4881-97a0-e2b1eb567c18",
                             Email = "admin@stackOverflow.com",
                             EmailConfirmed = true,
                             FirstName = "Admin",
@@ -264,9 +266,9 @@ namespace ProblemAndSolution.Web.Migrations
                             LockoutEnabled = true,
                             NormalizedEmail = "ADMIN@STACKOVERFLOW.COM",
                             NormalizedUserName = "ADMIN@STACKOVERFLOW.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEOa3UAwdoGO1WCs0w1T8fP05+DUCjB425ooEjgYIGHoIM0Gi3XB22ojS+HK04DfAMQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEFJwhQYyBfP/uP40JVE198G9PnY/cPMyXE6ZNv8audBQ7/4U96KjpsUYEjjJ0AmK7w==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "e5b65b2a-9b0d-460b-a602-a175cd217c78",
+                            SecurityStamp = "ef512d11-5409-436a-bf70-28fa6e9e7664",
                             TwoFactorEnabled = false,
                             UserName = "admin@stackOverflow.com"
                         },
@@ -274,7 +276,7 @@ namespace ProblemAndSolution.Web.Migrations
                         {
                             Id = new Guid("8f3d96ce-76ec-4992-911a-33ceb81fa29d"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "a52d7b05-2838-4e35-8c0a-b06b3154cb20",
+                            ConcurrencyStamp = "ffa229a0-5fe6-4b98-9327-c940cc6a1693",
                             Email = "user@stackOverflow.com",
                             EmailConfirmed = true,
                             FirstName = "Saiful",
@@ -282,9 +284,9 @@ namespace ProblemAndSolution.Web.Migrations
                             LockoutEnabled = true,
                             NormalizedEmail = "USER@STACKOVERFLOW.COM",
                             NormalizedUserName = "USER@STACKOVERFLOW.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEN629yJ1iXssVPi/nOYEsQPB3ZJCAvGGclZnOW66lj2HleaKe1sTS7FH4Jr1DgrfjA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEI+Ew0QCJbYHoq61uqN8a4rxu0x7qBbpSi81FL69f41bBKCc3ELVlrm+z3y91NSCDg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "b46e8d5a-8a80-4a1f-9e76-44bfd98a19a7",
+                            SecurityStamp = "179dcbf3-4136-4e2d-8df7-50aba91ecc8c",
                             TwoFactorEnabled = false,
                             UserName = "user@stackOverflow.com"
                         });
@@ -321,14 +323,14 @@ namespace ProblemAndSolution.Web.Migrations
                         new
                         {
                             Id = new Guid("2c5e174e-3b0e-446f-86af-483d56fd7210"),
-                            ConcurrencyStamp = "638554759192979774",
+                            ConcurrencyStamp = "638611696312127878",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = new Guid("e943ffbf-65a4-4d42-bb74-f2ca9ea8d22a"),
-                            ConcurrencyStamp = "638554759192979796",
+                            ConcurrencyStamp = "638611696312127902",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -503,6 +505,31 @@ namespace ProblemAndSolution.Web.Migrations
                     b.ToTable("Tags");
                 });
 
+            modelBuilder.Entity("ProblemAndSolution.Infrastructure.Entities.UserProfile", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<Guid>("ApplicationUserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Profession")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProfileURL")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId")
+                        .IsUnique();
+
+                    b.ToTable("userProfiles");
+                });
+
             modelBuilder.Entity("ProblemAndSolution.Infrastructure.Entities.Vote", b =>
                 {
                     b.Property<int>("Id")
@@ -565,6 +592,12 @@ namespace ProblemAndSolution.Web.Migrations
                     b.HasOne("ProblemAndSolution.Infrastructure.Entities.Membership.ApplicationUser", "ApplicationUser")
                         .WithMany()
                         .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ProblemAndSolution.Infrastructure.Entities.Blog", null)
+                        .WithMany("Likes")
+                        .HasForeignKey("BlogId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -644,6 +677,17 @@ namespace ProblemAndSolution.Web.Migrations
                     b.Navigation("Question");
                 });
 
+            modelBuilder.Entity("ProblemAndSolution.Infrastructure.Entities.UserProfile", b =>
+                {
+                    b.HasOne("ProblemAndSolution.Infrastructure.Entities.Membership.ApplicationUser", "ApplicationUser")
+                        .WithOne("ProfileUrl")
+                        .HasForeignKey("ProblemAndSolution.Infrastructure.Entities.UserProfile", "ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApplicationUser");
+                });
+
             modelBuilder.Entity("ProblemAndSolution.Infrastructure.Entities.Vote", b =>
                 {
                     b.HasOne("ProblemAndSolution.Infrastructure.Entities.Membership.ApplicationUser", "ApplicationUser")
@@ -663,10 +707,14 @@ namespace ProblemAndSolution.Web.Migrations
             modelBuilder.Entity("ProblemAndSolution.Infrastructure.Entities.Blog", b =>
                 {
                     b.Navigation("Comments");
+
+                    b.Navigation("Likes");
                 });
 
             modelBuilder.Entity("ProblemAndSolution.Infrastructure.Entities.Membership.ApplicationUser", b =>
                 {
+                    b.Navigation("ProfileUrl");
+
                     b.Navigation("Questions");
 
                     b.Navigation("Votes");

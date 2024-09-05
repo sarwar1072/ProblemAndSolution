@@ -15,7 +15,7 @@
                 <h1 class="mb-3">@Model.Heading</h1>
                 <div class="d-flex justify-content-between mb-3">
                     <span class="text-secondary">@Model.Author</span>
-                    <span class="text-secondary">@Model.PublishedDate.ToShortDateString()</span>
+                    <span class="text-secondary">@Model.PublishedDate.ToString("MMMM dd, yyyy")</span>
                 </div>
                 <div class="mb-3">
                     @if (SignInManager.IsSignedIn(User))
@@ -36,7 +36,7 @@
                     <span id="totalLikes">@Model.TotalLikes</span> likes
                     <input type="text" hidden value="@Model.Id" class="getQuesId" />
                 </div>
-                <img src="@Model.ImageUrl" class="d-block img-fluid mb-3" />
+                <img src="@Model.ImageUrl" width="100%" height="60%" class="d-block img-fluid mb-3" />
 
                 <div class="mb-3 blog-details-content">
                     @Html.Raw(Model.Content)
@@ -51,8 +51,16 @@
                                 <input type="text" class="form-control" asp-for="CommentDescription" />
                             </div>
                             <div class="mb-3">
-                                <button type="submit" class="btn btn-dark">Submit</button>
-                                <input type="hidden" asp-for="Id" />
+                                <button type="submit" class="btn btn-dark">
+                                    Save
+                                </button>
+                            </div>
+                            @* <div class="mb-3">
+                                <label class="form-label">Comment Description</label>
+                                <input type="text" class="form-control" asp-for="CommentDescription" />
+                            </div> *@
+                            <div class="mb-3">
+                                <h5>Comments :@Model.NoOfComment</h5>
                             </div>
                         </form>
                     </div>
@@ -68,7 +76,7 @@
                                         </div>
                                         <div class="d-flex justify-content-between">
                                             <span class="text-secondary">@comment.Author</span>
-                                            <span class="text-secondary">@comment.DateAdded.ToShortDateString()</span>
+                                            <span class="text-secondary">@comment.DateAdded.ToString()</span>
                                         </div>
                                     </div>
                                 </div>

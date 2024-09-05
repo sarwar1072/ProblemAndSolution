@@ -25,6 +25,7 @@ namespace ProblemAndSolution.Infrastructure.Services
         private IPAndSUnitOfWork _pAndSUnitOfWork;
         private readonly IMapper _mapper;
         private int _likeCount = 0;
+        private int _CountCommnet = 0;
         public BlogServices(IPAndSUnitOfWork pAndSUnitOfWork,IMapper mapper)
         {
             _mapper = mapper;
@@ -62,11 +63,11 @@ namespace ProblemAndSolution.Infrastructure.Services
             {
                 throw new InvalidOperationException("Question can not be null");
             }
-            var count=await _pAndSUnitOfWork.BlogRepository.GetCountAsync(x=>x.PageTitle == blogBO.PageTitle);
-            if(count  !=0)
-            {
-                throw new DuplicateException("Same blog exist");
-            }
+            //var count=await _pAndSUnitOfWork.BlogRepository.GetCountAsync(x=>x.PageTitle == blogBO.PageTitle);
+            //if(count  !=0)
+            //{
+            //    throw new DuplicateException("Same blog exist");
+            //}
             var data = await _pAndSUnitOfWork.BlogRepository.GetByIdAsync(blogBO.Id);
 
             if ((data == null))
@@ -165,7 +166,8 @@ namespace ProblemAndSolution.Infrastructure.Services
                 ImageUrl = entity.ImageUrl, 
                 PublishedDate = entity.PublishedDate,   
                 Author=entity.Author,   
-                Visible = entity.Visible,   
+                Visible = entity.Visible,  
+                NoOfComment=_CountCommnet,
             };
             result.Comments = new List<BlogComment>();
             if(entity.Comments != null) { 
@@ -199,18 +201,28 @@ namespace ProblemAndSolution.Infrastructure.Services
             await _pAndSUnitOfWork.BlogCommentRepository.AddAsync(result);
             await _pAndSUnitOfWork.SaveAsync(); 
 
-        }  
+        }
+        
         public async Task<BlogBO> GetDetailsById(int id)
         {
             var entity =(await  _pAndSUnitOfWork.BlogRepository.GetAsync(c=>c.Id==id,d=>d.Include(e=>e.Comments))).FirstOrDefault();
 
-            _likeCount=await _pAndSUnitOfWork.LikeRepository.GetCountAsync(c=>c.BlogId == id);  
+            if (entity != null)
+            {
+                _CountCommnet=entity.Comments.Count();
+            }
+            else
+            {
+                _CountCommnet=0;
+            }
+            _likeCount =await _pAndSUnitOfWork.LikeRepository.GetCountAsync(c=>c.BlogId == id);
 
             if (entity == null)
                 throw new InvalidOperationException("Data not found");
 
             return EntityToBusinessObj2(entity);
         }
+       
         public async Task<bool> IsTrueOrFalse(int id,Guid userId)
         {
             var isTrue=await _pAndSUnitOfWork.LikeRepository.GetCountAsync(c=>c.BlogId==id && c.ApplicationUserId==userId);

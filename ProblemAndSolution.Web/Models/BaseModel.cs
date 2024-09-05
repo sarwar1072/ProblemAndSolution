@@ -33,6 +33,7 @@ namespace ProblemAndSolution.Web.Models
             _mapper = _lifetimeScope.Resolve<IMapper>();
         }
         public  async virtual Task<bool> Userid(){
+
             var userName = _contextAccessor!.HttpContext!.User!.Identity!.Name;
             //var userInfo = await _userManagerAdapter!.FindByUsernameAsync(userName!);
             if(userName == null)

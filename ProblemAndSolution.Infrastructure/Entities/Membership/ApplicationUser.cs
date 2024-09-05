@@ -6,6 +6,7 @@ namespace ProblemAndSolution.Infrastructure.Entities.Membership
     {
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
+        public UserProfile? ProfileUrl {  get; set; } 
         public IList<Vote>? Votes { get; set; }
         public IList<Question>? Questions { get; set; }
     }

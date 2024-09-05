@@ -12,6 +12,7 @@ namespace ProblemAndSolution.Infrastructure.BusinessObj
         public string Description { get; set; }
         public Guid UserId { get; set; }
         public string Author { get; set; }
+        public int? Count { get; set; }
         public DateTime DateAdded { get; set; }
         public int BlogId { get; set; }
         public Blog blog { get; set; }

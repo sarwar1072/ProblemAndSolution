@@ -55,6 +55,8 @@ namespace ProblemAndSolution.Web.Controllers
                 var model = _lifetimeScope.Resolve<BlogViewModel>();
                 // Assuming you have a mapping profile set up
                 model.GetBlog();
+              //  _logger.LogInformation("started successfully");
+
                 //var blogs = new BlogViewModel()
                 //{
                 //    blogBOs = _blogServices.GetAllBlog()
@@ -62,6 +64,7 @@ namespace ProblemAndSolution.Web.Controllers
                 return View(model);
             }
             catch (Exception ex) {
+                _logger.LogError(ex,"Failed to fetch blog details");
                 ViewBag.Message = "Error";
             }
             return View();
@@ -71,7 +74,6 @@ namespace ProblemAndSolution.Web.Controllers
         {
             try
             {
-
                 var model = _lifetimeScope.Resolve<BlogViewModel>();
                 model.ResolveDependency(_lifetimeScope);
 
@@ -80,6 +82,7 @@ namespace ProblemAndSolution.Web.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError($"{ex.Message}");
                 ViewBag.Message="Error";    
             }
             return View();  
@@ -97,11 +100,11 @@ namespace ProblemAndSolution.Web.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError($"{ex.Message}");
                 ViewBag.Message = "Error";
             }
 
             return View();
-
         }
         [Authorize(Roles="User")]
         [HttpPost]
@@ -115,9 +118,7 @@ namespace ProblemAndSolution.Web.Controllers
             await model.AddLike(quesId);  
             return Ok(model);
         }
-
-        
-
+     
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

@@ -45,6 +45,7 @@ namespace ProblemAndSolution.Web.Areas.ForPost.Controllers
                 }
                 else
                 {
+                    _logger.LogError("Failed to create");
                     ViewResponse("Invalid credential",ResponseTypes.Warning);
                     return View(model);
                 }               
@@ -83,6 +84,7 @@ namespace ProblemAndSolution.Web.Areas.ForPost.Controllers
                 }
                 else
                 {
+                    _logger.LogError("Failed to Update");
                     ViewResponse("Invalid Creadentials.", ResponseTypes.Warning);
                     return View(model);
                 }

@@ -14,5 +14,7 @@ namespace ProblemAndSolution.Infrastructure.DbContexts
         DbSet<Vote>? Votes { get; set; }
         DbSet<BlogComment>? BlogsComment { get; set; }
         DbSet<Like> Likes { get; set; }
+         DbSet<UserProfile> userProfiles { get; set; }
+
     }
 }

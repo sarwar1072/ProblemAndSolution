@@ -4,6 +4,7 @@ using Autofac;
 using AutoMapper;
 using ProblemAndSolution.Membership.Services;
 using ProblemAndSolution.Membership.BusinessObj;
+
 namespace ProblemAndSolution.Web.Models
 {
     public class BlogViewModel:BaseModel
@@ -22,6 +23,7 @@ namespace ProblemAndSolution.Web.Models
         public string? CommentDescription { get; set; }
         public int? TotalLikes { get; set; }
         public bool Liked { get; set; }
+        public int? NoOfComment { get; set; }   
         public ApplicationUser? User { get; set; }
         public Guid? UserId { get; set; }
         public IList<Blog>? blog { get; set; }
@@ -36,7 +38,7 @@ namespace ProblemAndSolution.Web.Models
         {
 
         }
-        public virtual void ResolveDependency(ILifetimeScope lifetimeScope)
+        public override void ResolveDependency(ILifetimeScope lifetimeScope)
         {
             _lifetimeScope = lifetimeScope;
             _BlogServices = _lifetimeScope.Resolve<IBlogServices>();
@@ -49,7 +51,9 @@ namespace ProblemAndSolution.Web.Models
         {
             var blogDatails = await _BlogServices.GetDetailsById(id);
 
-            var totallike=await _BlogServices.TotalLikeForBlog(id);
+           // var NumberOfComment = await _BlogServices.NoOfComment(id,);
+
+            var totallike =await _BlogServices.TotalLikeForBlog(id);
             var IsLiked = false;
             if ( await Userid())
             {
@@ -57,8 +61,7 @@ namespace ProblemAndSolution.Web.Models
                 var userid = basicInfo!.Id;
                  IsLiked = await _BlogServices.IsTrueOrFalse(id, userid);
             }
-            
-
+                       
             if(blogDatails != null) 
             {
                 Id = blogDatails.Id;
@@ -72,6 +75,7 @@ namespace ProblemAndSolution.Web.Models
                 Visible= blogDatails.Visible;
                 TotalLikes = totallike;
                 Liked = IsLiked;
+               NoOfComment=blogDatails.NoOfComment;    
                 comments=new List<BlogComment>();
                 if (blogDatails.Comments != null)
                 {
@@ -87,6 +91,7 @@ namespace ProblemAndSolution.Web.Models
                             BlogId = item.BlogId,   
                         });
                     }
+
                 }
             }
         }

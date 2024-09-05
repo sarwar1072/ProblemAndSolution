@@ -14,14 +14,14 @@ namespace ProblemAndSolution.Web.Areas.ForPost.Models.BlogModelFolder
     {
         private IBlogServices _blogServices;
         public int Id { get; set; }
-        public string Heading { get; set; }
-        public string PageTitle { get; set; }
-        public string Content { get; set; }
-        public string ShortDescription { get; set; }
+        public string? Heading { get; set; }
+        public string? PageTitle { get; set; }
+        public string? Content { get; set; }
+        public string? ShortDescription { get; set; }
         public string? Url { get; set; }
-        public IFormFile formFile { get; set; }
+        public IFormFile? formFile { get; set; }
         public DateTime PublishedDate { get; set; }
-        public string Author { get; set; }
+        public string? Author { get; set; }
         public bool Visible { get; set; }
 
         public EditBlog() { }
