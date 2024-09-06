@@ -69,7 +69,12 @@ namespace ProblemAndSolution.Web.Controllers
             }
             return View();
         }
-
+        public async Task<IActionResult> UserprofileDetails(Guid userId)
+        {
+            var model=_lifetimeScope.Resolve<UserProfileViewModel>();   
+          await  model.GetUserProfile(userId);
+            return View(model);  
+        }
         public async Task<IActionResult> Details(int id)
         {
             try

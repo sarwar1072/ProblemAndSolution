@@ -53,10 +53,14 @@ namespace ProblemAndSolution.Infrastructure
 
             builder.RegisterType<LikeRepository>().As<ILikeRepository>().InstancePerLifetimeScope();
 
+            builder.RegisterType<UserProfileRepository>().As<IUserProfileRepository>().InstancePerLifetimeScope();
+
             builder.RegisterType<VoteRepository>().As<IVoteRepository>()
                 .InstancePerLifetimeScope();
             builder.RegisterType<BlogRepository>().As<IBlogRepository>().InstancePerLifetimeScope();
             builder.RegisterType<BlogServices>().As<IBlogServices>().InstancePerLifetimeScope();    
+
+            builder.RegisterType<UserServices>().As<IUserServices>().InstancePerLifetimeScope();    
 
             base.Load(builder);
         }

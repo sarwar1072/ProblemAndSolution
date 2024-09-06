@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using ProblemAndSolution.Infrastructure.Entities;
 using ProblemAndSolution.Infrastructure.Entities.Membership;
 using ProblemAndSolution.Infrastructure.Seeds;
+using System.Reflection.Emit;
 
 namespace ProblemAndSolution.Infrastructure.DbContexts
 {
@@ -49,6 +50,12 @@ namespace ProblemAndSolution.Infrastructure.DbContexts
 
             base.OnModelCreating(builder);
             #endregion
+           // base.OnModelCreating(builder);
+
+            // Blog - ApplicationUser (Many-to-One)
+            
+
+
         }
 
         public DbSet<ApplicationUser>? ApplicationUsers { get; set; }

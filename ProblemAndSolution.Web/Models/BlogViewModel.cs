@@ -75,6 +75,7 @@ namespace ProblemAndSolution.Web.Models
                 Visible= blogDatails.Visible;
                 TotalLikes = totallike;
                 Liked = IsLiked;
+                UserId = blogDatails.PostId;
                NoOfComment=blogDatails.NoOfComment;    
                 comments=new List<BlogComment>();
                 if (blogDatails.Comments != null)

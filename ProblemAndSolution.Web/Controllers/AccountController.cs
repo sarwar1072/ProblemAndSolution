@@ -1,17 +1,54 @@
 ﻿using Autofac;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ProblemAndSolution.Web.Enums;
 using ProblemAndSolution.Web.Models;
 using static System.Formats.Asn1.AsnWriter;
 
 namespace ProblemAndSolution.Web.Controllers
 {
     public class AccountController : BaseController<AccountController>
-    {
-        public AccountController(ILogger<AccountController> logger,ILifetimeScope lifetimeScope)
-            :base(logger, lifetimeScope)
+     { 
+        IFileHelper _fileHelper;
+        public AccountController(ILogger<AccountController> logger,ILifetimeScope lifetimeScope, IFileHelper fileHelper)
+            : base(logger, lifetimeScope)
         {
-
+            _fileHelper = fileHelper;   
         }
+        [HttpGet]
+        public async Task<IActionResult> AddProfile()
+        {
+            var model=_lifetimeScope.Resolve<UserProfileModel>();   
+            return View(model); 
+        }
+        [Authorize(Roles = "User")]
+        [HttpPost]
+        public async Task<IActionResult> AddProfile(UserProfileModel model)
+        {
+            model.ResolveDependency(_lifetimeScope);
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    model.ProfileURL = _fileHelper.UploadFile(model.formFile);
+                    await model.AddProfile();
+                    ViewResponse("Success", ResponseTypes.Success);
+                    return RedirectToAction(nameof(Index));
+                }
+                //catch (DuplicationException ex)
+                //{
+                //    ViewResponse("Duplicate", ResponseTypes.Warning);
+                //   // return RedirectToAction(nameof(Add));
+                //}
+                catch (Exception ex)
+                {
+                    _logger.LogError($"{ex.Message}");
+                    ViewResponse("Failure", ResponseTypes.Error);
+                }
+            }
+            return View(model);
+        }
+
         [HttpGet]
         public async Task<IActionResult> Register(string returnUrl=null!)
         {
@@ -34,6 +71,7 @@ namespace ProblemAndSolution.Web.Controllers
                     var result = await model.CreateAsync();
                     if (result.Succeeded)
                     {
+                      // await model.AdduserProfile(model.UserId);
                         if (model.RequireConfirmedAccount())
                         {
                             return RedirectToAction("RegisterConfirmation", new { email = model.Email, returnUrl = model.ReturnUrl });

@@ -12,9 +12,12 @@
         <div class="col-12 col-lg-8">
             @if (Model != null)
             {
-                <h1 class="mb-3">@Model.Heading</h1>
+                <h3 class="mb-3">Heading: @Model.Heading</h3>
                 <div class="d-flex justify-content-between mb-3">
-                    <span class="text-secondary">@Model.Author</span>
+@*                     <span class="text-secondary">@Model.Author</span>
+                *@ <a href="@Url.Action("UserprofileDetails", "Home", new { userId = Model.UserId })">
+                       Author: @Model.Author
+                    </a>
                     <span class="text-secondary">@Model.PublishedDate.ToString("MMMM dd, yyyy")</span>
                 </div>
                 <div class="mb-3">
@@ -180,7 +183,6 @@
 @section Scripts {
 
     <script>
-
         function LoadQusnVote() {
             var quesId = $(".getQuesId").val();
             console.log(quesId);
@@ -200,7 +202,5 @@
                 }
             });
         }
-    </script>
-    
-    
+    </script>    
 }

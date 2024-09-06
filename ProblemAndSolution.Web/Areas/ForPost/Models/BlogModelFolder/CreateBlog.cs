@@ -39,6 +39,7 @@ namespace ProblemAndSolution.Web.Areas.ForPost.Models.BlogModelFolder
 
         public async Task AddBlog()
         {
+            await GetUserInfoAsync();   
             var entity = new BlogBO()
             {
                 Heading = Heading,  
@@ -47,8 +48,9 @@ namespace ProblemAndSolution.Web.Areas.ForPost.Models.BlogModelFolder
                 ShortDescription = ShortDescription,    
                 ImageUrl=Url,
                 PublishedDate = PublishedDate,
-                Author = Author, 
+                Author = basicInfo!.FirstName, 
                 Visible = Visible,  
+                PostId=basicInfo.Id,
             };
             await _blogServices.AddBlog(entity);
         }

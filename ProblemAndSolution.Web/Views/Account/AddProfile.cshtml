@@ -1,0 +1,32 @@
+﻿@model UserProfileModel
+@{
+    ViewData["Title"] = "AddProfile";
+}
+
+<h1>AddProfile</h1>
+
+<div class="container py-5">
+    <form asp-controller="Account" asp-action="AddProfile" asp-antiforgery="true" method="post" enctype="multipart/form-data">      
+        <div class="mb-3">
+            <label class="form-label">Page Title</label>
+            <input type="text" class="form-control" id="profrssion" asp-for="Profession" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Image Upload</label>
+            <input type="file" id="uploadBox" name="formFile" multiple class="form-control" />
+
+@*                         <img src="" id="featuredImageDisplay" style="display:none;width: 300px;" />
+ *@           
+        </div>
+        <div class="mb-3">
+            <button type="submit" class="btn btn-dark">
+                Save
+            </button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <!-- jQuery Smart Wizard -->
+    <partial name="~/views/shared/_ValidationScriptsPartial.cshtml" />
+}

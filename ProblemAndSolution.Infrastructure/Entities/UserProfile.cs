@@ -14,9 +14,9 @@ namespace ProblemAndSolution.Infrastructure.Entities
         public string? ProfileURL { get; set; }
 
         public string? Profession { get; set; }
-
+        //public IList<Blog>? Blogs { get; set; } 
         public Guid ApplicationUserId { get; set; }
-        public ApplicationUser ApplicationUser { get; set; }
+        public ApplicationUser? ApplicationUser { get; set; }
 
     }
 }

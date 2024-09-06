@@ -105,6 +105,7 @@ namespace ProblemAndSolution.Infrastructure.Services
                 PublishedDate = blog.PublishedDate,
                 Author = blog.Author,
                 Visible = blog.Visible,
+                PostId = blog.PostId,                
             }; 
             return blogEO;  
         }
@@ -168,6 +169,7 @@ namespace ProblemAndSolution.Infrastructure.Services
                 Author=entity.Author,   
                 Visible = entity.Visible,  
                 NoOfComment=_CountCommnet,
+                PostId=entity.PostId,
             };
             result.Comments = new List<BlogComment>();
             if(entity.Comments != null) { 

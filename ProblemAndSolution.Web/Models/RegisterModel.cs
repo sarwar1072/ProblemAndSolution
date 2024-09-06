@@ -2,6 +2,8 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
+using ProblemAndSolution.Infrastructure.Entities;
+using ProblemAndSolution.Infrastructure.Services;
 using ProblemAndSolution.Membership.BusinessObj;
 using ProblemAndSolution.Membership.Services;
 using System.ComponentModel.DataAnnotations;
@@ -15,7 +17,6 @@ namespace ProblemAndSolution.Web.Models
         private ISignInManagerAdapter<ApplicationUser>? _signInManagerAdapter;
         private ILifetimeScope? _scope;
         private IMapper? _mapper;
-
         [Required]
         [Display(Name = "First Name")]
         public string? FirstName { get; set; }
@@ -56,6 +57,7 @@ namespace ProblemAndSolution.Web.Models
             _userManagerAdapter = userManagerAdapter;
             _signInManagerAdapter = signInManagerAdapter;
             _mapper = mapper;
+           // _userServices = userServices;   
         }
 
         internal void Resolve(ILifetimeScope scope)
@@ -63,8 +65,18 @@ namespace ProblemAndSolution.Web.Models
             _scope = scope;
             _userManagerAdapter = _scope.Resolve<IUserManagerAdapter<ApplicationUser>>();
             _signInManagerAdapter = _scope.Resolve<ISignInManagerAdapter<ApplicationUser>>();
+            //_userServices= _scope.Resolve<IUserServices>(); 
             _mapper = _scope.Resolve<IMapper>();
         }
+        //public async Task AdduserProfile()
+        //{
+        //    var entity = new UserProfile()
+        //    {
+        //        ApplicationUserId = UserId
+        //    };
+        //  await  _userServices.AddOnlyId(entity);    
+        //}
+
         internal async Task<IdentityResult> CreateAsync()
         {
             var user = GetMember();

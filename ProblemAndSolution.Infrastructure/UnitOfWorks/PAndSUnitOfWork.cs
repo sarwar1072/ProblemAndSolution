@@ -18,6 +18,7 @@ namespace ProblemAndSolution.Infrastructure.UnitOfWorks
         public IBlogRepository BlogRepository { get; private set; }
         public IBlogCommentRepository BlogCommentRepository { get; private set; }
         public ILikeRepository LikeRepository { get; private set; } 
+        public IUserProfileRepository UserProfileRepository { get; private set; }   
         public PAndSUnitOfWork(ApplicationDbContext dbContext, 
             IQuestionRepository questionRepository,
             IAnswerRepository answerRepository,
@@ -25,6 +26,7 @@ namespace ProblemAndSolution.Infrastructure.UnitOfWorks
             IVoteRepository voteRepository,
             IBlogRepository blogRepository,
             IBlogCommentRepository blogCommentRepository,
+            IUserProfileRepository userProfileRepository,
             ILikeRepository likeRepository) : base(dbContext)
         {
             QuestionRepository = questionRepository;
@@ -34,6 +36,7 @@ namespace ProblemAndSolution.Infrastructure.UnitOfWorks
             BlogRepository = blogRepository; 
             BlogCommentRepository = blogCommentRepository; 
             LikeRepository = likeRepository;
+            UserProfileRepository= userProfileRepository;   
         }
     }
 }

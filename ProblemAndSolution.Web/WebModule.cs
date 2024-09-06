@@ -37,6 +37,8 @@ namespace ProblemAndSolution.Web
                 .AsSelf()
                 .InstancePerLifetimeScope();
 
+            builder.RegisterType<UserProfileModel>().AsSelf().InstancePerLifetimeScope();
+
             builder.RegisterType<AnswerCreateModel>()
                 .AsSelf()
                 .InstancePerLifetimeScope();
@@ -45,6 +47,8 @@ namespace ProblemAndSolution.Web
             builder.RegisterType<CreateBlog>().AsSelf().InstancePerLifetimeScope();
             builder.RegisterType<FileHelper>().As<IFileHelper>().InstancePerLifetimeScope();
             builder.RegisterType<EditBlog>().AsSelf().InstancePerLifetimeScope();
+            builder.RegisterType< UserProfileViewModel >().AsSelf().InstancePerLifetimeScope(); 
+
             base.Load(builder);
         }
     }
