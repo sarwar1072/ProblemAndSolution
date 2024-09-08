@@ -39,7 +39,7 @@
                     <span id="totalLikes">@Model.TotalLikes</span> likes
                     <input type="text" hidden value="@Model.Id" class="getQuesId" />
                 </div>
-                <img src="@Model.ImageUrl" width="100%" height="60%" class="d-block img-fluid mb-3" />
+                <img src="@Model.ImageUrl" style="max-width: 70%"; class="d-block img-fluid mb-3 " />
 
                 <div class="mb-3 blog-details-content">
                     @Html.Raw(Model.Content)

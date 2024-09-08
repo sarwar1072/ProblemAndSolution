@@ -1,6 +1,6 @@
 ﻿using Autofac;
 using AutoMapper;
-using ProblemAndSolution.Infrastructure.Entities;
+using ProblemAndSolution.Infrastructure.BusinessObj;
 using ProblemAndSolution.Infrastructure.Services;
 using ProblemAndSolution.Membership.BusinessObj;
 using ProblemAndSolution.Membership.Services;

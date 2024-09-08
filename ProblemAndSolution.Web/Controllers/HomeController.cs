@@ -72,7 +72,7 @@ namespace ProblemAndSolution.Web.Controllers
         public async Task<IActionResult> UserprofileDetails(Guid userId)
         {
             var model=_lifetimeScope.Resolve<UserProfileViewModel>();   
-          await  model.GetUserProfile(userId);
+             await  model.GetUserProfile(userId);
             return View(model);  
         }
         public async Task<IActionResult> Details(int id)

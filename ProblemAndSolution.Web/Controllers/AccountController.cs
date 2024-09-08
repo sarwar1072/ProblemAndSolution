@@ -33,7 +33,7 @@ namespace ProblemAndSolution.Web.Controllers
                     model.ProfileURL = _fileHelper.UploadFile(model.formFile);
                     await model.AddProfile();
                     ViewResponse("Success", ResponseTypes.Success);
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction(nameof(AddProfile));
                 }
                 //catch (DuplicationException ex)
                 //{
