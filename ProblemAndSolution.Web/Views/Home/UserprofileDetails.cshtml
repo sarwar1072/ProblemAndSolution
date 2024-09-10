@@ -1,34 +1,41 @@
 ﻿@model UserProfileViewModel
-
 @{
     ViewData["Title"] = "User Profile";
 }
-
 <div class="container mt-5">
     <!-- User Profile Section -->
     <div class="row mb-4">
-        <div class="col-md-3 text-center">
-            <img src="@(Model.ProfileURL ?? "/images/default-profile.png")" class="img-fluid rounded-circle" alt="User Profile Image" style="max-width: 150px;">
-        </div>
-        <div class="col-md-9">
-            <h2>@Model.UserName</h2>
-            <p class="text-muted">@Model.Profession</p>
-        </div>
+        @if(Model.Profession != null || Model.ProfileURL != null)
+        {
+            <div class="col-md-4 text-center">
+                <img src="@(Model.ProfileURL ?? "/images/default-profile.png")" class="img-fluid rounded-circle" alt="User Profile Image" style="max-width: 150px;">
+            </div>
+            <div class="col-md-5 bg-blue-sky">
+                <h2>@Model.UserName.ToUpper()</h2>
+                <p >@Model.Profession</p>
+            </div>
+        }
+        else
+        {
+            <a href="@Url.Action("AddProfile", "Account")" class="btn btn-primary">
+                Edit Profile
+            </a>
+        }      
     </div>
 
     <!-- Blogs Section -->
-    <div class="row">
-        <div class="col-12">
+    <div class="row ">
+        <div class="col-8 ">
             <h3 class="mb-4">Blogs by @Model.UserName</h3>
             <div class="list-group ">
                 @if (Model.Blogs != null && Model.Blogs.Any())
                 {
                     foreach (var blog in Model.Blogs)
                     {
-                        <a href="@Url.Action("Details", "Home", new {id = blog.Id })" class="list-group-item list-group-item-action">
+                        <a href="@Url.Action("Details", "Home", new {id = blog.Id })" class="list-group-item list-group-item-action mt-3 bg-info text-white">
                             <h5 class="mb-1">@blog.Heading</h5>
-                            <small class="text-muted">@blog.PublishedDate.ToString("MMMM dd, yyyy")</small>
-                            <p class="mb-1">@Html.Raw(blog.Content.Substring(0,Math.Min(3,blog.Content.Length)))</p>                         
+                            <small class="text-white">@blog.PublishedDate.ToString("MMMM dd, yyyy")</small>
+                            <p class="mb-1">@Html.Raw(blog.Content.Substring(0,Math.Min(100,blog.Content.Length)))</p>                         
                             </a>
                     }
                 }

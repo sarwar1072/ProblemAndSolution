@@ -1,0 +1,14 @@
+﻿@* @model List<RecentBlog>
+
+<div class="recent-posts">
+    <h4>Recent Posts</h4>
+    <ul class="list-unstyled">
+        @foreach (var post in Model.RecentPosts)
+        {
+            <li>
+                <a href="@Url.Action("Details", "Blog", new { id = post.Id })">@post.Title</a>
+                <span>@post.PublishedDate.ToString("MMMM dd, yyyy")</span>
+            </li>
+        }
+    </ul>
+</div> *@

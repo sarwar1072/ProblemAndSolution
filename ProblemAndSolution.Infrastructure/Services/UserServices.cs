@@ -69,7 +69,7 @@ namespace ProblemAndSolution.Infrastructure.Services
             {
                 Id = blog.Id,
                 Heading = blog.Heading,
-                Content =HtmlHelpers.TruncateHtml( blog.Content,10),
+                Content =HtmlHelpers.TruncateHtml( blog.Content,100),
                 PublishedDate = blog.PublishedDate,
                 Author = blog.Author,
                 ImageUrl= blog.ImageUrl,    

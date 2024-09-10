@@ -73,6 +73,7 @@ namespace ProblemAndSolution.Web.Controllers
         {
             var model=_lifetimeScope.Resolve<UserProfileViewModel>();   
              await  model.GetUserProfile(userId);
+           
             return View(model);  
         }
         public async Task<IActionResult> Details(int id)
@@ -83,6 +84,10 @@ namespace ProblemAndSolution.Web.Controllers
                 model.ResolveDependency(_lifetimeScope);
 
                 await model.GetDetailsById(id);
+
+                await model.RecentPost();
+                await model.RelatedPost(id);    
+
                 return View(model); 
             }
             catch (Exception ex)

@@ -27,6 +27,9 @@ namespace ProblemAndSolution.Web.Models
         public ApplicationUser? User { get; set; }
         public Guid? UserId { get; set; }
         public IList<Blog>? blog { get; set; }
+        public IList<Blog>? RecentBlog { get; set; }
+        public IList<Blog>? RelatedBlog { get; set; }
+
         public IList<BlogComment>? comments { get; set; }
 
         public BlogViewModel(IUserManagerAdapter<ApplicationUser> userManagerAdapter, IHttpContextAccessor contextAccessor,
@@ -62,7 +65,7 @@ namespace ProblemAndSolution.Web.Models
                  IsLiked = await _BlogServices.IsTrueOrFalse(id, userid);
             }
                        
-            if(blogDatails != null) 
+            if(blogDatails !=null) 
             {
                 Id = blogDatails.Id;
                 Heading = blogDatails.Heading;
@@ -118,11 +121,38 @@ namespace ProblemAndSolution.Web.Models
             await _BlogServices.AddComment(model);
 
         }
+
+        internal async Task RecentPost()
+        {
+            var blogList=await _BlogServices.RecentBlogPosts();
+
+            RecentBlog = new List<Blog>();
+            if(blogList.Any()) 
+            {
+                foreach (var blog in blogList)
+                {
+                    RecentBlog.Add(blog);
+                }
+            }        
+        }
+        internal async Task RelatedPost(int id)
+        {
+            var blogList = await _BlogServices.RelatedBlogPost(id);
+
+            RelatedBlog = new List<Blog>();
+            if (blogList.Any())
+            {
+                foreach (var blog in blogList)
+                {
+                    RelatedBlog.Add(blog);
+                }
+            }
+        }
         internal void GetBlog()
         {
             var blogs = _BlogServices.GetAllBlog();
             blog=new List<Blog>();  
-            if(blogs != null)
+            if(blogs.Any())
             {
                 foreach (var item in blogs)
                 {

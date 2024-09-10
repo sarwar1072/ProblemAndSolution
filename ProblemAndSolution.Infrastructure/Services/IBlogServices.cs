@@ -19,7 +19,8 @@ namespace ProblemAndSolution.Infrastructure.Services
         IList<BlogBO> GetAllBlog();
         Task<BlogBO> GetDetailsById(int id);
         Task AddComment(BlogCommentBO comment);
-
+        Task<List<BlogBO>> RecentBlogPosts();
+        Task<List<BlogBO>> RelatedBlogPost(int id);
         Task<int> GetLikes(Guid Userid, int BlogId);
         Task<int> TotalLikeForBlog(int id);
         Task<bool> IsTrueOrFalse(int id, Guid userId);

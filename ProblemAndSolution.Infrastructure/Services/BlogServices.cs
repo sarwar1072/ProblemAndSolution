@@ -262,5 +262,50 @@ namespace ProblemAndSolution.Infrastructure.Services
             return data;
         }
 
+        public async Task<List<BlogBO>> RecentBlogPosts()
+        {
+            var listOfPost = (await _pAndSUnitOfWork.BlogRepository.GetAsync(null, x => x.OrderByDescending(y => y.PublishedDate), null,false)).Take(3);
+            var blogs=new List<BlogBO>();
+            if (listOfPost.Any())
+            {
+                foreach (var blog in listOfPost)
+                {
+                    blogs.Add(new BlogBO()
+                    {
+                        Id = blog.Id,
+                        Heading = blog.Heading,
+                        PageTitle = blog.PageTitle,
+                        ImageUrl = blog.ImageUrl,
+                    });
+                }
+            }
+            
+            return blogs;
+        }
+
+        public async Task<List<BlogBO>> RelatedBlogPost(int id)
+        {
+            var blogById=(await _pAndSUnitOfWork.BlogRepository.GetByIdAsync(id));  
+
+            var listOfBlogs=(await _pAndSUnitOfWork.BlogRepository.GetAsync
+                (x=>x.Heading.Contains(blogById.Heading) && x.Id != blogById.Id,null,null,false)).Take(3);
+
+            var blogs = new List<BlogBO>();
+            if (listOfBlogs.Any())
+            {
+                foreach (var blog in listOfBlogs)
+                {
+                    blogs.Add(new BlogBO()
+                    {
+                        Id = blog.Id,
+                        Heading = blog.Heading,
+                        PageTitle = blog.PageTitle,
+                        ImageUrl = blog.ImageUrl,
+                    });
+                }
+            }
+            return blogs;   
+        }
+
     }
 }
