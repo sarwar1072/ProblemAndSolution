@@ -10,7 +10,7 @@ namespace ProblemAndSolution.Web.Areas.ForPost.Models.BlogModelFolder
     {
         private IBlogServices _blogServices;
 
-        public string? Heading { get; set; }
+        public string? Tag { get; set; }
         public string? PageTitle { get; set; }
         public string? Content { get; set; }
         public string? ShortDescription { get; set; }
@@ -42,7 +42,7 @@ namespace ProblemAndSolution.Web.Areas.ForPost.Models.BlogModelFolder
             await GetUserInfoAsync();   
             var entity = new BlogBO()
             {
-                Heading = Heading,  
+                Tag = Tag,  
                 PageTitle = PageTitle,  
                 Content = Content,  
                 ShortDescription = ShortDescription,    

@@ -68,7 +68,7 @@ namespace ProblemAndSolution.Infrastructure.Services
             model.Blogs = blogList.Select(blog => new BlogBO
             {
                 Id = blog.Id,
-                Heading = blog.Heading,
+                Tag = blog.Tag,
                 Content =HtmlHelpers.TruncateHtml( blog.Content,100),
                 PublishedDate = blog.PublishedDate,
                 Author = blog.Author,

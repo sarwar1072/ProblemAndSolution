@@ -12,7 +12,7 @@ namespace ProblemAndSolution.Web.Models
         private IBlogServices _BlogServices;
         
         public int Id { get; set; }
-        public string Heading { get; set; }
+        public string Tag { get; set; }
         public string PageTitle { get; set; }
         public string Content { get; set; }
         public string ShortDescription { get; set; }
@@ -68,7 +68,7 @@ namespace ProblemAndSolution.Web.Models
             if(blogDatails !=null) 
             {
                 Id = blogDatails.Id;
-                Heading = blogDatails.Heading;
+                Tag = blogDatails.Tag;
                 PageTitle = blogDatails.PageTitle;  
                 Content = blogDatails.Content;  
                 ShortDescription = blogDatails.ShortDescription;    

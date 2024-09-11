@@ -11,8 +11,10 @@
                 <img src="@(Model.ProfileURL ?? "/images/default-profile.png")" class="img-fluid rounded-circle" alt="User Profile Image" style="max-width: 150px;">
             </div>
             <div class="col-md-5 bg-blue-sky">
-                <h2>@Model.UserName.ToUpper()</h2>
-                <p >@Model.Profession</p>
+                <h2>Name: @Model.UserName.ToUpper()</h2>
+                <span style=" color: blue; background-color: lightgray;">
+                    Profession: @Model.Profession
+                </span>
             </div>
         }
         else
@@ -33,7 +35,7 @@
                     foreach (var blog in Model.Blogs)
                     {
                         <a href="@Url.Action("Details", "Home", new {id = blog.Id })" class="list-group-item list-group-item-action mt-3 bg-info text-white">
-                            <h5 class="mb-1">@blog.Heading</h5>
+                            <h5 class="mb-1">@blog.Tag</h5>
                             <small class="text-white">@blog.PublishedDate.ToString("MMMM dd, yyyy")</small>
                             <p class="mb-1">@Html.Raw(blog.Content.Substring(0,Math.Min(100,blog.Content.Length)))</p>                         
                             </a>

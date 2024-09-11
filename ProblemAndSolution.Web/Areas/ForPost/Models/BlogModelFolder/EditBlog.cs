@@ -14,7 +14,7 @@ namespace ProblemAndSolution.Web.Areas.ForPost.Models.BlogModelFolder
     {
         private IBlogServices _blogServices;
         public int Id { get; set; }
-        public string? Heading { get; set; }
+        public string? Tag { get; set; }
         public string? PageTitle { get; set; }
         public string? Content { get; set; }
         public string? ShortDescription { get; set; }
@@ -45,7 +45,7 @@ namespace ProblemAndSolution.Web.Areas.ForPost.Models.BlogModelFolder
             var Model = new BlogBO()
             {
                 Id=Id,
-                Heading = Heading,
+                Tag = Tag,
                 PageTitle = PageTitle,
                 Content = Content,
                 ShortDescription = ShortDescription,
@@ -67,7 +67,7 @@ namespace ProblemAndSolution.Web.Areas.ForPost.Models.BlogModelFolder
         {
             var data=await _blogServices.GetById(id);
             Id = data.Id;
-            Heading=data.Heading;
+            Tag=data.Tag;
             PageTitle=data.PageTitle;   
             Content=data.Content;   
             ShortDescription=data.ShortDescription; 

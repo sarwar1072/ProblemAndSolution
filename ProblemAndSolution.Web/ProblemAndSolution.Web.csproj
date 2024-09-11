@@ -28,9 +28,4 @@
     <ProjectReference Include="..\ProblemAndSolution.Membership\ProblemAndSolution.Membership.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Migrations\" />
-    <Folder Include="wwwroot\images\" />
-  </ItemGroup>
-
 </Project>

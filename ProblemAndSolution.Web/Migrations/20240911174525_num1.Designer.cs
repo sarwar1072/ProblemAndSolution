@@ -12,7 +12,7 @@ using ProblemAndSolution.Infrastructure.DbContexts;
 namespace ProblemAndSolution.Web.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240906121306_num1")]
+    [Migration("20240911174525_num1")]
     partial class num1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -67,10 +67,6 @@ namespace ProblemAndSolution.Web.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Heading")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("ImageUrl")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -86,6 +82,10 @@ namespace ProblemAndSolution.Web.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ShortDescription")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Tag")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -261,7 +261,7 @@ namespace ProblemAndSolution.Web.Migrations
                         {
                             Id = new Guid("e9b3be8c-99c5-42c7-8f2e-1eb39f6d9125"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "7e59276f-310d-42bd-b09a-4e3a09addbb9",
+                            ConcurrencyStamp = "0e432d88-844f-45ed-a96e-c8ffba358a77",
                             Email = "admin@stackOverflow.com",
                             EmailConfirmed = true,
                             FirstName = "Admin",
@@ -269,9 +269,9 @@ namespace ProblemAndSolution.Web.Migrations
                             LockoutEnabled = true,
                             NormalizedEmail = "ADMIN@STACKOVERFLOW.COM",
                             NormalizedUserName = "ADMIN@STACKOVERFLOW.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEA2mrMZo00H8hetyHwtD/mPZ7XwW1X0Fqn5UWJoBum712ijbgKNzvYAV8nNQRfyy5A==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEMFj+jgCLtiNmg9iMEWzfMvULUBhSDAt+gxC3SbMsYFN5JcqPga0cCpmliw1eobmog==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "78723418-8031-4496-a419-97946c93a9b9",
+                            SecurityStamp = "1b7dfd3a-7055-4439-a3e0-4fe605a1214a",
                             TwoFactorEnabled = false,
                             UserName = "admin@stackOverflow.com"
                         },
@@ -279,7 +279,7 @@ namespace ProblemAndSolution.Web.Migrations
                         {
                             Id = new Guid("8f3d96ce-76ec-4992-911a-33ceb81fa29d"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "9d58ef64-a6f6-41ae-a7a3-bc6ff73c977e",
+                            ConcurrencyStamp = "e88dcc0a-7d8c-4ac6-9c25-d7e87870abfb",
                             Email = "user@stackOverflow.com",
                             EmailConfirmed = true,
                             FirstName = "Saiful",
@@ -287,9 +287,9 @@ namespace ProblemAndSolution.Web.Migrations
                             LockoutEnabled = true,
                             NormalizedEmail = "USER@STACKOVERFLOW.COM",
                             NormalizedUserName = "USER@STACKOVERFLOW.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMyNaLYemxRStY6NIPdLIW37gcX0mbVDGFOG1blNzFSKEhrz09EtzxaBvYVZU9F/UA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEAGoV3Iomp2BBOP7zGEyrt2m0M5HhXzbfZjIikE7JG0to99HiXWnx2H3yYv8WA7T0A==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "2c518812-4bdb-4645-b820-2817003e3fb3",
+                            SecurityStamp = "91996435-5803-4803-a1ed-e18b64d031c6",
                             TwoFactorEnabled = false,
                             UserName = "user@stackOverflow.com"
                         });
@@ -326,14 +326,14 @@ namespace ProblemAndSolution.Web.Migrations
                         new
                         {
                             Id = new Guid("2c5e174e-3b0e-446f-86af-483d56fd7210"),
-                            ConcurrencyStamp = "638612431863323525",
+                            ConcurrencyStamp = "638616951249412035",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = new Guid("e943ffbf-65a4-4d42-bb74-f2ca9ea8d22a"),
-                            ConcurrencyStamp = "638612431863323563",
+                            ConcurrencyStamp = "638616951249412059",
                             Name = "User",
                             NormalizedName = "USER"
                         });

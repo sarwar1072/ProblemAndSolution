@@ -11,7 +11,7 @@ namespace ProblemAndSolution.Infrastructure.Entities
     public class Blog:IEntity<int>
     {
         public int Id { get; set; }
-        public string Heading { get; set; }
+        public string Tag { get; set; }
         public string PageTitle { get; set; }
         public string Content { get; set; }
         public string ShortDescription { get; set; }

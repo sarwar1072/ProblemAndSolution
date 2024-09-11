@@ -39,7 +39,7 @@ namespace ProblemAndSolution.Web.Areas.ForPost.Models.BlogModelFolder
                 data = (from record in data.blogs
                         select new string[]
                         {
-                            record.Heading,
+                            record.Tag,
                             record.PageTitle,
                             //record.Content,
                             record.ShortDescription,

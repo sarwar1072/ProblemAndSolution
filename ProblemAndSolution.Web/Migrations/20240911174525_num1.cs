@@ -56,7 +56,7 @@ namespace ProblemAndSolution.Web.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Heading = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Tag = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PageTitle = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ShortDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -363,8 +363,8 @@ namespace ProblemAndSolution.Web.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { new Guid("2c5e174e-3b0e-446f-86af-483d56fd7210"), "638612431863323525", "Admin", "ADMIN" },
-                    { new Guid("e943ffbf-65a4-4d42-bb74-f2ca9ea8d22a"), "638612431863323563", "User", "USER" }
+                    { new Guid("2c5e174e-3b0e-446f-86af-483d56fd7210"), "638616951249412035", "Admin", "ADMIN" },
+                    { new Guid("e943ffbf-65a4-4d42-bb74-f2ca9ea8d22a"), "638616951249412059", "User", "USER" }
                 });
 
             migrationBuilder.InsertData(
@@ -372,8 +372,8 @@ namespace ProblemAndSolution.Web.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { new Guid("8f3d96ce-76ec-4992-911a-33ceb81fa29d"), 0, "9d58ef64-a6f6-41ae-a7a3-bc6ff73c977e", "user@stackOverflow.com", true, "Saiful", "Islam", true, null, "USER@STACKOVERFLOW.COM", "USER@STACKOVERFLOW.COM", "AQAAAAEAACcQAAAAEMyNaLYemxRStY6NIPdLIW37gcX0mbVDGFOG1blNzFSKEhrz09EtzxaBvYVZU9F/UA==", null, false, "2c518812-4bdb-4645-b820-2817003e3fb3", false, "user@stackOverflow.com" },
-                    { new Guid("e9b3be8c-99c5-42c7-8f2e-1eb39f6d9125"), 0, "7e59276f-310d-42bd-b09a-4e3a09addbb9", "admin@stackOverflow.com", true, "Admin", "", true, null, "ADMIN@STACKOVERFLOW.COM", "ADMIN@STACKOVERFLOW.COM", "AQAAAAEAACcQAAAAEA2mrMZo00H8hetyHwtD/mPZ7XwW1X0Fqn5UWJoBum712ijbgKNzvYAV8nNQRfyy5A==", null, false, "78723418-8031-4496-a419-97946c93a9b9", false, "admin@stackOverflow.com" }
+                    { new Guid("8f3d96ce-76ec-4992-911a-33ceb81fa29d"), 0, "e88dcc0a-7d8c-4ac6-9c25-d7e87870abfb", "user@stackOverflow.com", true, "Saiful", "Islam", true, null, "USER@STACKOVERFLOW.COM", "USER@STACKOVERFLOW.COM", "AQAAAAEAACcQAAAAEAGoV3Iomp2BBOP7zGEyrt2m0M5HhXzbfZjIikE7JG0to99HiXWnx2H3yYv8WA7T0A==", null, false, "91996435-5803-4803-a1ed-e18b64d031c6", false, "user@stackOverflow.com" },
+                    { new Guid("e9b3be8c-99c5-42c7-8f2e-1eb39f6d9125"), 0, "0e432d88-844f-45ed-a96e-c8ffba358a77", "admin@stackOverflow.com", true, "Admin", "", true, null, "ADMIN@STACKOVERFLOW.COM", "ADMIN@STACKOVERFLOW.COM", "AQAAAAEAACcQAAAAEMFj+jgCLtiNmg9iMEWzfMvULUBhSDAt+gxC3SbMsYFN5JcqPga0cCpmliw1eobmog==", null, false, "1b7dfd3a-7055-4439-a3e0-4fe605a1214a", false, "admin@stackOverflow.com" }
                 });
 
             migrationBuilder.InsertData(

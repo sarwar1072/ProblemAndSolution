@@ -2,9 +2,7 @@
 @{
     ViewData["Title"] = "AddProfile";
 }
-
 <h1>AddProfile</h1>
-
 <div class="container py-5">
     <form asp-controller="Account" asp-action="AddProfile" asp-antiforgery="true" method="post" enctype="multipart/form-data">      
         <div class="mb-3">
@@ -17,6 +15,11 @@
 
 @*                         <img src="" id="featuredImageDisplay" style="display:none;width: 300px;" />
  *@           
+        </div>
+        <div class="mb-3">
+            <a href="@Url.Action("UserprofileDetails", "Home",new{userId=Model.ApplicationUserId})" class="btn btn-primary">
+                Back to profile
+            </a>
         </div>
         <div class="mb-3">
             <button type="submit" class="btn btn-dark">

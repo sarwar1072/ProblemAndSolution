@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProblemAndSolution.Web.Enums;
 using ProblemAndSolution.Web.Models;
+using System.Security.Claims;
 using static System.Formats.Asn1.AsnWriter;
+using Microsoft.AspNetCore.Http;
 
 namespace ProblemAndSolution.Web.Controllers
 {
@@ -18,14 +20,20 @@ namespace ProblemAndSolution.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> AddProfile()
         {
-            var model=_lifetimeScope.Resolve<UserProfileModel>();   
+            var model=_lifetimeScope.Resolve<UserProfileModel>();
+
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+            model.ApplicationUserId = Guid.Parse(claim.Value);
+
             return View(model); 
-        }
+        }   
         [Authorize(Roles = "User")]
         [HttpPost]
         public async Task<IActionResult> AddProfile(UserProfileModel model)
         {
             model.ResolveDependency(_lifetimeScope);
+            await model.GetUserInfoAsync();    
             if (ModelState.IsValid)
             {
                 try

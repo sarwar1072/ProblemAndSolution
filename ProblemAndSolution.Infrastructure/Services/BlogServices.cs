@@ -81,7 +81,7 @@ namespace ProblemAndSolution.Infrastructure.Services
         private BlogEO AssignBlog(BlogBO  blogBO,BlogEO data)
         {
             data.Id = blogBO.Id;    
-            data.Heading = blogBO.Heading;  
+            data.Tag = blogBO.Tag;  
             data.PageTitle = blogBO.PageTitle;
             data.Content = blogBO.Content;  
             data.Author = blogBO.Author;    
@@ -97,7 +97,7 @@ namespace ProblemAndSolution.Infrastructure.Services
         {
             var blogEO = new BlogEO()
             {
-                Heading = blog.Heading,
+                Tag = blog.Tag,
                 PageTitle = blog.PageTitle,
                 Content = blog.Content,
                 ShortDescription = blog.ShortDescription,
@@ -114,7 +114,7 @@ namespace ProblemAndSolution.Infrastructure.Services
             var blogBo = new BlogBO()
             {
                 Id = blog.Id,
-                Heading = blog.Heading,
+                Tag = blog.Tag,
                 PageTitle = blog.PageTitle,
                 Content = blog.Content,
                 ShortDescription = blog.ShortDescription,
@@ -160,7 +160,7 @@ namespace ProblemAndSolution.Infrastructure.Services
             var result = new BlogBO()
             {
                 Id = entity.Id,
-                Heading = entity.Heading,   
+                Tag = entity.Tag,   
                 PageTitle = entity.PageTitle,   
                 Content = entity.Content,   
                 ShortDescription = entity.ShortDescription, 
@@ -273,7 +273,7 @@ namespace ProblemAndSolution.Infrastructure.Services
                     blogs.Add(new BlogBO()
                     {
                         Id = blog.Id,
-                        Heading = blog.Heading,
+                        Tag = blog.Tag,
                         PageTitle = blog.PageTitle,
                         ImageUrl = blog.ImageUrl,
                     });
@@ -288,7 +288,7 @@ namespace ProblemAndSolution.Infrastructure.Services
             var blogById=(await _pAndSUnitOfWork.BlogRepository.GetByIdAsync(id));  
 
             var listOfBlogs=(await _pAndSUnitOfWork.BlogRepository.GetAsync
-                (x=>x.Heading.Contains(blogById.Heading) && x.Id != blogById.Id,null,null,false)).Take(3);
+                (x=>x.Tag.Contains(blogById.Tag) && x.Id != blogById.Id,null,null,false)).Take(3);
 
             var blogs = new List<BlogBO>();
             if (listOfBlogs.Any())
@@ -298,7 +298,7 @@ namespace ProblemAndSolution.Infrastructure.Services
                     blogs.Add(new BlogBO()
                     {
                         Id = blog.Id,
-                        Heading = blog.Heading,
+                        Tag = blog.Tag,
                         PageTitle = blog.PageTitle,
                         ImageUrl = blog.ImageUrl,
                     });
