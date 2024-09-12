@@ -1,4 +1,9 @@
-﻿@model BlogModel
+﻿@using Microsoft.AspNetCore.Identity
+@using ProblemAndSolution.Infrastructure.Entities.Membership
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@model BlogModel
 @{
     ViewData["Title"] = "Index";
 }
@@ -25,51 +30,89 @@
         </div>
     </div>
 </div>
+@if (User.IsInRole("Admin"))
+{
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="blog" class="table table-striped table-bordered">
+                            <thead class="thead-dark">
+                                <tr class="table-info">
+                                    <!-- Make sure column headers wrap on smaller screens -->
+                                    <th class="col">Tag</th>
+                                    <th class="col">PageTitle</th>
+                                    <th class="col">ShortDescription</th>
+                                    <th class="col">Image URL</th>
+                                    <th class="col">Date</th>
+                                    <th class="col">Author</th>
+                                    <th class="col">Action</th>
+                                </tr>
+                            </thead>
 
-<div class="row">
-    <div class="col-12">
-        <div class="card">
-            <div class="card-header">
+                            <tfoot>
+                                <tr class="table-info">
+                                    <th class="col">Tag</th>
+                                    <th class="col">PageTitle</th>
+                                    <th class="col">ShortDescription</th>
+                                    <th class="col">Image URL</th>
+                                    <th class="col">Date</th>
+                                    <th class="col">Author</th>
+                                    <th class="col">Action</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+                <!-- /.card-body -->
             </div>
-            <!-- /.card-header -->
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table id="blog" class="table table-striped table-bordered">
-                        <thead class="thead-dark">
-                            <tr class="table-info">
-                                <!-- Make sure column headers wrap on smaller screens -->
-                                <th class="col">Tag</th>
-                                <th class="col">PageTitle</th>
-                                <th class="col">ShortDescription</th>
-                                <th class="col">Image URL</th>
-                                <th class="col">Date</th>
-                                <th class="col">Author</th>
-                                <th class="col">Visible</th>
-                                <th class="col">Action</th>
-                            </tr>
-                        </thead>
+            <!-- /.card -->
+        </div>
+        <!-- /.col -->
+    </div>
 
-                        <tfoot>
-                            <tr class="table-info">
-                                <th class="col">Tag</th>
-                                <th class="col">PageTitle</th>
-                                 <th class="col">ShortDescription</th>
-                                <th class="col">Image URL</th>
-                                <th class="col">Date</th>
-                                <th class="col">Author</th>
-                                <th class="col">Visible</th>
-                                <th class="col">Action</th>
-                            </tr>
-                        </tfoot>
-                    </table>
+}
+else
+{
+<div class="container mt-5">
+    <h2>User Specific Blog List</h2>
+    <hr />
+    
+    @if (Model.Blogs != null && Model.Blogs.Any())
+    {
+        foreach (var blog in Model.Blogs)
+        {
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h3>@blog.Tag</h3>
+                    <small class="text-muted">Published on @blog.PublishedDate.ToString("MMMM dd, yyyy") by @blog.Author</small>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <img src="@blog.ImageUrl" alt="Blog image" class="img-fluid" />
+                        </div>
+                        <div class="col-md-8">
+                            <p>@blog.Content.Substring(0, Math.Min(blog.Content.Length, 150))...</p> <!-- Show a summary of the content -->
+                            <a href="@Url.Action("Details", "Blog", new { id = blog.Id })" class="btn btn-primary">Read More</a>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <!-- /.card-body -->
-        </div>
-        <!-- /.card -->
-    </div>
-    <!-- /.col -->
+        }
+    }
+    else
+    {
+        <p>No blogs available for this user.</p>
+    }
 </div>
+
+}
+
 
 <div class="modal fade" id="modal-default">
     <div class="modal-dialog">
@@ -119,7 +162,7 @@
                     },
                     {
                         "orderable": false,
-                        "targets": 7,
+                        "targets": 6,
                         "width": "20%",
                         "render": function (data, type, row) {
                             return `<button type="submit" class="btn btn-info btn-sm mb-2 mb-sm-0 me-0 me-sm-2" onclick="window.location.href='/ForPost/Blog/Edit/${data}'" value='${data}'>
@@ -147,7 +190,6 @@
             });
            
         });</script>
-
 }
 
  

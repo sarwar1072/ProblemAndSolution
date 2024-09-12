@@ -63,8 +63,6 @@ namespace ProblemAndSolution.Infrastructure.Services
 
             //    });
             //}  
-            // Initialize and map the blogs to the model
-           //var md=HtmlHelpers.SanitizeHtml          
             model.Blogs = blogList.Select(blog => new BlogBO
             {
                 Id = blog.Id,
@@ -74,9 +72,7 @@ namespace ProblemAndSolution.Infrastructure.Services
                 Author = blog.Author,
                 ImageUrl= blog.ImageUrl,    
             }).ToList();
-
             return model;   
-
         }
         
 

@@ -54,8 +54,6 @@ namespace ProblemAndSolution.Web.Models
         {
             var blogDatails = await _BlogServices.GetDetailsById(id);
 
-           // var NumberOfComment = await _BlogServices.NoOfComment(id,);
-
             var totallike =await _BlogServices.TotalLikeForBlog(id);
             var IsLiked = false;
             if ( await Userid())

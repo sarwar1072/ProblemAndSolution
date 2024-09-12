@@ -6,7 +6,7 @@ using ProblemAndSolution.Web.Controllers;
 namespace ProblemAndSolution.Web.Areas.ForPost.Controllers
 {
     [Area("ForPost")]
-    [Authorize(Roles = "User")]
+    [Authorize(Roles = "User, Admin")]
     public class PostBaseController<T> :BaseController<T> 
         where T :Controller
     {

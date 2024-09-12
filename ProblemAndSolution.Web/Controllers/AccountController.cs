@@ -28,7 +28,7 @@ namespace ProblemAndSolution.Web.Controllers
 
             return View(model); 
         }   
-        [Authorize(Roles = "User")]
+      //  [Authorize(Roles = "User")]
         [HttpPost]
         public async Task<IActionResult> AddProfile(UserProfileModel model)
         {

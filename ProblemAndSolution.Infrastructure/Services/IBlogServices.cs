@@ -22,6 +22,7 @@ namespace ProblemAndSolution.Infrastructure.Services
         Task<List<BlogBO>> RecentBlogPosts();
         Task<List<BlogBO>> RelatedBlogPost(int id);
         Task<int> GetLikes(Guid Userid, int BlogId);
+        Task<List<BlogBO>> UserSpecificBlogList(Guid userId);
         Task<int> TotalLikeForBlog(int id);
         Task<bool> IsTrueOrFalse(int id, Guid userId);
         (IList<BlogBO> blogs, int total, int totalDisplay) GetBlog(int pageindex, int pagesize,

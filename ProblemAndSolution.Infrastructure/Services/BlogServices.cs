@@ -307,5 +307,29 @@ namespace ProblemAndSolution.Infrastructure.Services
             return blogs;   
         }
 
+        public async Task<List<BlogBO>> UserSpecificBlogList(Guid userId)
+        {
+            var blogList = (await _pAndSUnitOfWork.BlogRepository.GetAsync(a => a.PostId == userId, null)).ToList();
+
+           
+            var blogs = new List<BlogBO>();
+
+            foreach (var blog in blogList)
+            {
+                blogs.Add(new BlogBO
+                {
+                    Id = blog.Id,
+                    Tag = blog.Tag,
+                    Content = HtmlHelpers.TruncateHtml(blog.Content, 100),
+                    PublishedDate = blog.PublishedDate,
+                    Author = blog.Author,
+                    ImageUrl = blog.ImageUrl,
+                });
+            }
+            
+            return blogs;
+        }
+
+
     }
 }

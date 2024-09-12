@@ -97,7 +97,7 @@ namespace ProblemAndSolution.Web.Controllers
             }
             return View();  
         }
-        [Authorize(Roles = "User")]
+        [Authorize(Roles = "User,Admin")]
         [HttpPost]
         public async Task<IActionResult> Details(BlogViewModel model)
         {
@@ -116,7 +116,7 @@ namespace ProblemAndSolution.Web.Controllers
 
             return View();
         }
-        [Authorize(Roles="User")]
+        [Authorize(Roles="User,Admin")]
         [HttpPost]
         public async Task<IActionResult> AddLike(int quesId)
         {

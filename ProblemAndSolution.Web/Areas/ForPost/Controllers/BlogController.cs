@@ -5,6 +5,8 @@ using ProblemAndSolution.Web.Models;
 using System;
 using ProblemAndSolution.Web.Areas.ForPost.Models.BlogModelFolder;
 using static System.Formats.Asn1.AsnWriter;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace ProblemAndSolution.Web.Areas.ForPost.Controllers
 {
@@ -17,9 +19,14 @@ namespace ProblemAndSolution.Web.Areas.ForPost.Controllers
             _fileHelper=fileHelper; 
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             var model = _lifetimeScope.Resolve<BlogModel>();
+
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+            Guid user= Guid.Parse(claim.Value);
+            await model.UserBlogList(user);
 
             return View(model);
         }
@@ -112,6 +119,7 @@ namespace ProblemAndSolution.Web.Areas.ForPost.Controllers
             return RedirectToAction(nameof(Index)); 
 
         }
+
         public IActionResult GetBlog()
         {
             var tableModel = new DataTablesAjaxRequestModel(Request);
