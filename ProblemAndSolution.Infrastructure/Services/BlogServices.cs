@@ -20,26 +20,26 @@ using LikeEO = ProblemAndSolution.Infrastructure.Entities.Like;
 
 namespace ProblemAndSolution.Infrastructure.Services
 {
-    public class BlogServices:IBlogServices
+    public class BlogServices : IBlogServices
     {
         private IPAndSUnitOfWork _pAndSUnitOfWork;
         private readonly IMapper _mapper;
         private int _likeCount = 0;
         private int _CountCommnet = 0;
-        public BlogServices(IPAndSUnitOfWork pAndSUnitOfWork,IMapper mapper)
+        public BlogServices(IPAndSUnitOfWork pAndSUnitOfWork, IMapper mapper)
         {
             _mapper = mapper;
-            _pAndSUnitOfWork = pAndSUnitOfWork;               
+            _pAndSUnitOfWork = pAndSUnitOfWork;
         }
 
         public async Task AddBlog(BlogBO blog)
         {
-            if(blog is null)
+            if (blog is null)
             {
                 throw new InvalidOperationException("Blog can not be null");
             }
             var blogCount = await _pAndSUnitOfWork.BlogRepository.GetCountAsync(c => c.PageTitle == blog.PageTitle);
-            if(blogCount > 0) {
+            if (blogCount > 0) {
                 throw new DuplicateException("Same title exist");
             }
 
@@ -49,8 +49,8 @@ namespace ProblemAndSolution.Infrastructure.Services
         }
         public async Task<BlogBO> GetById(int id)
         {
-            var data=await _pAndSUnitOfWork.BlogRepository.GetByIdAsync(id);    
-            if(data == null)
+            var data = await _pAndSUnitOfWork.BlogRepository.GetByIdAsync(id);
+            if (data == null)
             {
                 throw new InvalidOperationException("Blog is not available");
             }
@@ -59,7 +59,7 @@ namespace ProblemAndSolution.Infrastructure.Services
 
         public async Task EditBlog(BlogBO blogBO)
         {
-            if(blogBO is null)
+            if (blogBO is null)
             {
                 throw new InvalidOperationException("Question can not be null");
             }
@@ -76,21 +76,34 @@ namespace ProblemAndSolution.Infrastructure.Services
             }
             AssignBlog(blogBO, data);
             await _pAndSUnitOfWork.SaveAsync();
-
         }
-        private BlogEO AssignBlog(BlogBO  blogBO,BlogEO data)
+        public async Task ApprovePostSingle(int id)
         {
-            data.Id = blogBO.Id;    
-            data.Tag = blogBO.Tag;  
+            var post = (await _pAndSUnitOfWork.BlogRepository.GetAsync(x => x.Id == id && x.Visible == "Pending", null, null,false)).FirstOrDefault();
+            if(post == null)
+            {
+                throw new InvalidOperationException("Already  approved");
+            }
+           // var entity = new BlogEO();
+            post.Visible = "Approve";
+            
+            await  _pAndSUnitOfWork.BlogRepository.EditAsync(post);
+            await _pAndSUnitOfWork.SaveAsync(); 
+            
+        }
+        private BlogEO AssignBlog(BlogBO blogBO, BlogEO data)
+        {
+            data.Id = blogBO.Id;
+            data.Tag = blogBO.Tag;
             data.PageTitle = blogBO.PageTitle;
-            data.Content = blogBO.Content;  
-            data.Author = blogBO.Author;    
+            data.Content = blogBO.Content;
+            data.Author = blogBO.Author;
             data.PublishedDate = blogBO.PublishedDate;
-            data.ShortDescription = blogBO.ShortDescription;    
-            data.Visible = blogBO.Visible;
-            data.ImageUrl = blogBO.ImageUrl;    
-            data.Id = blogBO.Id;    
-            return data;    
+            data.ShortDescription = blogBO.ShortDescription;
+            //data.Visible = blogBO.Visible;
+            data.ImageUrl = blogBO.ImageUrl;
+            data.Id = blogBO.Id;
+            return data;
 
         }
         private BlogEO BoToEntity(BlogBO blog)
@@ -105,15 +118,14 @@ namespace ProblemAndSolution.Infrastructure.Services
                 PublishedDate = blog.PublishedDate,
                 Author = blog.Author,
                 Visible = blog.Visible,
-                PostId = blog.PostId,                
-            }; 
-            return blogEO;  
+                PostId = blog.PostId,
+            };
+            return blogEO;
         }
         private BlogBO EntityToBusinessObj(BlogEO blog) {
 
             var blogBo = new BlogBO()
             {
-                Id = blog.Id,
                 Tag = blog.Tag,
                 PageTitle = blog.PageTitle,
                 Content = blog.Content,
@@ -121,8 +133,26 @@ namespace ProblemAndSolution.Infrastructure.Services
                 ImageUrl = blog.ImageUrl,
                 PublishedDate = blog.PublishedDate,
                 Author = blog.Author,
-                Visible = blog.Visible,
-            };  
+              //  Visible = blog.Visible,
+                Id = blog.Id,
+            };
+            return blogBo;
+        }
+        private BlogBO EntityToBusinessObjForPaging(BlogEO blog)
+        {
+
+            var blogBo = new BlogBO()
+            {
+                Tag = blog.Tag,
+                PageTitle = blog.PageTitle,
+                Content = blog.Content,
+                ShortDescription = blog.ShortDescription,
+                ImageUrl = blog.ImageUrl,
+                PublishedDate = blog.PublishedDate,
+                Author = blog.Author,
+                 Visible = blog.Visible,
+                Id = blog.Id,
+            };
             return blogBo;
         }
         public (IList<BlogBO> blogs, int total, int totalDisplay) GetBlog(int pageindex, int pagesize,
@@ -131,27 +161,29 @@ namespace ProblemAndSolution.Infrastructure.Services
             (IList<BlogEO> data, int total, int totalDisplay) result = (null, 0, 0);
             if (string.IsNullOrWhiteSpace(searchText))
             {
-                result = _pAndSUnitOfWork.BlogRepository.GetDynamic(null, null,null, pageindex, pagesize, true);
+                result = _pAndSUnitOfWork.BlogRepository.GetDynamic(null, null, null, pageindex, pagesize, true);
             }
             else
             {
-                result = _pAndSUnitOfWork.BlogRepository.GetDynamic(x => x.PageTitle == searchText, null,null, pageindex, pagesize, true);
+                result = _pAndSUnitOfWork.BlogRepository.GetDynamic(x => x.Tag.ToLower() == searchText.ToLower() || x.Visible.ToLower() == searchText.ToLower() || x.Author.ToLower() ==searchText.ToLower() 
+                , null,null, pageindex, pagesize, true);
             }
             var listOfEntity = new List<BlogBO>();
             foreach (var blog in result.data)
             {
                 // var obj= AssignProductBO(product);
-                listOfEntity.Add(EntityToBusinessObj(blog));
+                listOfEntity.Add(EntityToBusinessObjForPaging(blog));
             }
             return (listOfEntity, result.total, result.totalDisplay);
         }
+       
         public IList<BlogBO> GetAllBlog()
         {
-            var listOfBlog = _pAndSUnitOfWork.BlogRepository.GetAll();
+            var listOfBlog = _pAndSUnitOfWork.BlogRepository.Get(c=>c.Visible=="Approve",null,null,false).ToList();
             var list=new List<BlogBO>();    
             foreach (var item in listOfBlog)
             {
-                list.Add(EntityToBusinessObj(item));    
+                list.Add(EntityToBusinessObjForPaging(item));    
             }
             return list;
         }
@@ -207,7 +239,7 @@ namespace ProblemAndSolution.Infrastructure.Services
         
         public async Task<BlogBO> GetDetailsById(int id)
         {
-            var entity =(await  _pAndSUnitOfWork.BlogRepository.GetAsync(c=>c.Id==id,d=>d.Include(e=>e.Comments))).FirstOrDefault();
+            var entity =(await  _pAndSUnitOfWork.BlogRepository.GetAsync(c=>c.Id==id&&c.Visible=="Approve",d=>d.Include(e=>e.Comments))).FirstOrDefault();
 
             if (entity != null)
             {
@@ -264,7 +296,8 @@ namespace ProblemAndSolution.Infrastructure.Services
 
         public async Task<List<BlogBO>> RecentBlogPosts()
         {
-            var listOfPost = (await _pAndSUnitOfWork.BlogRepository.GetAsync(null, x => x.OrderByDescending(y => y.PublishedDate), null,false)).Take(3);
+            var listOfPost = (await _pAndSUnitOfWork.BlogRepository.
+                GetAsync(c=>c.Visible== "Approve", x => x.OrderByDescending(y => y.PublishedDate), null,false)).Take(3);
             var blogs=new List<BlogBO>();
             if (listOfPost.Any())
             {
@@ -278,8 +311,7 @@ namespace ProblemAndSolution.Infrastructure.Services
                         ImageUrl = blog.ImageUrl,
                     });
                 }
-            }
-            
+            }           
             return blogs;
         }
 
@@ -309,26 +341,58 @@ namespace ProblemAndSolution.Infrastructure.Services
 
         public async Task<List<BlogBO>> UserSpecificBlogList(Guid userId)
         {
-            var blogList = (await _pAndSUnitOfWork.BlogRepository.GetAsync(a => a.PostId == userId, null)).ToList();
+            var blogList = (await _pAndSUnitOfWork.BlogRepository.GetAsync(a => a.PostId == userId  , null)).ToList();
 
            
             var blogs = new List<BlogBO>();
-
-            foreach (var blog in blogList)
+            if (blogList.Any())
             {
-                blogs.Add(new BlogBO
+                foreach (var blog in blogList)
                 {
-                    Id = blog.Id,
-                    Tag = blog.Tag,
-                    Content = HtmlHelpers.TruncateHtml(blog.Content, 100),
-                    PublishedDate = blog.PublishedDate,
-                    Author = blog.Author,
-                    ImageUrl = blog.ImageUrl,
-                });
-            }
-            
+                    blogs.Add(new BlogBO
+                    {
+                        Id = blog.Id,
+                        Tag = blog.Tag,
+                        Content = HtmlHelpers.TruncateHtml(blog.Content, 100),
+                        PublishedDate = blog.PublishedDate,
+                        Author = blog.Author,
+                        ImageUrl = blog.ImageUrl,
+                    });
+                }
+            }                     
             return blogs;
         }
+
+        public async  Task<BlogPaging> PagintList(int? id, string term = "", bool paging = false, int currentPage = 0)
+        {
+            var data = new BlogPaging();
+            var listOfBlog = (await _pAndSUnitOfWork.BlogRepository.GetAsync(null, c => c.OrderByDescending(x => x.PublishedDate), null, false)).ToList();
+            
+           
+            if (paging)
+            {
+                int pageSize = 3;
+                int count = listOfBlog.Count;
+                int TotalPages = (int)Math.Ceiling(count / (double)pageSize);
+                listOfBlog = listOfBlog.Skip((currentPage - 1) * pageSize).Take(pageSize).ToList();
+                data.PageSize = pageSize;
+                data.CurrentPage = currentPage;
+                data.TotalPages = TotalPages;
+            }
+            data.BlogList = listOfBlog.ToList();
+            return data;
+        }
+        public async Task<IList<BlogBO>> ApprovePost()
+        {
+            var listOfBlog = (await _pAndSUnitOfWork.BlogRepository.GetAsync(null, c => c.OrderByDescending(x => x.PublishedDate), null, false)).ToList();
+            var list = new List<BlogBO>();
+            foreach (var item in listOfBlog)
+            {
+                list.Add(EntityToBusinessObjForPaging(item));
+            }
+            return list;
+        }
+        
 
 
     }

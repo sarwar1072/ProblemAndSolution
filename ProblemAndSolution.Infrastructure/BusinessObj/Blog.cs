@@ -17,7 +17,7 @@ namespace ProblemAndSolution.Infrastructure.BusinessObj
         public string ImageUrl { get; set; }
         public DateTime PublishedDate { get; set; }
         public string Author { get; set; }
-        public bool Visible { get; set; }
+        public string Visible { get; set; }
         public Guid PostId { get; set; }
 
         // Navigation property

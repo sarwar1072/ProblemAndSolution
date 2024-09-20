@@ -21,7 +21,11 @@ namespace ProblemAndSolution.Web.Areas.ForPost.Models.BlogModelFolder
         public DateTime PublishedDate { get; set; }
         public string Author { get; set; }
         public Guid PostId { get; set; }
-        public List<Blog> Blogs { get; set; }   
+        public List<Blog> Blogs { get; set; }
+        public int PageSize { get; set; }
+        public int CurrentPage { get; set; }
+        public int TotalPages { get; set; }
+        public string? Term { get; set; }
         public BlogModel() { }
 
         public BlogModel(IBlogServices blogServices,
@@ -37,7 +41,44 @@ namespace ProblemAndSolution.Web.Areas.ForPost.Models.BlogModelFolder
             _blogServices = _lifetimeScope.Resolve<IBlogServices>();
             base.ResolveDependency(_lifetimeScope);
         }
+        public  async Task ListOfBlogs()
+        {
+            var list = await _blogServices.ApprovePost();
+            Blogs = new List<Blog>();
+            if(list.Any()) {
+                foreach (var item in list)
+                {
+                    Blogs.Add(item);
+                }
+            }
+        }
 
+        public async Task PagingList(int? id, string term = "", int currentPage = 1)
+        {
+            var model = await _blogServices.PagintList(id, term, true, currentPage);
+
+            if (model != null)
+            {
+                Blogs = new List<Blog>();
+                foreach (var item in model.BlogList)
+                {
+                    Blogs.Add(new Blog
+                    {
+                        Id = item.Id,
+                        Tag = item.Tag,
+                        PageTitle = item.PageTitle,
+                        ShortDescription = item.ShortDescription,
+                        ImageUrl = item.ImageUrl,
+                        PublishedDate = item.PublishedDate,
+                        Visible = item.Visible,
+                    });
+                }
+
+                PageSize = model.PageSize;
+                CurrentPage = model.CurrentPage;
+                TotalPages = model.TotalPages;
+            }
+        }
         public async Task UserBlogList(Guid UserId)
         {
             var list=await _blogServices.UserSpecificBlogList(UserId);
@@ -56,7 +97,7 @@ namespace ProblemAndSolution.Web.Areas.ForPost.Models.BlogModelFolder
             var data = _blogServices.GetBlog(dataTables.PageIndex,
                                                      dataTables.PageSize,
                                                      dataTables.SearchText,
-                                                     dataTables.GetSortText(new string[] { "Heading", "PageTitle", "Author" }));
+                                                     dataTables.GetSortText(new string[] { "Tag", "PageTitle", "Author", "Visible" }));
             return new
             {
                 recordsTotal = data.total,
@@ -71,6 +112,7 @@ namespace ProblemAndSolution.Web.Areas.ForPost.Models.BlogModelFolder
                             record.ImageUrl,
                             record.PublishedDate.ToString(),
                             record.Author,
+                            record.Visible,
                             record.Id.ToString()
                         }).ToArray()
             };

@@ -42,7 +42,7 @@ namespace ProblemAndSolution.Infrastructure.Services
         }
         public async Task<UserSpecificBlogBO> UserSpecificBlog(Guid userId)
         {
-            var blogList = (await _pAndSUnitOfWork.BlogRepository.GetAsync(a => a.PostId == userId, null)).ToList();
+            var blogList = (await _pAndSUnitOfWork.BlogRepository.GetAsync(a => a.PostId == userId && a.Visible=="Approve", null)).ToList();
 
             var userProfile = (await _pAndSUnitOfWork.UserProfileRepository.
                 GetAsync(x => x.ApplicationUserId == userId, b => b.Include(c => c.ApplicationUser))).FirstOrDefault();

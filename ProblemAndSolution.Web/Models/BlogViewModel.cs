@@ -19,7 +19,7 @@ namespace ProblemAndSolution.Web.Models
         public string ImageUrl { get; set; }
         public DateTime PublishedDate { get; set; }
         public string Author { get; set; }
-        public bool Visible { get; set; }
+        public string Visible { get; set; }
         public string? CommentDescription { get; set; }
         public int? TotalLikes { get; set; }
         public bool Liked { get; set; }

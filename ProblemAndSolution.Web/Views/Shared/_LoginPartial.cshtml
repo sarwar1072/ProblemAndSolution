@@ -7,8 +7,9 @@
 @if (SignInManager.IsSignedIn(User))
 {
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name.Split('@')[0]</a>
+            <p class="nav-link text-dark stylish-font" title="User">Hello @User.Identity.Name.Split('@')[0]</p>
         </li>
+
         <li class="nav-item ">
             <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="AddProfile">Update Profile</a>
 
@@ -29,3 +30,5 @@ else
         </li>
 }
 </ul>
+@* asp-page="/Account/Manage/Index" *@
+@*  asp-area="" *@

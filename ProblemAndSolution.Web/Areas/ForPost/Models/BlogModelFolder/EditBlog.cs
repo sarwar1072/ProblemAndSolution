@@ -22,7 +22,7 @@ namespace ProblemAndSolution.Web.Areas.ForPost.Models.BlogModelFolder
         public IFormFile? formFile { get; set; }
         public DateTime PublishedDate { get; set; }
         public string? Author { get; set; }
-        public bool Visible { get; set; }
+        public string? Visible { get; set; }
 
         public EditBlog() { }
 
@@ -52,11 +52,16 @@ namespace ProblemAndSolution.Web.Areas.ForPost.Models.BlogModelFolder
                 ImageUrl = Url,
                 PublishedDate = PublishedDate,
                 Author = Author,
-                Visible = Visible,
+                //Visible = "Pending",
             };
 
             return Model;
         }
+        public async Task ApproveSinglePost(int id)
+        {
+             await _blogServices.ApprovePostSingle(id);    
+        }
+
 
         public async Task Update()
         {
@@ -73,7 +78,7 @@ namespace ProblemAndSolution.Web.Areas.ForPost.Models.BlogModelFolder
             ShortDescription=data.ShortDescription; 
             Author=data.Author;
             Url = data.ImageUrl;
-            Visible= data.Visible;  
+            //Visible= data.Visible;  
             PublishedDate = data.PublishedDate; 
         }
 

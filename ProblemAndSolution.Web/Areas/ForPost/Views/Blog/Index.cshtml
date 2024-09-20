@@ -50,6 +50,7 @@
                                     <th class="col">Image URL</th>
                                     <th class="col">Date</th>
                                     <th class="col">Author</th>
+                                    <th class="col">Visible</th>
                                     <th class="col">Action</th>
                                 </tr>
                             </thead>
@@ -62,6 +63,7 @@
                                     <th class="col">Image URL</th>
                                     <th class="col">Date</th>
                                     <th class="col">Author</th>
+                                    <th class="col">Visible</th>
                                     <th class="col">Action</th>
                                 </tr>
                             </tfoot>
@@ -74,7 +76,6 @@
         </div>
         <!-- /.col -->
     </div>
-
 }
 else
 {
@@ -168,19 +169,20 @@ else
                         "render": function (data, type, row) {
                             return `<img src=${data} width='50px' />`;
                         }
-                    },
-                    {
+                    },                   
+
+                            {
                         "orderable": false,
-                        "targets": 6,
+                        "targets": 7,
                         "width": "20%",
                         "render": function (data, type, row) {
-                            return `<button type="submit" class="btn btn-info btn-sm mb-2 mb-sm-0 me-0 me-sm-2" onclick="window.location.href='/ForPost/Blog/Edit/${data}'" value='${data}'>
-                                                    <i class="fas fa-pencil-alt"></i> Edit</button>
-                                               <button type="submit" class="btn btn-danger btn-sm show-bs-modal" href="#" data-id='${data}' value='${data}'>
-                                                                                    <i class="fas fa-trash">
-                                                                                    </i>
-                                                                                    Delete
-                                                                                </button>`;
+                            return `<button type="submit" class="btn btn-info btn-sm mb-2 mb-sm-0 me-0 me-sm-2" onclick="window.location.href='/ForPost/Blog/ApprovePost/${data}'" value='${data}'>
+                                                            <i class="fas fa-pencil-alt"></i> Approve</button>
+                                                       <button type="submit" class="btn btn-danger btn-sm show-bs-modal" href="#" data-id='${data}' value='${data}'>
+                                                                                            <i class="fas fa-trash">
+                                                                                            </i>
+                                                                                            Delete
+                                                                                        </button>`;
                         }
                     }
                 ]
@@ -197,8 +199,8 @@ else
             $("#deleteButton").click(function () {
                 $("#deleteForm").submit();
             });
-           
+
         });</script>
 }
 
- 
+

@@ -7,6 +7,7 @@ using BlogBO = ProblemAndSolution.Infrastructure.BusinessObj.Blog;
 using BlogEO = ProblemAndSolution.Infrastructure.Entities.Blog;
 using BlogCommentBO = ProblemAndSolution.Infrastructure.BusinessObj.BlogComment;
 using BlogCommentEO = ProblemAndSolution.Infrastructure.Entities.BlogComment;
+using ProblemAndSolution.Infrastructure.BusinessObj;
 
 namespace ProblemAndSolution.Infrastructure.Services
 {
@@ -25,6 +26,9 @@ namespace ProblemAndSolution.Infrastructure.Services
         Task<List<BlogBO>> UserSpecificBlogList(Guid userId);
         Task<int> TotalLikeForBlog(int id);
         Task<bool> IsTrueOrFalse(int id, Guid userId);
+        Task<IList<BlogBO>> ApprovePost();
+        Task ApprovePostSingle(int id);
+        Task<BlogPaging> PagintList(int? id, string term = "", bool paging = false, int currentPage = 0);
         (IList<BlogBO> blogs, int total, int totalDisplay) GetBlog(int pageindex, int pagesize,
                                                                              string searchText, string orderBy);
     }

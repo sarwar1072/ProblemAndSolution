@@ -16,3 +16,43 @@ html {
 body {
   margin-bottom: 60px;
 }
+/*.stylish-font {
+    font-family: 'Cursive', 'Comic Sans MS', sans-serif;*/ /* Custom or system fonts */
+    /*font-size: 18px;
+    font-weight: bold;
+    color: #007bff;*/ /* Make the text blue or use any other color */
+    /*letter-spacing: 1px;*/ /* Add some space between letters for a more elegant look */
+    /*text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);*/ /* Optional text shadow for a 3D effect */
+/*}*/
+
+.stylish-font {
+    font-family: 'Pacifico', cursive; /* Custom Google Font */
+    font-size: 20px;
+    color: #ff6347; /* Tomato color */
+    letter-spacing: 1px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+
+.pagination {
+    display: flex;
+    justify-content: right;
+}
+
+    .pagination a {
+        color: black;
+        padding: 8px 16px;
+        text-decoration: none;
+        transition: background-color .3s;
+    }
+
+        /* Style the active/current link */
+        .pagination a.active {
+            background-color: rgb(169, 30, 255);
+            color: white;
+        }
+
+        /* Add a grey background color on mouse-over */
+        .pagination a:hover:not(.active) {
+            background-color: #ddd;
+        }

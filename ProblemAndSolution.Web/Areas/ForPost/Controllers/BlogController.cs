@@ -25,9 +25,12 @@ namespace ProblemAndSolution.Web.Areas.ForPost.Controllers
 
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+
             Guid user= Guid.Parse(claim.Value);
             await model.UserBlogList(user);
-
+           
+            //await model.PagingList(id, term, currentPage);
+            
             return View(model);
         }
         [HttpGet]
@@ -100,8 +103,8 @@ namespace ProblemAndSolution.Web.Areas.ForPost.Controllers
             }
             return RedirectToAction(nameof(Index)); 
         }
-        [HttpPost, ValidateAntiForgeryToken]
 
+        [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
             try
@@ -117,9 +120,30 @@ namespace ProblemAndSolution.Web.Areas.ForPost.Controllers
                 ViewResponse(ex.Message, ResponseTypes.Error);
             }
             return RedirectToAction(nameof(Index)); 
-
         }
+        public async Task<IActionResult> ApprovePost(int id)
+        { 
+            try
+            {
+                var model = _lifetimeScope.Resolve<EditBlog>();
+                await model.ApproveSinglePost(id);
+                ViewResponse("Blog post approved", ResponseTypes.Success);
+                return RedirectToAction(nameof(Index));
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError($"{ex.Message}");
+                ViewResponse(ex.Message, ResponseTypes.Error);
+            }
+            return RedirectToAction(nameof(Index));           
+        }
+        public async Task<IActionResult> Approve()
+        {
+            var model= _lifetimeScope.Resolve<BlogModel>();
+           await  model.ListOfBlogs();
 
+            return View(model);
+        }
         public IActionResult GetBlog()
         {
             var tableModel = new DataTablesAjaxRequestModel(Request);
@@ -127,7 +151,5 @@ namespace ProblemAndSolution.Web.Areas.ForPost.Controllers
             var data = model.GetBlog(tableModel);
             return Json(data);
         }
-
-
     }
 }

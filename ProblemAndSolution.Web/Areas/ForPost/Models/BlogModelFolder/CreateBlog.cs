@@ -18,8 +18,7 @@ namespace ProblemAndSolution.Web.Areas.ForPost.Models.BlogModelFolder
         public IFormFile formFile { get; set; }
         public DateTime PublishedDate { get; set; }
         public string? Author { get; set; }
-        public bool Visible { get; set; }
-
+        public string? Visible { get; set; }
         public CreateBlog() { }
 
         public CreateBlog(IBlogServices blogServices,
@@ -49,7 +48,7 @@ namespace ProblemAndSolution.Web.Areas.ForPost.Models.BlogModelFolder
                 ImageUrl=Url,
                 PublishedDate = PublishedDate,
                 Author = basicInfo!.FirstName, 
-                Visible = Visible,  
+                Visible ="Pending" ,  
                 PostId=basicInfo.Id,
             };
             await _blogServices.AddBlog(entity);
