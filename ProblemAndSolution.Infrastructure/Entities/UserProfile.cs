@@ -17,6 +17,7 @@ namespace ProblemAndSolution.Infrastructure.Entities
         //public IList<Blog>? Blogs { get; set; } 
         public Guid ApplicationUserId { get; set; }
         public ApplicationUser? ApplicationUser { get; set; }
-
     }
 }
+
+

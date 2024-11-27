@@ -165,7 +165,8 @@ namespace ProblemAndSolution.Infrastructure.Services
             }
             else
             {
-                result = _pAndSUnitOfWork.BlogRepository.GetDynamic(x => x.Tag.ToLower() == searchText.ToLower() || x.Visible.ToLower() == searchText.ToLower() || x.Author.ToLower() ==searchText.ToLower() 
+                result = _pAndSUnitOfWork.BlogRepository.GetDynamic(x => x.Tag.ToLower() == searchText.ToLower() 
+                || x.Visible.ToLower() == searchText.ToLower() || x.Author.ToLower() ==searchText.ToLower() 
                 , null,null, pageindex, pagesize, true);
             }
             var listOfEntity = new List<BlogBO>();
@@ -239,7 +240,7 @@ namespace ProblemAndSolution.Infrastructure.Services
         
         public async Task<BlogBO> GetDetailsById(int id)
         {
-            var entity =(await  _pAndSUnitOfWork.BlogRepository.GetAsync(c=>c.Id==id&&c.Visible=="Approve",d=>d.Include(e=>e.Comments))).FirstOrDefault();
+            var entity =(await  _pAndSUnitOfWork.BlogRepository.GetAsync(c=>c.Id==id &&c.Visible == "Approve",d=>d.Include(e=>e.Comments))).FirstOrDefault();
 
             if (entity != null)
             {

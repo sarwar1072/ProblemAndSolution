@@ -24,7 +24,6 @@ namespace ProblemAndSolution.Web.Areas.ForPost.Models
 
         public AnswerCreateModel()
         {
-
         }
 
         public AnswerCreateModel(IUserManagerAdapter<ApplicationUser> userManagerAdapter,

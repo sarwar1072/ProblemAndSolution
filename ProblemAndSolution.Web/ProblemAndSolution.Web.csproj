@@ -5,7 +5,12 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>aspnet-ProblemAndSolution.Web-4E19E4C4-66E5-4B8C-BADA-66D729A123B9</UserSecretsId>
+    <ApplicationIcon>favicon.ico</ApplicationIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="favicon.ico" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="8.0.0" />

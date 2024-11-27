@@ -15,7 +15,7 @@ namespace ProblemAndSolution.Web.Areas.ForPost.Controllers
 
         }    
         
-        [Authorize(Roles = "User")]
+        [Authorize(Roles = "User,Admin")]
         [HttpPost]
         public async Task<IActionResult> AddAnswer(string answerText, int quesId)
         {
@@ -24,7 +24,7 @@ namespace ProblemAndSolution.Web.Areas.ForPost.Controllers
             return Ok(model);
         }
 
-        [Authorize(Roles = "User")]
+        [Authorize(Roles = "User,Admin")]
         [HttpPost]
         public async Task<IActionResult> AddComment(string commentVal, int answerId)
         {
@@ -34,7 +34,7 @@ namespace ProblemAndSolution.Web.Areas.ForPost.Controllers
             return Ok(model);
         }
 
-        [Authorize(Roles = "User")]
+        [Authorize(Roles = "User,Admin")]
         [HttpPost]
         public async Task<IActionResult> AddQuestionVote(int quesId)
         {
@@ -44,7 +44,7 @@ namespace ProblemAndSolution.Web.Areas.ForPost.Controllers
             return Ok(model);
         }
 
-        [Authorize(Roles = "User")]
+        [Authorize(Roles = "User,Admin")]
         [HttpPost]
         public async Task<IActionResult> AddAnsVote(int answerId)
         {

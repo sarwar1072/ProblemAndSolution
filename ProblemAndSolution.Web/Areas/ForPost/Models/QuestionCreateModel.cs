@@ -12,7 +12,7 @@ namespace ProblemAndSolution.Web.Areas.ForPost.Models
     {
         private IQuestionServices _questionServices;
         public Guid ApplicationUserId { get; set; }
-       public ApplicationUser? ApplicationUser { get; set; }
+        public ApplicationUser? ApplicationUser { get; set; }
         public string? Title { get; set; }
         public int? TotalQutnVote { get; set; }
         public string? QuestionBody { get; set; }

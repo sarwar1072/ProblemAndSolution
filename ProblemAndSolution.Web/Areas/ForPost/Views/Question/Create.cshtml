@@ -2,8 +2,6 @@
 @{
     ViewData["Title"] = "Create";
 }
-
-
 <div class="">
     <div class="row">
         <div class="col-6">
@@ -55,7 +53,8 @@
                                     <input type="text" asp-for="Tags" id="tag" class="form-control" required>
                                     <span asp-validation-for="Tags" class="text-danger"></span>
                                 </div>
-                                <button id="addTag" type="button" class="btn btn-primary btn-sm float-right"><i class="fa fa-plus-circle" aria-hidden="true"></i></button>
+                                <button id="addTag" type="button" class="btn btn-primary btn-sm float-right">
+                                    <i class="fa fa-plus-circle" aria-hidden="true"></i></button>
                             </div>
                             <div class="item form-group">
                                 <div class="col-md-6 col-sm-6 offset-md-3">
@@ -71,9 +70,7 @@
         </div>
     </div>
 </div>
-
 @section Scripts{
-    <!-- jQuery Smart Wizard -->
     <script>
         $(function () {
             var html = "<div class='item form-group'><label class='col-form-label label-align' for='tag' style='display: block; font-size: 1.1rem;'>Tags</label><div class=''><input type='text' name='Tags' id='tag' class='form-control required'><span asp-validation-for='Tags' class='text-danger'></span></div></div>";
@@ -81,9 +78,7 @@
                 $("#tags").append(html);
             });
         });
-
     </script>
-
     <partial name="~/views/shared/_ValidationScriptsPartial.cshtml" />
 }
 
