@@ -310,6 +310,7 @@ namespace ProblemAndSolution.Infrastructure.Services
                         Tag = blog.Tag,
                         PageTitle = blog.PageTitle,
                         ImageUrl = blog.ImageUrl,
+                        PublishedDate= blog.PublishedDate,  
                     });
                 }
             }           
