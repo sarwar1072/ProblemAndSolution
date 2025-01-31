@@ -144,7 +144,7 @@ namespace ProblemAndSolution.Infrastructure.Services
             var count = await _AndSUnitOfWork.QuestionRepository.GetCountAsync(x => x.Title == question.Title);
             if(count != 0)
             {
-                throw new DuplicateException("Same title is exist.");
+                throw new DuplicationException("Same title is exist.");
             }
             var entity=MappToEntity(question);
             await _AndSUnitOfWork.QuestionRepository.AddAsync(entity);
@@ -178,7 +178,7 @@ namespace ProblemAndSolution.Infrastructure.Services
                 throw new InvalidOperationException("Question can not be null");
             var count = await _AndSUnitOfWork.QuestionRepository.GetCountAsync(x => x.Title == question.Title);
             if (count != 0)
-                throw new DuplicateException("same questio exist");
+                throw new DuplicationException("same questio exist");
 
             var entity = (await _AndSUnitOfWork.QuestionRepository.GetAsync(x => x.Id == question.Id, b => b.Include(c => c.Tags))).FirstOrDefault();
             if (entity is null)

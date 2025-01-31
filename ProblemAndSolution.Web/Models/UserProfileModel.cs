@@ -17,7 +17,7 @@ namespace ProblemAndSolution.Web.Models
         public Guid ApplicationUserId { get; set; }
         //public ApplicationUser ApplicationUser { get; set; }
         public UserProfileModel(IUserManagerAdapter<ApplicationUser> userManagerAdapter, IHttpContextAccessor contextAccessor,
-           IMapper mapper,IUserServices userServices)
+           IMapper mapper,IUserServices userServices):base(userManagerAdapter,contextAccessor,mapper)
         {
                 _userServices=userServices;
         }

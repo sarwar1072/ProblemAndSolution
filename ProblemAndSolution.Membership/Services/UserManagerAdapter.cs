@@ -150,6 +150,11 @@ namespace ProblemAndSolution.Membership.Services
             var user = await _userManager.FindByIdAsync(userId);
             return user;
         }
+        public async Task<ApplicationUserEO> GetById(Guid id)
+        {
+            var user = await _userManager.FindByIdAsync(id.ToString());
+            return user;
+        }
         public async Task<IdentityResult> ChangePassword(string userId, string newPassword,
                                                          string confirmPassword)
         {

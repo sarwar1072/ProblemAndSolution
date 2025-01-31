@@ -11,7 +11,7 @@ using System.Xml.Linq;
 
 namespace ProblemAndSolution.Web.Models
 {
-    public class RegisterModel
+    public class RegisterModel: BaseModel
     {
         private IUserManagerAdapter<ApplicationUser>? _userManagerAdapter;
         private ISignInManagerAdapter<ApplicationUser>? _signInManagerAdapter;

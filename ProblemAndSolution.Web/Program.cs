@@ -33,7 +33,13 @@ namespace ProblemAndSolution.Web
                 containerBuilder.RegisterModule(new InfrastructureModule(connectionString, assemblyName, webHostEnvironment));
                 containerBuilder.RegisterModule(new EmailMessagingModule(connectionString, assemblyName));
             });
-
+            builder.Services.AddDistributedMemoryCache(); // For storing session data in memory
+            builder.Services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(30); // Set session timeout (optional)
+                options.Cookie.HttpOnly = true; // Make the session cookie HTTP only
+                options.Cookie.IsEssential = true; // Make session cookie essential
+            });
             //Serilog Configuration
             builder.Host.UseSerilog((ctx, lc) => lc
                 .MinimumLevel.Debug()
@@ -48,8 +54,10 @@ namespace ProblemAndSolution.Web
             //    options.ListenLocalhost(49172, opts => opts.UseHttps());
             //    //get your localhost htttps port number from launch settings
             //});
-
-            builder.WebHost.UseUrls("http://*:80");
+            builder.WebHost.UseUrls("http://*:80", "https://*:5001");
+            //  builder.WebHost.UseUrls("http://*:80");
+            // builder.WebHost.UseUrls("http://faridmahmud1072.bsite.net", "https://faridmahmud1072.bsite.net");
+            builder.WebHost.UseUrls("http://sarwarmahmudmilon.bsite.net", "https://sarwarmahmudmilon.bsite.net");
 
 
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -119,6 +127,7 @@ namespace ProblemAndSolution.Web
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseSession(); // Ensure Session middleware is added before the endpoints
 
             app.UseAuthentication();
             app.UseAuthorization();

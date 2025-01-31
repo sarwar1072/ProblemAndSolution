@@ -27,7 +27,7 @@ namespace ProblemAndSolution.Web.Models
         public ApplicationUser? User { get; set; }
         public Guid? UserId { get; set; }
         public IList<Blog>? blog { get; set; }
-        public IList<Blog>? RecentBlog { get; set; }
+        public IList<Blog>? RecentBlog { get; set; }= new List<Blog>(); 
         public IList<Blog>? RelatedBlog { get; set; }
 
         public IList<BlogComment>? comments { get; set; }
@@ -73,7 +73,7 @@ namespace ProblemAndSolution.Web.Models
                 ImageUrl = blogDatails.ImageUrl;
                 PublishedDate = blogDatails.PublishedDate;
                 Author=blogDatails.Author;  
-                Visible= blogDatails.Visible;
+                Visible=blogDatails.Visible;
                 TotalLikes = totallike;
                 Liked = IsLiked;
                 UserId = blogDatails.PostId;
@@ -95,6 +95,10 @@ namespace ProblemAndSolution.Web.Models
                     }
 
                 }
+            }
+            else
+            {
+
             }
         }
         internal async Task<int> AddLike(int id)
@@ -129,7 +133,14 @@ namespace ProblemAndSolution.Web.Models
             {
                 foreach (var blog in blogList)
                 {
-                    RecentBlog.Add(blog);
+
+                    RecentBlog.Add(new Blog
+                    {
+                        ImageUrl = blog.ImageUrl,   
+                        Tag=blog.Tag,   
+                        PublishedDate=blog.PublishedDate,   
+                        Id=blog.Id, 
+                    });
                 }
             }        
         }

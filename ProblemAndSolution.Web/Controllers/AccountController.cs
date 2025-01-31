@@ -18,6 +18,7 @@ namespace ProblemAndSolution.Web.Controllers
             _fileHelper = fileHelper;   
         }
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> AddProfile()
         {
             var model=_lifetimeScope.Resolve<UserProfileModel>();
@@ -33,15 +34,23 @@ namespace ProblemAndSolution.Web.Controllers
         public async Task<IActionResult> AddProfile(UserProfileModel model)
         {
             model.ResolveDependency(_lifetimeScope);
-            await model.GetUserInfoAsync();    
+            await model.GetUserInfoAsync();
+
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+            model.ApplicationUserId = Guid.Parse(claim.Value);
+
             if (ModelState.IsValid)
             {
                 try
                 {
                     model.ProfileURL = _fileHelper.UploadFile(model.formFile);
                     await model.AddProfile();
-                    ViewResponse("Success", ResponseTypes.Success);
-                    return RedirectToAction(nameof(AddProfile));
+                    model.Response=new ResponseModel("success",ResponseType.Success);
+                   // return RedirectToAction("UserProfileDetails", "Home");
+                    return RedirectToAction("UserProfileDetails", "Home", new { userId = model.ApplicationUserId });
+                 //  return View(model);  
+
                 }
                 //catch (DuplicationException ex)
                 //{
@@ -51,7 +60,7 @@ namespace ProblemAndSolution.Web.Controllers
                 catch (Exception ex)
                 {
                     _logger.LogError($"{ex.Message}");
-                    ViewResponse("Failure", ResponseTypes.Error);
+                    model.Response=new ResponseModel("failed",ResponseType.Failure);
                 }
             }
             return View(model);

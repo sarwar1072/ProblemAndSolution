@@ -8,7 +8,7 @@ using System.Runtime.CompilerServices;
 
 namespace ProblemAndSolution.Web.Models
 {
-    public class LoginModel:PublicLayoutModel
+    public class LoginModel: BaseModel
     {
         private ISignInManagerAdapter<ApplicationUser>? _signInManagerAdapter;
 

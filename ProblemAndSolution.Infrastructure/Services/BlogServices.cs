@@ -40,7 +40,7 @@ namespace ProblemAndSolution.Infrastructure.Services
             }
             var blogCount = await _pAndSUnitOfWork.BlogRepository.GetCountAsync(c => c.PageTitle == blog.PageTitle);
             if (blogCount > 0) {
-                throw new DuplicateException("Same title exist");
+                throw new DuplicationException("Same title exist");
             }
 
             var mapEntity = BoToEntity(blog);
@@ -343,7 +343,6 @@ namespace ProblemAndSolution.Infrastructure.Services
         public async Task<List<BlogBO>> UserSpecificBlogList(Guid userId)
         {
             var blogList = (await _pAndSUnitOfWork.BlogRepository.GetAsync(a => a.PostId == userId  , null)).ToList();
-
            
             var blogs = new List<BlogBO>();
             if (blogList.Any())
@@ -356,6 +355,7 @@ namespace ProblemAndSolution.Infrastructure.Services
                         Tag = blog.Tag,
                         Content = HtmlHelpers.TruncateHtml(blog.Content, 100),
                         PublishedDate = blog.PublishedDate,
+                        Visible = blog.Visible, 
                         Author = blog.Author,
                         ImageUrl = blog.ImageUrl,
                     });

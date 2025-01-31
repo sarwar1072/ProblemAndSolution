@@ -19,6 +19,7 @@ namespace ProblemAndSolution.Web.Areas.ForPost.Models.BlogModelFolder
         public string ShortDescription { get; set; }
         public string ImageUrl { get; set; }
         public DateTime PublishedDate { get; set; }
+        public string Visible {  get; set; }    
         public string Author { get; set; }
         public Guid PostId { get; set; }
         public List<Blog> Blogs { get; set; }
@@ -87,7 +88,17 @@ namespace ProblemAndSolution.Web.Areas.ForPost.Models.BlogModelFolder
             {
                 foreach(var blog in list) 
                 {
-                    Blogs.Add(blog);             
+                    Blogs.Add(new Blog
+                    {
+                        Id=blog.Id, 
+                        Tag = blog.Tag, 
+                        PageTitle = blog.PageTitle, 
+                        Content = blog.Content,   
+                        ImageUrl = blog.ImageUrl,   
+                        PublishedDate = blog.PublishedDate, 
+                        Visible = blog.Visible, 
+
+                    });             
                 }
             }
         }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using ProblemAndSolution.Infrastructure.Entities.Membership;
 using ProblemAndSolution.Membership.Enums;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,8 @@ namespace ProblemAndSolution.Membership.Services
         Task<bool> UpdateAccountAsync(T user);
         Task SignInAsync(Guid id);
         string? GetUserId();
+        Task<ApplicationUser> GetById(Guid id);
+
         Task<IList<string>> GetUserRolesAsync(string email);
         Task<IdentityResult> ChangePassword(string userId, string newPassword,
                                             string confirmPassword);

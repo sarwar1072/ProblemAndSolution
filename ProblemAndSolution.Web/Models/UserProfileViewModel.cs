@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using ProblemAndSolution.Infrastructure;
 using ProblemAndSolution.Infrastructure.BusinessObj;
 using ProblemAndSolution.Infrastructure.Services;
@@ -18,7 +19,7 @@ namespace ProblemAndSolution.Web.Models
         public Guid ApplicationUserId { get; set; }
         //public ApplicationUser ApplicationUser { get; set; }
         public UserProfileViewModel(IUserManagerAdapter<ApplicationUser> userManagerAdapter, IHttpContextAccessor contextAccessor,
-           IMapper mapper, IUserServices userServices)
+           IMapper mapper, IUserServices userServices):base(userManagerAdapter, contextAccessor, mapper)
         {
             _userServices = userServices;
         }
@@ -32,12 +33,13 @@ namespace ProblemAndSolution.Web.Models
         internal async Task GetUserProfile(Guid userId)
         {
            var data = await _userServices.UserSpecificBlog(userId);
-
+          
+           var userData= await UserData(userId);
             if (data != null)
             {
                 ProfileURL = data.ProfileURL;
                 Profession = data.Profession;
-                UserName = data.UserName;
+                UserName = userData.FirstName;
                 Blogs = new List<Blog>();
 
                 if(data.Blogs != null) { 
@@ -55,9 +57,23 @@ namespace ProblemAndSolution.Web.Models
                 //    Author = blog.Author,
                 //    ImageUrl = blog.ImageUrl,
                 //}).ToList();
-
             }
-
         }
+        
+        private  async Task<ApplicationUser> UserData(Guid id)
+        {
+            var user = await _userManagerAdapter!.GetById(id);
+            var businessUser = new ApplicationUser()
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+            };
+            return businessUser;
+        }
+
+
     }
 }
+
+
+

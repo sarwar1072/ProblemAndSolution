@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using ProblemAndSolution.Membership.BusinessObj;
 using ProblemAndSolution.Membership.DTOS;
 using ProblemAndSolution.Membership.Services;
@@ -32,6 +33,34 @@ namespace ProblemAndSolution.Web.Models
             _contextAccessor = _lifetimeScope.Resolve<IHttpContextAccessor>();
             _mapper = _lifetimeScope.Resolve<IMapper>();
         }
+
+        public ResponseModel? Response
+        {
+            get
+            {
+                if (_contextAccessor == null || _contextAccessor.HttpContext == null || !_contextAccessor.HttpContext.Session.IsAvailable)
+                {
+                    return null;  // Return null or handle the absence of HttpContext
+                }
+
+                if (_contextAccessor.HttpContext.Session.Keys.Contains(nameof(Response)))
+                {
+                    var response = _contextAccessor.HttpContext.Session.Get<ResponseModel>(nameof(Response));
+                    _contextAccessor.HttpContext.Session.Remove(nameof(Response));
+                    return response;
+                }
+
+                return null;
+            }
+            set
+            {
+                if (_contextAccessor != null && _contextAccessor.HttpContext != null)
+                {
+                    _contextAccessor.HttpContext.Session.Set(nameof(Response), value);
+                }
+            }
+        }
+
         public  async virtual Task<bool> Userid(){
 
             var userName = _contextAccessor!.HttpContext!.User!.Identity!.Name;
@@ -42,6 +71,17 @@ namespace ProblemAndSolution.Web.Models
             }        
             return true;        
         }
+        //public async Task<ApplicationUser> UserData(Guid id)
+        //{
+        //    var user = await _userManagerAdapter!.GetById(id);
+        //    var businessUser = new ApplicationUser()
+        //    {
+        //        FirstName = user.FirstName,
+        //        LastName = user.LastName,                
+        //    };
+        //    return businessUser;    
+        //} 
+
         public async virtual Task GetUserInfoAsync()
         {
             var userName = _contextAccessor!.HttpContext!.User!.Identity!.Name;

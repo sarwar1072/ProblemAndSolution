@@ -5,12 +5,13 @@ using ProblemAndSolution.Infrastructure.BusinessObj;
 using ProblemAndSolution.Infrastructure.Services;
 using ProblemAndSolution.Membership.BusinessObj;
 using ProblemAndSolution.Membership.Services;
+using ProblemAndSolution.Web.Models;
 using System.Runtime.CompilerServices;
 using static System.Formats.Asn1.AsnWriter;
 
 namespace ProblemAndSolution.Web.Areas.ForPost.Models
 {
-    public class AnswerCreateModel:PostLayoutModel
+    public class AnswerCreateModel: PostLayoutModel
     {
         private IAnswerServices _answerServices;
         private ICommentService _commentService;

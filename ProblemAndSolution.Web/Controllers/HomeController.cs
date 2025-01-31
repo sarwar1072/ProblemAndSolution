@@ -25,18 +25,21 @@ namespace ProblemAndSolution.Web.Controllers
         }
         public IActionResult Index()
         {
+            var model = _lifetimeScope.Resolve<PublicLayoutModel>();
             ViewBag.Answer = _answerService.NumberOfAnswer();
             ViewBag.Question = _qusetionService.NumberOfQuestionAsync();
             ViewBag.Unasnwers = _qusetionService.NumberOfQuestionAsync() - _answerService.NumberOfAnswer();
-            return View();
+            return View(model);
         }
         public async Task<IActionResult> PaginatedQuestion(int index)
         {
+            var model = _lifetimeScope.Resolve<PublicLayoutModel>();
+           // model.ResolveDependency(_lifetimeScope);
+
             if (index > 0)
             {
                 try
                 {
-                    var model = _lifetimeScope.Resolve<PublicLayoutModel>();
                     var questions = await model.GetQuestions(index);
                     return Ok(questions);
                 }
@@ -71,22 +74,23 @@ namespace ProblemAndSolution.Web.Controllers
         }
         public async Task<IActionResult> UserprofileDetails(Guid userId)
         {
-            var model=_lifetimeScope.Resolve<UserProfileViewModel>();   
-             await  model.GetUserProfile(userId);
+            var model=_lifetimeScope.Resolve<UserProfileViewModel>();
+
+            await model.GetUserProfile(userId);
            
             return View(model);  
         }
         public async Task<IActionResult> Details(int id)
         {
+            var model = _lifetimeScope.Resolve<BlogViewModel>();
+            model.ResolveDependency(_lifetimeScope);
             try
             {
-                var model = _lifetimeScope.Resolve<BlogViewModel>();
-                model.ResolveDependency(_lifetimeScope);
-
+              
                 await model.GetDetailsById(id);
 
                 await model.RecentPost();
-                await model.RelatedPost(id);    
+                //await model.RelatedPost(id);    
 
                 return View(model); 
             }
@@ -101,9 +105,10 @@ namespace ProblemAndSolution.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Details(BlogViewModel model)
         {
+            model.ResolveDependency(_lifetimeScope);
+
             try
             {
-                model.ResolveDependency(_lifetimeScope);
                 //await model.GetUserInfoAsync();
                 await model.AddComment();
                 return RedirectToAction("Details", "Home");

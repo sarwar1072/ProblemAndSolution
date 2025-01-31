@@ -5,10 +5,10 @@
 <div class="container mt-5">
     <!-- User Profile Section -->
     <div class="row mb-4">
-        @if(Model.Profession != null || Model.ProfileURL != null)
+        @if(Model.Profession != null || Model.ProfileURL != null || Model.UserName !=null)
         {
             <div class="col-md-4 text-center">
-                <img src="@(Model.ProfileURL ?? "/images/default-profile.png")" class="img-fluid rounded-circle" alt="User Profile Image" style="max-width: 150px;">
+                <img src="@(Model.ProfileURL ?? "/images/R.jpeg")" class="img-fluid rounded-circle" alt="User Profile Image" style="max-width: 150px;">
             </div>
             <div class="col-md-5 bg-blue-sky">
                 <h2>Name: @Model.UserName.ToUpper()</h2>
@@ -19,8 +19,6 @@
         }
         else
         {
-@*             <a href="/Account/Register" class="btn btn-outline-info mb-3">Ask Question</a>
- *@
             <a href="@Url.Action("AddProfile", "Account")" class="btn btn-primary">
                 Edit Profile
             </a>

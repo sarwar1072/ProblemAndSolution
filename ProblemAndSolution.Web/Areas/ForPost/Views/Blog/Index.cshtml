@@ -2,8 +2,8 @@
 @using ProblemAndSolution.Infrastructure.Entities.Membership
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
-
 @model BlogModel
+
 @{
     ViewData["Title"] = "Index";
 }
@@ -30,6 +30,7 @@
         </div>
     </div>
 </div>
+
 @if (User.IsInRole("Admin"))
 {
     <div class="row">
@@ -100,8 +101,14 @@ else
                             <div class="col-md-8">
                                 <p>@blog.Content.Substring(0, Math.Min(blog.Content.Length, 150))...</p> <!-- Show a summary of the content -->
                                 <div class="d-flex justify-content-between">
-                                    <a href="@Url.Action("Details", "Home", new {area="" , id = blog.Id })" class="btn btn-primary">Read More</a>
-
+                                    @if (blog.Visible == "Approve")
+                                    {
+                                        <a href="@Url.Action("Details", "Home", new {area="" , id = blog.Id })" class="btn btn-primary">Read More</a>
+                                    }
+                                    else
+                                    {
+                                        <a href="#" class="btn btn-primary">Panding Post</a>
+                                    }
                                     <!-- Edit Button -->
                                     <a href="@Url.Action("Edit", "Blog", new {id = blog.Id })" class="btn btn-warning">Edit</a>
 

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProblemAndSolution.Web.Areas.ForPost.Models;
 using ProblemAndSolution.Web.Enums;
+using ProblemAndSolution.Web.Models;
 using System.Linq.Expressions;
 using static System.Formats.Asn1.AsnWriter;
 
@@ -40,19 +41,24 @@ namespace ProblemAndSolution.Web.Areas.ForPost.Controllers
                 if (ModelState.IsValid)
                 {
                     await model.AddQuestionAsync();
-                    ViewResponse("Question created successfully", ResponseTypes.Success);
+                    model.Response=new ResponseModel("Question created successfully",ResponseType.Success);
+                    //ViewResponse("Question created successfully", ResponseTypes.Success);
                     return RedirectToAction(nameof(Index));
                 }
                 else
                 {
                     _logger.LogError("Failed to create");
-                    ViewResponse("Invalid credential",ResponseTypes.Warning);
+                    model.Response = new ResponseModel("Question created failed", ResponseType.Failure);
+
+                    //ViewResponse("Invalid credential",ResponseTypes.Warning);
                     return View(model);
                 }               
             }
             catch(Exception ex){
                 _logger.LogError(ex, "Failed to create Question");
-                ViewResponse("Failed to create Question", ResponseTypes.Error);
+                model.Response = new ResponseModel("Question created failed", ResponseType.Failure);
+
+                // ViewResponse("Failed to create Question", ResponseTypes.Error);
                 return View(model);
             }
         }
@@ -79,36 +85,47 @@ namespace ProblemAndSolution.Web.Areas.ForPost.Controllers
                 {
 
                     await model.UpdateAsync();
-                    ViewResponse("Question has been updated.", ResponseTypes.Success);
+                    model.Response = new ResponseModel("Question edited successfully", ResponseType.Success);
+
+                   // ViewResponse("Question has been updated.", ResponseTypes.Success);
                     return RedirectToAction(nameof(Index));
                 }
                 else
                 {
                     _logger.LogError("Failed to Update");
-                    ViewResponse("Invalid Creadentials.", ResponseTypes.Warning);
+                    model.Response = new ResponseModel("Question failed ", ResponseType.Failure);
+
+                    // ViewResponse("Invalid Creadentials.", ResponseTypes.Warning);
                     return View(model);
                 }
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Failed to Update Question");
-                ViewResponse("Failed to update Question", ResponseTypes.Error);
+                model.Response = new ResponseModel("Question edit failed", ResponseType.Failure);
+
+              //  ViewResponse("Failed to update Question", ResponseTypes.Error);
                 return View(model);
             }
         }
 
         public async Task<IActionResult> DeleteQuestion(int id)
         {
+            var model = _lifetimeScope.Resolve<QuestionEditModel>();
+
             try
             {
-                var model = _lifetimeScope.Resolve<QuestionEditModel>();
                 await model.DeleteQuestionAsync(id);
-                ViewResponse("Question has been successfully deleted.", ResponseTypes.Success);
+                model.Response = new ResponseModel("Question deletion successfully", ResponseType.Success);
+
+                //ViewResponse("Question has been successfully deleted.", ResponseTypes.Success);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Failed to delete Question");      
-                ViewResponse(ex.Message, ResponseTypes.Error);
+                _logger.LogError(ex, "Failed to delete Question");
+                model.Response = new ResponseModel("Question failed", ResponseType.Failure);
+
+                //ViewResponse(ex.Message, ResponseTypes.Error);
             }
             return RedirectToAction(nameof(Index));
         }

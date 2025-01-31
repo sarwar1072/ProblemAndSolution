@@ -1,4 +1,4 @@
-﻿@using ProblemAndSolution.Web.Utilities
+﻿@* @using ProblemAndSolution.Web.Utilities
 
 @if(TempData.Peek<ResponseModel>("ResponseMessage") != null)
 {
@@ -6,4 +6,4 @@
     <div class="alert alert-@(response.Response.ToString().ToLower())" role="alert">
         @response.Message
     </div>
-}
+} *@

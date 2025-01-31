@@ -50,7 +50,8 @@ namespace ProblemAndSolution.Web.Areas.ForPost.Controllers
                 {
                     model.Url = _fileHelper.UploadFile(model.formFile);
                     await model.AddBlog();
-                    ViewResponse("Success", ResponseTypes.Success);
+                    model.Response=new ResponseModel("Blog added successfully",ResponseType.Success);
+                    //ViewResponse("Success", ResponseTypes.Success);
                    return RedirectToAction(nameof(Index));
                 }
                 //catch (DuplicationException ex)
@@ -61,7 +62,8 @@ namespace ProblemAndSolution.Web.Areas.ForPost.Controllers
                 catch (Exception ex)
                 {
                     _logger.LogError($"{ex.Message}");
-                    ViewResponse("Failure", ResponseTypes.Error);
+                    model.Response = new ResponseModel("Creation failed",ResponseType.Failure);
+                    //ViewResponse("Failure", ResponseTypes.Error);
                 }
             }
             return View(model);
@@ -87,18 +89,24 @@ namespace ProblemAndSolution.Web.Areas.ForPost.Controllers
                         model.Url = _fileHelper.UploadFile(model.formFile);
                     }
                     await model.Update();
-                    ViewResponse("Question has been updated", ResponseTypes.Success);
+                    model.Response = new ResponseModel("Blog edit successfully", ResponseType.Success);
+
+                    //ViewResponse("Question has been updated", ResponseTypes.Success);
                     return RedirectToAction(nameof(Index));
                 }
                 else
                 {
                     _logger.LogError("Failed to edit");
-                    ViewResponse("Invalid", ResponseTypes.Warning);
+                    model.Response = new ResponseModel("Blog added failed", ResponseType.Failure);
+
+                    // ViewResponse("Invalid", ResponseTypes.Warning);
                 }
             }
             catch(Exception ex) {
                 _logger.LogError($"{ex.Message}");
-              ViewResponse("Failed to update",ResponseTypes.Error);
+                model.Response = new ResponseModel("Blog edit failed", ResponseType.Failure);
+
+                //ViewResponse("Failed to update",ResponseTypes.Error);
                 return View(model);
             }
             return RedirectToAction(nameof(Index)); 
@@ -107,33 +115,39 @@ namespace ProblemAndSolution.Web.Areas.ForPost.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
+            var dataDelete = _lifetimeScope.Resolve<BlogModel>();
+
             try
             {
-                var dataDelete = _lifetimeScope.Resolve<BlogModel>();
                  dataDelete.Delete(id);
-                ViewResponse("Blog has been deleted", ResponseTypes.Success);
+               dataDelete.Response = new ResponseModel("Deleted successfully",ResponseType.Success);
+                //ViewResponse("Blog has been deleted", ResponseTypes.Success);
                 return RedirectToAction(nameof(Index)); 
             }
             catch(Exception ex)
             {
                 _logger.LogError($"{ex.Message}");
-                ViewResponse(ex.Message, ResponseTypes.Error);
+                dataDelete.Response = new ResponseModel("Deletion failed",ResponseType.Failure);
+               // ViewResponse(ex.Message, ResponseTypes.Error);
             }
             return RedirectToAction(nameof(Index)); 
         }
         public async Task<IActionResult> ApprovePost(int id)
-        { 
+        {
+            var model = _lifetimeScope.Resolve<EditBlog>();
+
             try
             {
-                var model = _lifetimeScope.Resolve<EditBlog>();
                 await model.ApproveSinglePost(id);
-                ViewResponse("Blog post approved", ResponseTypes.Success);
+                model.Response = new ResponseModel("Approved", ResponseType.Success);    
+               // ViewResponse("Blog post approved", ResponseTypes.Success);
                 return RedirectToAction(nameof(Index));
             }
             catch(Exception ex)
             {
                 _logger.LogError($"{ex.Message}");
-                ViewResponse(ex.Message, ResponseTypes.Error);
+                model.Response= new ResponseModel("error", ResponseType.Failure);   
+                //ViewResponse(ex.Message, ResponseTypes.Error);
             }
             return RedirectToAction(nameof(Index));           
         }

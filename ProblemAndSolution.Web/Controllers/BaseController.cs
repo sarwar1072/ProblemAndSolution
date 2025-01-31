@@ -16,13 +16,13 @@ namespace ProblemAndSolution.Web.Controllers
             _lifetimeScope = lifetimeScope;
         }
 
-        protected virtual void ViewResponse(string message, ResponseTypes responseTypes)
-        {
-            TempData.Put("ResponseMessage",new ResponseModel
-            {
-                Message = message,
-                Response=responseTypes,
-            });
-        }
+        //protected virtual void ViewResponse(string message, ResponseTypes responseTypes)
+        //{
+        //    TempData.Put("ResponseMessage", new ResponseModel
+        //    {
+        //        Message = message,
+        //        Response = responseTypes,
+        //    });
+        //}
     }
 }
