@@ -1,4 +1,4 @@
-﻿@using Microsoft.AspNetCore.Identity
+﻿@* @using Microsoft.AspNetCore.Identity
 @using ProblemAndSolution.Infrastructure.Entities.Membership
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
@@ -24,11 +24,7 @@
                 {
                     <a href="/Account/Register" class="btn btn-outline-info mb-3">Write Question</a>
                 }
-                @* <div class="d-flex justify-content-between align-items-center bg-secondary text-white p-3">
-                    <div class="bg-info px-3 py-2">@ViewBag.Question Questions</div>
-                    <div class="bg-info px-3 py-2">@ViewBag.Answer Answers</div>
-                    <div class="bg-info px-3 py-2">@ViewBag.Unasnwers Unanswered Questions</div>
-                </div> *@
+                
             </div>
         </div>
     </div>
@@ -78,6 +74,132 @@
                                     <p>${QuestionBody}</p>
                                 </div>`;
                 $(questionCard).appendTo('#questions');
+            }
+        }
+    </script>
+}
+ *@
+
+@using Microsoft.AspNetCore.Identity
+@using ProblemAndSolution.Infrastructure.Entities.Membership
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+@section Styles {
+    <style>
+        /* Modern Styling */
+        .btn-custom {
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: all 0.3s ease-in-out;
+        }
+
+            .btn-custom:hover {
+                transform: scale(1.05);
+            }
+
+        .question-card {
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+
+            .question-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+            }
+
+        .load-more-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .spinner-border {
+            display: none;
+            width: 1.5rem;
+            height: 1.5rem;
+        }
+    </style>
+}
+
+<!-- Questions Section -->
+<div id="questions" class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    <a href="/ForPost/Question/Create" class="btn btn-outline-primary btn-custom">
+                        <i class="bi bi-question-circle"></i> Ask Question
+                    </a>
+                }
+                else
+                {
+                    <a href="/Account/Register" class="btn btn-outline-info btn-custom">
+                        <i class="bi bi-pencil-square"></i> Write Question
+                    </a>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Load More Button -->
+<div class="load-more-container">
+    <button class="btn btn-dark btn-custom" id="loadMoreBtn" onclick="LoadMore()">
+        <i class="bi bi-arrow-down-circle"></i> Load More
+        <div class="spinner-border spinner-border-sm text-light ms-2" role="status" id="loadingSpinner"></div>
+    </button>
+</div>
+
+@section Scripts {
+    <script>
+        var index = 1;
+        jQuery(document).ready(function ($) {
+            LoadQuestion();
+        });
+
+        function LoadMore() {
+            index += 1;
+            $("#loadingSpinner").show();
+            LoadQuestion();
+        }
+
+        function LoadQuestion() {
+            $.ajax({
+                url: '@Url.Action("PaginatedQuestion", "Home")',
+                type: 'POST',
+                cache: false,
+                data: { 'index': index },
+                success: function (result) {
+                    assignPost(result);
+                    $("#loadingSpinner").hide();
+                },
+                error: function (result) {
+                    console.error("Error loading questions");
+                    $("#loadingSpinner").hide();
+                }
+            });
+        }
+
+        function assignPost(result) {
+            for (var i = 0; i < result.length; i++) {
+                var Id = result[i].id;
+                var Title = result[i].title;
+                var QuestionBody = result[i].questionBody;
+
+                var questionCard = `
+                            <div id="${Id}" class="card question-card shadow-sm border-0 rounded-4 p-4 mb-3">
+                                <a href="/ForPost/Question/Details/${Id}" class="text-decoration-none text-dark">
+                                    <h4 class="fw-bold">${Title}</h4>
+                                </a>
+                                <p class="text-muted">${QuestionBody}</p>
+                            </div>`;
+
+                $('#questions').append(questionCard);
             }
         }
     </script>

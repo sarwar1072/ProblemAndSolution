@@ -29,7 +29,6 @@ namespace ProblemAndSolution.Web.Controllers
 
             return View(model); 
         }   
-      //  [Authorize(Roles = "User")]
         [HttpPost]
         public async Task<IActionResult> AddProfile(UserProfileModel model)
         {
@@ -47,9 +46,7 @@ namespace ProblemAndSolution.Web.Controllers
                     model.ProfileURL = _fileHelper.UploadFile(model.formFile);
                     await model.AddProfile();
                     model.Response=new ResponseModel("success",ResponseType.Success);
-                   // return RedirectToAction("UserProfileDetails", "Home");
                     return RedirectToAction("UserProfileDetails", "Home", new { userId = model.ApplicationUserId });
-                 //  return View(model);  
 
                 }
                 //catch (DuplicationException ex)

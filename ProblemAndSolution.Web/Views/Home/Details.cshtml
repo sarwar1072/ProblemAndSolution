@@ -6,101 +6,98 @@
 @{
     ViewData["Title"] = "Details";
 }                                  
-    
-<div class="container my-5">
+
+@* <div class="container my-5">
     <div class="row">
         <!-- Blog Details Section -->
-        <div class="col-lg-8 col-md-7 mr-4">
-            @if (Model != null)
-            {
-                <h3 class="mb-3">Heading: @Model.Tag</h3>
-                <div class="justify-content-between mb-3">
-                    <a href="@Url.Action("UserprofileDetails", "Home", new { userId = Model.UserId })">
-                        Author: @Model.Author [More Blog...]
-                    </a>
-                </div>
-                <div class="justify-content-between mb-3">
-                    <span class="text-secondary ">@Model.PublishedDate.ToString("MMMM dd, yyyy")</span>
-
-                </div>
-                <div class="mb-3">
-                    @if (SignInManager.IsSignedIn(User))
-                    {
-                        @if (Model.Liked)
-                        {
-                            <button style="cursor: pointer; background: none; border: none;">
-                                <i class="bi bi-hand-thumbs-up-fill"></i>
-                            </button>
-                        }
-                        else
-                        {
-                            <button onclick="LoadQusnVote()" style="cursor: pointer; background: none; border: none;">
-                                <i class="bi bi-hand-thumbs-up"></i>
-                            </button>
-                        }
-                    }
-                    <span id="totalLikes">@Model.TotalLikes</span> likes
-                    <input type="text" hidden value="@Model.Id" class="getQuesId" />
-                </div>
-
-                <!-- Blog Image -->
-                <img src="@Model.ImageUrl" style="max-width: 70%;" class="mx-auto d-block" />
-
-                <!-- Blog Content -->
-                <div class="mb-3 blog-details-content">
-                    @Html.Raw(Model.Content)
-                </div>
-
-                <!-- Comment Section -->
-                <div class="card w-100">
-                    <div class="card-header">
-                        <h5>Comments</h5>
-                        <form method="post">
-                            <div class="mb-3">
-                                <label class="form-label">Comment Description</label>
-                                <input type="text" class="form-control" asp-for="CommentDescription" />
-                            </div>
-                            <div class="mb-3">
-                                <button type="submit" class="btn btn-dark">Save</button>
-                            </div>
-                            <div class="mb-3">
-                                <h5>Comments: @Model.NoOfComment</h5>
-                            </div>
-                        </form>
-                    </div>
-
+        <div class="col-lg-8 col-md-7">
+            <div class="card shadow-lg p-4 border-0">
+                @if (Model != null)
+                {
                     <div class="card-body">
-                        @if (Model.comments != null && Model.comments.Any())
-                        {
-                            @foreach (var comment in Model.comments)
+                        <!-- Blog Title -->
+                        <h3 class="mb-3 text-primary">@Model.Tag</h3>
+
+                        <!-- Blog Meta -->
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <a href="@Url.Action("UserprofileDetails", "Home", new { userId = Model.UserId })" class="text-dark fw-bold">
+                                <i class="bi bi-person-circle text-primary"></i> Author: @Model.Author
+                            </a>
+                            <span class="text-muted small">
+                                <i class="bi bi-calendar text-primary"></i> @Model.PublishedDate.ToString("MMMM dd, yyyy")
+                            </span>
+                        </div>
+
+                        <!-- Blog Image -->
+                        <div class="text-center mb-3">
+                            <img src="@Model.ImageUrl" class="img-fluid rounded shadow" style="max-width: 100%;" />
+                        </div>
+
+                        <!-- Blog Content -->
+                        <div class="mb-3 blog-details-content">
+                            @Html.Raw(Model.Content)
+                        </div>
+
+                        <!-- Like Button -->
+                        <div class="mb-3">
+                            @if (SignInManager.IsSignedIn(User))
                             {
-                                <div class="card mb-3">
-                                    <div class="card-body">
-                                        <p>@comment.Description</p>
-                                        <div class="d-flex justify-content-between">
-                                            <span class="text-secondary">@comment.Author</span>
-                                            <span class="text-secondary">@comment.DateAdded.ToString("MMMM dd, yyyy")</span>
+                                <button onclick="LoadQusnVote()" class="btn btn-outline-primary btn-sm">
+                                    <i class="bi @(Model.Liked ? "bi-hand-thumbs-up-fill" : "bi-hand-thumbs-up")"></i>
+                                </button>
+                            }
+                            <span id="totalLikes" class="ms-2">@Model.TotalLikes likes</span>
+                            <input type="text" hidden value="@Model.Id" class="getQuesId" />
+                        </div>
+
+                        <!-- Comment Section -->
+                        <div class="card bg-light p-3">
+                            <h5 class="text-dark">Comments (@Model.NoOfComment)</h5>
+                            <form method="post">
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Leave a Comment</label>
+                                    <input type="text" class="form-control" asp-for="CommentDescription" placeholder="Write your comment..." />
+                                </div>
+                                <button type="submit" class="btn btn-dark">Submit</button>
+                            </form>
+
+                            <!-- Display Comments -->
+                            @if (Model.comments != null && Model.comments.Any())
+                            {
+                                @foreach (var comment in Model.comments)
+                                {
+                                    <div class="card mt-3 p-2">
+                                        <div class="card-body">
+                                            <p>@comment.Description</p>
+                                            <div class="d-flex justify-content-between text-muted small">
+                                                <span><i class="bi bi-person-circle"></i> @comment.Author</span>
+                                                <span><i class="bi bi-clock"></i> @comment.DateAdded.ToString("MMMM dd, yyyy")</span>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                }
                             }
-                        }
+                            else
+                            {
+                                <p class="text-muted mt-3">No comments yet.</p>
+                            }
+                        </div>
                     </div>
-                </div>
-            }
-            else
-            {
-                <p>Blog post not found!</p>
-            }
+                }
+                else
+                {
+                    <p class="text-danger text-center">Blog post not found!</p>
+                }
+            </div>
         </div>
 
         <!-- Recent Posts Section -->
-        <div class="col-lg-4 col-md-5 mb-4">
-            <div class="recent-posts">
-                <h4 class="mb-3">Recent Posts</h4>
-                
+        <div class="col-lg-4 col-md-5">
+            <div class="card shadow-lg p-4 border-0">
+                <h4 class="mb-3 text-primary">Recent Posts</h4>
+
                 <div class="row">
-                    @if (Model.RecentBlog !=null)
+                    @if (Model.RecentBlog != null)
                     {
                         @foreach (var post in Model.RecentBlog)
                         {
@@ -109,10 +106,10 @@
                                     <img src="@post.ImageUrl" class="card-img-top" alt="@post.Tag" style="height: 150px; object-fit: cover;">
                                     <div class="card-body">
                                         <h5 class="card-title">@post.Tag</h5>
-                                        <p class="card-text text-muted">@post.PublishedDate.ToString("MMMM dd, yyyy")</p>
-                                        
-                                         <a href="@Url.Action("Details", "Home", new { id = post.Id })" class="btn btn-primary">Read More</a>
-                                       
+                                        <p class="card-text text-muted">
+                                            <i class="bi bi-calendar"></i> @post.PublishedDate.ToString("MMMM dd, yyyy")
+                                        </p>
+                                        <a href="@Url.Action("Details", "Home", new { id = post.Id })" class="btn btn-primary btn-sm">Read More</a>
                                     </div>
                                 </div>
                             </div>
@@ -120,15 +117,15 @@
                     }
                     else
                     {
-                       <p>no blog found</p> 
+                        <p class="text-muted">No blog found.</p>
                     }
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-@section Scripts {
+ *@
+@* @section Scripts {
 
     <script>
         function LoadQusnVote() {
@@ -151,4 +148,146 @@
             });
         }
     </script>    
+} *@
+
+<div class="container my-5">
+    <div class="row">
+        <!-- Blog Details Section -->
+        <div class="col-lg-8 col-md-7">
+            <div class="card shadow-lg border-0 rounded-3">
+                @if (Model != null)
+                {
+                    <div class="card-body p-4">
+                        <!-- Blog Title -->
+                        <h2 class="mb-3 text-primary fw-bold">@Model.Tag</h2>
+
+                        <!-- Blog Meta -->
+                        <div class="d-flex justify-content-between align-items-center mb-3 text-muted">
+                            <a href="@Url.Action("UserprofileDetails", "Home", new { userId = Model.UserId })" class="text-decoration-none text-dark fw-bold">
+                                <i class="bi bi-person-circle text-primary me-1"></i> Author: @Model.Author
+                            </a>
+                            <span>
+                                <i class="bi bi-calendar text-primary me-1"></i> @Model.PublishedDate.ToString("MMMM dd, yyyy")
+                            </span>
+                        </div>
+
+                        <!-- Blog Image -->
+                        <div class="text-center mb-4">
+                            <img src="@Model.ImageUrl" class="img-fluid rounded shadow-sm" style="max-width: 100%;" />
+                        </div>
+
+                        <!-- Blog Content -->
+                        <div class="mb-4 blog-details-content">
+                            @Html.Raw(Model.Content)
+                        </div>
+
+                        <!-- Like & Comment Section -->
+                        <div class="d-flex align-items-center">
+                            @if (SignInManager.IsSignedIn(User))
+                            {
+                                <button onclick="LoadQusnVote()" class="btn btn-outline-primary btn-sm d-flex align-items-center">
+                                    <i class="bi @(Model.Liked ? "bi-hand-thumbs-up-fill" : "bi-hand-thumbs-up") me-1"></i> Like
+                                </button>
+                            }
+                            <span id="totalLikes" class="ms-2 text-muted small">@Model.TotalLikes Likes</span>
+                        </div>
+
+                        <!-- Comment Section -->
+                        <div class="card bg-light p-3 mt-4 rounded-3">
+                            <h5 class="text-dark mb-3">
+                                <i class="bi bi-chat-dots text-primary"></i> Comments (@Model.NoOfComment)
+                            </h5>
+                            <form method="post">
+                                <div class="mb-3">
+                                    <input type="text" class="form-control" asp-for="CommentDescription" placeholder="Write your comment..." />
+                                </div>
+                                <button type="submit" class="btn btn-dark btn-sm">Submit</button>
+                            </form>
+
+                            <!-- Display Comments -->
+                            @if (Model.comments != null && Model.comments.Any())
+                            {
+                                @foreach (var comment in Model.comments)
+                                {
+                                    <div class="card mt-3 p-2 shadow-sm border-0">
+                                        <div class="card-body">
+                                            <p>@comment.Description</p>
+                                            <div class="d-flex justify-content-between text-muted small">
+                                                <span><i class="bi bi-person-circle"></i> @comment.Author</span>
+                                                <span><i class="bi bi-clock"></i> @comment.DateAdded.ToString("MMMM dd, yyyy")</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <p class="text-muted mt-3">No comments yet.</p>
+                            }
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <p class="text-danger text-center p-4">Blog post not found!</p>
+                }
+            </div>
+        </div>
+
+        <!-- Recent Posts Section -->
+        <div class="col-lg-4 col-md-5">
+            <div class="card shadow-lg border-0 rounded-3 p-4">
+                <h4 class="mb-3 text-primary fw-bold">Recent Posts</h4>
+
+                <div class="row">
+                    @if (Model.RecentBlog != null)
+                    {
+                        @foreach (var post in Model.RecentBlog)
+                        {
+                            <div class="col-lg-12 col-md-6 mb-4">
+                                <div class="card border-0 shadow-sm rounded-3">
+                                    <img src="@post.ImageUrl" class="card-img-top rounded-top" alt="@post.Tag" style="height: 150px; object-fit: cover;">
+                                    <div class="card-body">
+                                        <h6 class="card-title fw-bold">@post.Tag</h6>
+                                        <p class="text-muted small">
+                                            <i class="bi bi-calendar"></i> @post.PublishedDate.ToString("MMMM dd, yyyy")
+                                        </p>
+                                        <a href="@Url.Action("Details", "Home", new { id = post.Id })" class="btn btn-primary btn-sm w-100">Read More</a>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <p class="text-muted">No recent posts found.</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function LoadQusnVote() {
+            var quesId = $(".getQuesId").val();
+            console.log(quesId);
+            $.ajax({
+                url: '@Url.Action("AddLike", "Home")',
+                type: 'POST',
+                cache: false,
+                data: { 'quesId': quesId },
+                success: function (result) {
+                    console.log("Saved!");
+                    location.href = `/Home/Details/${quesId}`;
+                },
+                error: function (result) {
+                    if (result.status == 401) {
+                        location.href = '/Account/Login';
+                    }
+                }
+            });
+        }
+    </script>
 }

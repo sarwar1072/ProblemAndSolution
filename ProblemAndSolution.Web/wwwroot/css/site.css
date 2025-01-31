@@ -18,6 +18,7 @@ body {
     font-family: 'Roboto', sans-serif;
     background-color: var(--background-color);
     color: var(--text-color);
+    padding-top: 70px;
     /*padding-top: 70px;*/ /* To avoid content overlapping the navbar */
 }
 
@@ -79,7 +80,7 @@ body {
 
 body.light-theme {
     --primary-color: #007BFF; /* Blue */
-    --background-color: #FFFFFF; /* White */
+    --background-color: #eeeee4 ; /* White */
     --text-color: #000000; /* Black */
 }
 

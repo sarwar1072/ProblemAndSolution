@@ -71,16 +71,6 @@ namespace ProblemAndSolution.Web.Models
             }        
             return true;        
         }
-        //public async Task<ApplicationUser> UserData(Guid id)
-        //{
-        //    var user = await _userManagerAdapter!.GetById(id);
-        //    var businessUser = new ApplicationUser()
-        //    {
-        //        FirstName = user.FirstName,
-        //        LastName = user.LastName,                
-        //    };
-        //    return businessUser;    
-        //} 
 
         public async virtual Task GetUserInfoAsync()
         {
